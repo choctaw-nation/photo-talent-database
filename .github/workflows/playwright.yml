@@ -1,0 +1,25 @@
+name: Playwright Tests
+on:
+    workflow_call:
+        inputs:
+            ref:
+                required: true
+                type: string
+    workflow_dispatch:
+
+jobs:
+    run-tests-on-dev:
+        if: startsWith( inputs.ref, 'refs/heads/dev' )
+        uses: choctaw-nation/shared-github-actions/.github/workflows/playwright-tests.yml@main
+        with:
+            environment: dev
+            script: test:dev
+        secrets: inherit
+
+    run-tests-on-stg:
+        if: startsWith( inputs.ref, 'refs/heads/stg' )
+        uses: choctaw-nation/shared-github-actions/.github/workflows/playwright-tests.yml@main
+        with:
+            environment: stg
+            script: test:stg
+        secrets: inherit

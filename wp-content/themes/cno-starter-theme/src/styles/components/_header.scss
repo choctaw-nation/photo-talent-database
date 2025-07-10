@@ -1,0 +1,58 @@
+@use "../abstracts/mixins" as m;
+
+.logo {
+	--size: 7.5rem;
+	max-width: var(--size);
+	max-height: var(--size);
+}
+
+#navbarNav {
+	.offcanvas-header .btn-close {
+		--bs-btn-close-color: white;
+		filter: var(--bs-btn-close-white-filter);
+	}
+}
+
+%dropdown-menu-visible {
+	position: absolute;
+	top: 5.3125rem;
+	display: block;
+}
+
+.header-nav {
+	.menu-item {
+		--height-y: 3rem;
+		padding-bottom: var(--height-y);
+		margin: var(--height-y) 0.625rem 0;
+	}
+
+	.dropdown:hover {
+		.btn-group > a {
+			color: var(--bs-secondary);
+		}
+
+		.dropdown-toggle {
+			color: var(--bs-secondary);
+		}
+
+		.dropdown-menu {
+			@extend %dropdown-menu-visible;
+		}
+	}
+
+	.dropdown-toggle {
+		--bs-btn-box-shadow: none;
+		--bs-btn-color: white;
+		--bs-btn-hover-color: var(--bs-secondary);
+		padding: 0;
+
+		&:hover {
+			box-shadow: none;
+			transform: none;
+		}
+	}
+
+	.dropdown-menu.show {
+		@extend %dropdown-menu-visible;
+	}
+}

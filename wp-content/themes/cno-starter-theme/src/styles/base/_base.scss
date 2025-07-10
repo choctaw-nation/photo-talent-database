@@ -1,0 +1,10 @@
+@use "../abstracts/variables" as v;
+
+:root {
+	--font-body: #{v.$font-body};
+	--transition-standard: #{v.$transition-standard};
+}
+
+main {
+	flex: 1 0 auto;
+}

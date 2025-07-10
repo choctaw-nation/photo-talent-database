@@ -1,0 +1,240 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 3,
+	"settings": {
+		"appearanceTools": true,
+		"color": {
+			"custom": false,
+			"customDuotone": false,
+			"customGradient": false,
+			"defaultDuotone": false,
+			"defaultGradients": false,
+			"defaultPalette": false,
+			"duotone": [],
+			"gradients": [],
+			"palette": [
+				{
+					"color": "#FFFFFF",
+					"name": "White",
+					"slug": "base"
+				},
+				{
+					"color": "#000",
+					"name": "Black",
+					"slug": "contrast"
+				},
+				{
+					"color": "#51276e",
+					"name": "Primary",
+					"slug": "primary"
+				},
+				{
+					"color": "#6c757d",
+					"name": "Secondary",
+					"slug": "secondary"
+				}
+			]
+		},
+		"blocks": {
+			"core/group": {
+				"background": {
+					"backgroundImage": true,
+					"backgroundSize": true
+				}
+			}
+		},
+		"dimensions": {
+			"aspectRatio": true
+		},
+		"layout": {
+			"allowCustomContentAndWideSize": false,
+			"allowEditing": true,
+			"wideSize": "1320px",
+			"contentSize": "768px"
+		},
+		"shadow": {
+			"defaultPresets": false
+		},
+		"spacing": {
+			"blockGap": true,
+			"customSpacingSize": false,
+			"defaultSpacingSizes": false,
+			"margin": true,
+			"padding": true,
+			"spacingSizes": [
+				{
+					"name": "None",
+					"size": "0",
+					"slug": "none"
+				},
+				{
+					"name": "Extra Small",
+					"size": ".25rem",
+					"slug": "xs"
+				},
+				{
+					"name": "Small",
+					"size": ".5rem",
+					"slug": "sm"
+				},
+				{
+					"name": "Base",
+					"size": "1rem",
+					"slug": "base"
+				},
+				{
+					"name": "Large",
+					"size": "1.5rem",
+					"slug": "lg"
+				},
+				{
+					"name": "Extra Large",
+					"size": "3rem",
+					"slug": "xl"
+				}
+			]
+		},
+		"typography": {
+			"customFontSize": false,
+			"defaultFontSizes": false,
+			"dropCap": false,
+			"fontFamilies": [
+				{
+					"fontFamily": "gill-sans-nova, \"Helvetica Neue\", \"Noto Sans\", \"Liberation Sans\", Arial, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+					"name": "Gill Sans Nova",
+					"slug": "gill-sans-nova"
+				}
+			],
+			"fontSizes": [
+				{
+					"slug": "root",
+					"size": "1rem",
+					"name": "Root",
+					"fluid": false
+				},
+				{
+					"slug": "base",
+					"size": "1.35rem",
+					"name": "Body",
+					"fluid": false
+				},
+				{
+					"slug": "h6",
+					"size": "25.92px",
+					"name": "Small (H6)",
+					"fluid": true
+				},
+				{
+					"slug": "h5",
+					"size": "31.1px",
+					"name": "Medium (H5)",
+					"fluid": true
+				},
+				{
+					"slug": "h4",
+					"size": "37.32px",
+					"name": "Large (H4)",
+					"fluid": true
+				},
+				{
+					"slug": "h3",
+					"size": "44.79px",
+					"name": "XL (H3)",
+					"fluid": true
+				},
+				{
+					"slug": "h2",
+					"size": "53.75px",
+					"name": "2XL (H2)",
+					"fluid": true
+				},
+				{
+					"slug": "h1",
+					"size": "64.5px",
+					"name": "3XL (H1)",
+					"fluid": true
+				}
+			],
+			"fontWeight": true,
+			"lineHeight": false,
+			"textDecoration": false
+		},
+		"useRootPaddingAwareAlignments": true
+	},
+	"styles": {
+		"spacing": {
+			"padding": {
+				"bottom": "0",
+				"left": "0.75rem",
+				"right": "0.75rem",
+				"top": "0"
+			},
+			"blockGap": "var:preset|spacing|base"
+		},
+		"blocks": {
+			"core/heading": {
+				"typography": {
+					"fontFamily": "var:preset|font-family|gill-sans-nova"
+				}
+			},
+			"core/list": {
+				"typography": {
+					"fontFamily": "var:preset|font-family|gill-sans-nova",
+					"fontSize": "var:preset|font-size|base"
+				}
+			},
+			"core/list-item": {
+				"typography": {
+					"fontFamily": "var:preset|font-family|gill-sans-nova",
+					"fontSize": "var:preset|font-size|base"
+				}
+			},
+			"core/paragraph": {
+				"typography": {
+					"fontFamily": "var:preset|font-family|gill-sans-nova",
+					"fontSize": "var:preset|font-size|base"
+				}
+			}
+		},
+		"elements": {
+			"h1": {
+				"typography": {
+					"fontSize": "var:preset|font-size|h-1"
+				}
+			},
+			"h2": {
+				"typography": {
+					"fontSize": "var:preset|font-size|h-2"
+				}
+			},
+			"h3": {
+				"typography": {
+					"fontSize": "var:preset|font-size|h-3"
+				}
+			},
+			"h4": {
+				"typography": {
+					"fontSize": "var:preset|font-size|h-4"
+				}
+			},
+			"h5": {
+				"typography": {
+					"fontSize": "var:preset|font-size|h-5"
+				}
+			},
+			"h6": {
+				"typography": {
+					"fontSize": "var:preset|font-size|h-6"
+				}
+			},
+			"heading": {
+				"typography": {
+					"fontFamily": "var:preset|font-family|gill-sans-nova"
+				}
+			}
+		},
+		"typography": {
+			"fontSize": "var:preset|font-size|base"
+		}
+	}
+}

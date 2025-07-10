@@ -1,0 +1,12 @@
+body.wp-admin {
+	--cno--wp--default-font-family: -apple-system, BlinkMacSystemFont,
+		"Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",
+		sans-serif;
+	:not(
+			[aria-label="Editor content"]
+				:is(h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6)
+		) {
+		font-size: 13px;
+		font-family: var(--cno--wp--default-font-family);
+	}
+}
