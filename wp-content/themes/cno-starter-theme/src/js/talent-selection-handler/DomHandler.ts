@@ -1,21 +1,37 @@
-import LocalStorage from './LocalStorage';
+import LocalStorage, { PostData } from './LocalStorage';
+import ModalHandler from './ModalHandler';
 
 export default class DomHandler {
 	TARGET_SELECTOR: string;
 	BUTTON_ATTRIBUTE: string;
 
+	modalHandler: ModalHandler;
 	selectionTracker: HTMLSpanElement;
-	clearSelectionButton: HTMLButtonElement;
 
 	constructor() {
 		this.TARGET_SELECTOR = '#talent';
 		this.BUTTON_ATTRIBUTE = 'data-post-id';
+		this.modalHandler = new ModalHandler();
 		this.initSelectionTracker();
 	}
 
 	init( db: LocalStorage ) {
+		this.modalHandler.modalEl.addEventListener(
+			'show.bs.modal',
+			this.buildSelectedList.bind( this, db )
+		);
+		if ( db.getIds().size > 0 ) {
+			this.modalHandler.showModalTrigger();
+			this.selectionTracker.classList.remove( 'd-none' );
+			this.selectionTracker.textContent = String( db.getIds().size );
+			this.modalHandler.enableClearSelectionButton();
+		}
 		this.handleAddSelectionListener( db );
-		this.handleClearSelectionListener();
+		this.modalHandler.handleClearSelectionListener( () => {
+			db.clearIds();
+			this.selectionTracker.textContent = '0';
+			this.selectionTracker.classList.add( 'd-none' );
+		} );
 		const container = document.querySelector( this.TARGET_SELECTOR );
 		if ( container ) {
 			const observer = new MutationObserver( () => {
@@ -29,17 +45,12 @@ export default class DomHandler {
 		this.selectionTracker = document.getElementById(
 			'selection-counter'
 		) as HTMLSpanElement;
-		const clearSelectionButton =
-			document.querySelector< HTMLButtonElement >(
-				'button[type="reset"]'
-			);
-		if ( ! clearSelectionButton ) return;
-		this.clearSelectionButton = clearSelectionButton;
+
 		if (
 			'' === this.selectionTracker.innerText ||
 			this.selectionTracker.classList.contains( 'd-none' )
 		) {
-			this.clearSelectionButton.disabled = true;
+			this.modalHandler.disableClearSelectionButton();
 		}
 	}
 
@@ -47,7 +58,6 @@ export default class DomHandler {
 	 * Add click listeners to all target buttons
 	 */
 	private handleAddSelectionListener( db: LocalStorage ) {
-		console.log( db );
 		const container = document.querySelector( this.TARGET_SELECTOR );
 		if ( ! container ) return;
 		container.addEventListener( 'click', ( ev ) => {
@@ -57,12 +67,13 @@ export default class DomHandler {
 			) {
 				const postId = ev.target.getAttribute( this.BUTTON_ATTRIBUTE );
 				if ( ! postId ) return;
-				this.incrementSelectionCounter();
 				try {
-					db.saveId( postId );
-					console.log( 'Talent IDs saved successfully:', postId );
+					const idDidSave = db.saveId( postId );
+					if ( idDidSave ) {
+						this.incrementSelectionCounter();
+					}
 				} catch ( error ) {
-					console.trace( 'Failed to save talent ID:', error );
+					console.error( 'Failed to save ID:', error );
 				}
 			}
 		} );
@@ -74,39 +85,73 @@ export default class DomHandler {
 			0 === currentCount &&
 			this.selectionTracker.classList.contains( 'd-none' )
 		) {
+			this.modalHandler.showModalTrigger();
 			this.selectionTracker.classList.remove( 'd-none' );
-			this.clearSelectionButton.disabled = false;
+			this.modalHandler.enableClearSelectionButton();
 		}
 		this.selectionTracker.textContent = String( currentCount + 1 );
 	}
 
-	private handleClearSelectionListener() {
-		this.clearSelectionButton.addEventListener( 'click', ( ev ) => {
-			ev.preventDefault();
-			const warning = document.createElement( 'p' );
-			warning.className = 'm-0 text-danger fs-6 fw-bold';
-			warning.textContent = 'Are you sure?';
-
-			this.clearSelectionButton.parentNode?.insertBefore(
-				warning,
-				this.clearSelectionButton
+	private async buildSelectedList( db: LocalStorage ) {
+		const ids = db.getIds();
+		const listContainer = document.getElementById(
+			'selected-talent-list'
+		) as HTMLDivElement;
+		const list = listContainer.querySelector( 'ul' );
+		if ( list ) {
+			if ( ids.size === list.children.length ) {
+				return;
+			}
+		} else {
+			const ul = document.createElement( 'ul' );
+			ul.classList.add(
+				'list-unstyled',
+				'mb-0',
+				'd-flex',
+				'flex-column',
+				'align-items-stretch',
+				'row-gap-3'
 			);
-
-			const cancelButton = document.createElement( 'button' );
-			cancelButton.type = 'button';
-			cancelButton.textContent = 'Cancel';
-			cancelButton.className = 'btn btn-secondary m-0';
-
-			this.clearSelectionButton.parentNode?.insertBefore(
-				cancelButton,
-				this.clearSelectionButton.nextSibling
-			);
-
-			cancelButton.addEventListener( 'click', () => {
-				warning.remove();
-				cancelButton.remove();
+			listContainer.appendChild( ul );
+			const posts = await db.getSelectedData();
+			posts.forEach( ( post ) => {
+				const listItem = this.createTalentListItem( post );
+				ul.appendChild( listItem );
 			} );
-			this.clearSelectionButton.textContent = 'Clear Selection';
-		} );
+		}
+	}
+
+	private createTalentListItem( data: PostData ): HTMLLIElement {
+		const li = document.createElement( 'li' );
+		li.classList.add(
+			'row',
+			'row-cols-2',
+			'align-items-center',
+			'gx-0',
+			'gap-2'
+		);
+		li.innerHTML = `
+			<div class="col-2">
+				<figure class="ratio ratio-1x1 mb-0 rounded-circle overflow-hidden">
+				${ data.thumbnail }
+				</figure>
+			</div>
+			<div>
+				<h3 class="mb-0 fs-6 d-flex flex-wrap gap-2">${ data.title }${
+					data.isChoctaw
+						? `<span class="badge text-bg-primary fw-normal">
+					Choctaw
+				</span>`
+						: ''
+				}</h3>
+				
+				${
+					data.lastUsed
+						? `<span class="badge bg-secondary ms-2">Last Used: ${ data.lastUsed }</span>`
+						: ''
+				}
+			</div>
+		`;
+		return li;
 	}
 }

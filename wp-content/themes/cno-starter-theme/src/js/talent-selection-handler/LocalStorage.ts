@@ -1,3 +1,16 @@
+type APIResponse = {
+	success: boolean;
+	posts: PostData[];
+};
+
+export type PostData = {
+	id: number;
+	title: string;
+	isChoctaw: boolean;
+	thumbnail: string;
+	lastUsed: string;
+};
+
 /**
  * Model. Interacts with localStorage to manage post IDs.
  */
@@ -25,8 +38,7 @@ export default class LocalStorage {
 		}
 	}
 
-	saveId( id: number | string ) {
-		console.log( id );
+	saveId( id: number | string ): boolean {
 		if ( typeof id === 'string' ) {
 			id = Number( id );
 		}
@@ -36,12 +48,18 @@ export default class LocalStorage {
 		if ( id <= 0 ) {
 			throw new Error( 'Invalid ID: must be greater than zero' );
 		}
-		const ids = this.getIds();
-		ids.add( id );
 		try {
+			const ids = this.getIds();
+			if ( ids.has( id ) ) {
+				console.warn( `ID ${ id } already exists in localStorage` );
+				return false; // ID already exists
+			}
+			ids.add( id );
 			this.saveIds( ids );
+			return true;
 		} catch ( error ) {
-			console.error( 'Failed to save talent:', error );
+			console.error( 'Failed to save ID:', error );
+			throw error;
 		}
 	}
 
@@ -55,5 +73,39 @@ export default class LocalStorage {
 
 	clearIds() {
 		localStorage.removeItem( this.STORAGE_KEY );
+	}
+
+	async getSelectedData(): Promise< PostData[] | [] > {
+		const ids = this.getIds();
+		if ( ids.size === 0 ) {
+			console.warn( 'No IDs found in localStorage' );
+			return [];
+		}
+		const nonce = ( window as any ).cnoApi?.nonce ?? null;
+		if ( ! nonce ) {
+			console.error( 'API nonce is not available' );
+			return [];
+		}
+		const response = await fetch( `/wp-json/cno/v1/talent`, {
+			method: 'POST',
+			body: JSON.stringify( { ids: Array.from( ids ) } ),
+			headers: {
+				'Content-Type': 'application/json',
+				'X-WP-Nonce': ( window as any ).cnoApi?.nonce ?? '',
+			},
+		} );
+		if ( ! response.ok ) {
+			console.error(
+				'Failed to fetch selected data:',
+				response.statusText
+			);
+			return [];
+		}
+		const data: APIResponse = await response.json();
+		if ( ! data.success ) {
+			console.error( 'API response was not successful:', data );
+			return [];
+		}
+		return data.posts;
 	}
 }
