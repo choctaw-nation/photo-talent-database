@@ -1,4 +1,5 @@
 @use "../abstracts/variables" as v;
+@use "../abstracts/mixins" as m;
 
 :root {
 	--font-body: #{v.$font-body};
@@ -7,4 +8,17 @@
 
 main {
 	flex: 1 0 auto;
+}
+
+button[data-bs-target="#create-email-modal"] {
+	--bs-btn-bg: white;
+}
+
+:root .gform-theme--framework {
+	--gf-color-danger: var(--bs-danger);
+	--gf-color-danger-rgb: var(--bs-danger-rgb);
+	--gf-color-success: var(--bs-success);
+	--gf-color-success-rgb: var(--bs-success-rgb);
+
+	--gf-field-pg-prog-bar-bg-color-blue: var(--bs-primary);
 }

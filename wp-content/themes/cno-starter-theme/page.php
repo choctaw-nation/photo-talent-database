@@ -6,5 +6,9 @@
  */
 
 get_header();
-the_content();
+?>
+<div <?php post_class( 'container' ); ?>>
+	<?php the_content(); ?>
+</div>
+<?php
 get_footer();

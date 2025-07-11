@@ -110,7 +110,7 @@ class Theme_Init {
 			'bootstrap-pagination'  => null,
 			'post-override'         => 'Post_Override',
 			'acf-handler'           => 'ACF_Handler',
-
+			'rest-router'           => 'REST_Router',
 		);
 		foreach ( $utility_files as $utility_file => $class_name ) {
 			require_once $base_path . "/theme/class-{$utility_file}.php";
@@ -154,6 +154,31 @@ class Theme_Init {
 	 * Adds scripts with the appropriate dependencies
 	 */
 	public function enqueue_frontend_assets() {
+		new Asset_Loader(
+			'bootstrap',
+			Enqueue_Type::both,
+			'vendors',
+			array(
+				'scripts' => array(),
+				'styles'  => array(),
+			)
+		);
+		new Asset_Loader(
+			'global',
+			Enqueue_Type::both,
+			null,
+			array(
+				'scripts' => array( 'bootstrap' ),
+				'styles'  => array( 'bootstrap' ),
+			)
+		);
+		wp_localize_script(
+			'global',
+			'cnoApi',
+			array(
+				'nonce' => wp_create_nonce( 'wp_rest' ),
+			)
+		);
 
 		// style.css
 		wp_enqueue_style(
@@ -178,25 +203,6 @@ class Theme_Init {
 			'https://use.typekit.net/jky5sek.css',
 			array(),
 			null // phpcs:ignore
-		);
-
-		new Asset_Loader(
-			'bootstrap',
-			Enqueue_Type::both,
-			'vendors',
-			array(
-				'scripts' => array(),
-				'styles'  => array(),
-			)
-		);
-		new Asset_Loader(
-			'global',
-			Enqueue_Type::both,
-			null,
-			array(
-				'scripts' => array( 'bootstrap' ),
-				'styles'  => array( 'bootstrap' ),
-			)
 		);
 	}
 

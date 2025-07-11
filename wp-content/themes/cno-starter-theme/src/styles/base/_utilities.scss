@@ -1,7 +1,17 @@
-.font-gill-sans {
-	font-family:var(--font-body);
+.top-0 {
+	top: var(--wp-admin--admin-bar--height, 0px) !important;
+}
+.font-body {
+	font-family: var(--font-body);
 }
 
-.font-pill-gothic {
-	font-family:var(--font-headings);
+.fs-root {
+	font-size: 1rem;
+}
+
+.fs-base {
+	font-size: var(
+		--wp--preset--font-size--base,
+		var(--bs-body-font-size, 1rem)
+	);
 }

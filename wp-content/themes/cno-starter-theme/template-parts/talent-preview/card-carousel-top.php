@@ -22,7 +22,7 @@ foreach ( $image_names as $name ) {
 }
 
 ?>
-<div class="card-img-top">
+<div class="card-img-top overflow-hidden">
 	<div id="<?php echo esc_attr( $slug ); ?>" class="carousel slide">
 		<div class="carousel-indicators mb-0">
 			<?php foreach ( $images as $name => $image ) : ?>
