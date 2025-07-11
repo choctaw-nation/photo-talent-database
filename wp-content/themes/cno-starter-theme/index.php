@@ -9,9 +9,9 @@
 
 get_header();
 ?>
-<main <?php post_class( 'd-flex flex-column align-items-stretch row-gap-5' ); ?>>
+<main <?php post_class( 'd-flex flex-column align-items-stretch row-gap-5 my-5' ); ?>>
 	<header class="container">
-		<h1 class="display-1"><?php the_archive_title(); ?></h1>
+		<h1 class="display-1 mb-0"><?php the_archive_title(); ?></h1>
 	</header>
 	<section class="text-bg-primary py-5">
 		<div class="container">

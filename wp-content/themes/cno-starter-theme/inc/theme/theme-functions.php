@@ -75,9 +75,68 @@ function cno_get_federated_privacy_policy(): string|WP_Error {
 	return $policy;
 }
 
+/**
+ * Calculates the age of a person based on their date of birth.
+ *
+ * @param ?int $post_id The post ID where the date of birth is stored. If null, it uses the current post ID.
+ * @return string The age in years, or an empty string if the date of birth is not set or invalid.
+ */
+function cno_get_age( ?int $post_id = null ): string {
+	if ( ! $post_id ) {
+		$post_id = get_the_ID();
+	}
+	$dob = get_field( 'dob', $post_id );
+	$now = new DateTime( 'now', wp_timezone() );
+	if ( ! $dob ) {
+		return '';
+	}
+	try {
+		$dob_date = new DateTime( $dob, wp_timezone() );
+		$age      = $now->diff( $dob_date )->y;
+		return $age;
+	} catch ( Exception $e ) {
+		return '';
+	}
+}
 
-function cno_get_age(int $post_id):string {
-	$dob = get_field('dob',$post_id);
-	$now = new Date('now',wp_timezone());
+/**
+ * Retrieves a specific attribute from the post's terms.
+ *
+ * @param string $attribute The attribute to retrieve
+ * @param ?int   $post_id The post ID to retrieve the attribute from. If null, it uses the current post ID.
+ * @return ?string The attribute value or null if not found.
+ */
+function cno_get_attribute( string $attribute, ?int $post_id = null ): ?string {
+	if ( ! $post_id ) {
+		$post_id = get_the_ID();
+	}
+	$terms = get_the_terms( $post_id, $attribute );
+	if ( is_array( $terms ) && ! is_wp_error( $terms ) && count( $terms ) > 0 ) {
+		$term_names = array_map(
+			function ( $term ) {
+				return $term->name;
+			},
+			$terms
+		);
+		return implode( ', ', $term_names );
+	}
+	return null;
+}
 
+/**
+ * Retrieves the "Is Choctaw" attribute from the post's category.
+ *
+ * @param ?int $post_id The post ID to retrieve the category from. If null, it uses the current post ID.
+ * @return string The category name or an empty string if not found.
+ */
+function cno_get_is_choctaw( ?int $post_id = null ): string {
+	$post_id    = $post_id ?: get_the_ID(); // phpcs:ignore Universal.Operators.DisallowShortTernary.Found
+	$categories = get_the_category( $post_id );
+	$value      = ! empty( $categories ) ? $categories[0] : null;
+	if ( is_wp_error( $value ) || ! $value ) {
+		return '';
+	} else {
+		return $value->name;
+
+	}
 }

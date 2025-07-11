@@ -101,6 +101,17 @@ $card-border-width: 2px;
 // ================================================
 
 /**
+* Carousel
+*/
+
+$carousel-indicator-size: 8px;
+$carousel-indicator-width: $carousel-indicator-size;
+$carousel-indicator-height: $carousel-indicator-size;
+$carousel-indicator-spacer: $carousel-indicator-size * 0.5;
+
+// ================================================
+
+/**
 * Options
 * @see https://getbootstrap.com/docs/5.3/customize/options/
 */
@@ -113,7 +124,11 @@ $enable-dark-mode: false;
 // @import "bootstrap/scss/variables-dark";
 
 // Map Overrides Here (Optional)
-
+$aspect-ratios: (
+	"1x1": 100%,
+	"16x9": calc(9 / 16 * 100%),
+	"2x3": calc(3 / 2 * 100%),
+);
 // Custom Colors to extend the theme with
 
 $theme-colors: map.merge($theme-colors, $custom-colors);
