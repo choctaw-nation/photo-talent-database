@@ -17,8 +17,7 @@
 	"author": "Choctaw Nation of Oklahoma",
 	"license": "GPL-3.0-or-later",
 	"dependencies": {
-		"bootstrap": "^5.3.7",
-		"swiper": "^11.2.10"
+		"bootstrap": "^5.3.7"
 	},
 	"devDependencies": {
 		"@wordpress/scripts": "^30.19.0",
