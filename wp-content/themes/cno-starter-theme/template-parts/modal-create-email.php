@@ -25,9 +25,9 @@
 					</div>
 				</form>
 			</div>
-			<div class="modal-footer">
-				<button type="reset" form="create-email-form" class="btn btn-danger">Clear Selection</button>
-				<input type="submit" class="btn btn-primary" value="Send Email" form="create-email-form" />
+			<div class="modal-footer gap-2">
+				<button type="reset" form="create-email-form" class="btn btn-danger m-0">Clear Selection</button>
+				<input type="submit" class="btn btn-primary m-0" value="Send Email" form="create-email-form" />
 			</div>
 		</div>
 	</div>

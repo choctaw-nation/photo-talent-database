@@ -6,6 +6,7 @@
  */
 
 ?>
-<button type="button" class="btn btn-outline-primary position-fixed end-0 bottom-0 m-3 z-3 shadow-lg" data-bs-toggle="modal" data-bs-target="#create-email-modal">
+<button type="button" class="btn btn-outline-primary px-4 position-fixed end-0 bottom-0 m-3 z-3 shadow-lg align-self-end w-auto" data-bs-toggle="modal" data-bs-target="#create-email-modal">
 	Create Email
+	<span class="badge text-bg-primary rounded-circle position-absolute end-0 translate-middle-y d-none" style="top:0" id="selection-counter">0</span>
 </button>

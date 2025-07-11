@@ -7,6 +7,10 @@
  * @package ChoctawNation
  */
 
+use ChoctawNation\Asset_Loader;
+use ChoctawNation\Enqueue_Type;
+
+new Asset_Loader( 'talentSelectionHandler', Enqueue_Type::script, 'pages' );
 get_header();
 ?>
 <main <?php post_class( 'd-flex flex-column align-items-stretch row-gap-5 my-5' ); ?>>
@@ -38,11 +42,16 @@ get_header();
 				<?php
 				if ( have_posts() ) {
 					// Pagination.
-					get_template_part( 'template-parts/button', 'create-email-modal-trigger' );
-					get_template_part( 'template-parts/modal', 'create-email' );
 				}
 				?>
 			</section>
+			<?php
+			if ( have_posts() ) {
+				// Pagination.
+				get_template_part( 'template-parts/button', 'create-email-modal-trigger' );
+				get_template_part( 'template-parts/modal', 'create-email' );
+			}
+			?>
 		</div>
 	</div>
 </main>
