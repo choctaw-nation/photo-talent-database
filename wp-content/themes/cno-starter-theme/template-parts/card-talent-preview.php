@@ -13,10 +13,10 @@ if ( ! $last_used_date ) {
 	$last_used_date     = $last_used_datetime ? $last_used_datetime->format( 'F j, Y' ) : 'N/A';
 }
 ?>
-<div class="card border border-2 rounded-3 border-black">
+<div class="card border border-2 rounded-3 border-black h-100">
 	<?php get_template_part( 'template-parts/talent-preview/card', 'carousel-top' ); ?>
 	<div class="card-body d-flex flex-column align-items-stretch">
-		<h3 class="card-title d-flex align-items-center gap-2">
+		<h3 class="card-title d-flex flex-wrap align-items-center gap-2 mb-3">
 			<?php
 			the_title();
 			$is_choctaw = cno_get_is_choctaw();
@@ -25,7 +25,7 @@ if ( ! $last_used_date ) {
 			}
 			?>
 		</h3>
-		<div class="d-flex flex-column mb-3">
+		<div class="d-flex flex-column mb-5">
 			<?php
 			$props = array(
 				'Last Used' => $last_used_date,

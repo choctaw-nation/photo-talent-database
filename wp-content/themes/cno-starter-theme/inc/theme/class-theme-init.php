@@ -154,7 +154,24 @@ class Theme_Init {
 	 * Adds scripts with the appropriate dependencies
 	 */
 	public function enqueue_frontend_assets() {
-
+		new Asset_Loader(
+			'bootstrap',
+			Enqueue_Type::both,
+			'vendors',
+			array(
+				'scripts' => array(),
+				'styles'  => array(),
+			)
+		);
+		new Asset_Loader(
+			'global',
+			Enqueue_Type::both,
+			null,
+			array(
+				'scripts' => array( 'bootstrap' ),
+				'styles'  => array( 'bootstrap' ),
+			)
+		);
 		// style.css
 		wp_enqueue_style(
 			'main',
@@ -178,25 +195,6 @@ class Theme_Init {
 			'https://use.typekit.net/jky5sek.css',
 			array(),
 			null // phpcs:ignore
-		);
-
-		new Asset_Loader(
-			'bootstrap',
-			Enqueue_Type::both,
-			'vendors',
-			array(
-				'scripts' => array(),
-				'styles'  => array(),
-			)
-		);
-		new Asset_Loader(
-			'global',
-			Enqueue_Type::both,
-			null,
-			array(
-				'scripts' => array( 'bootstrap' ),
-				'styles'  => array( 'bootstrap' ),
-			)
 		);
 	}
 
