@@ -18,7 +18,7 @@ export default class DomHandler extends ModalHandler {
 
 	constructor() {
 		super();
-		this.toast = new ToastHandler();
+		this.toast = new ToastHandler( this.modalEl );
 		this.TARGET_SELECTOR = '#talent';
 		this.BUTTON_ATTRIBUTE = 'data-post-id';
 		this.initSelectionTracker();

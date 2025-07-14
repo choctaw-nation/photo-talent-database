@@ -4,10 +4,12 @@ import { ToastType } from '../utils/types';
 export default class ToastHandler {
 	toastContainer: HTMLDivElement;
 
-	constructor() {
+	constructor( modalEl: HTMLDivElement ) {
 		this.toastContainer = document.getElementById(
 			'toast-container'
 		) as HTMLDivElement;
+
+		modalEl.addEventListener( 'show.bs.modal', () => {} );
 	}
 
 	showToast( message: string, type: ToastType = 'success' ) {

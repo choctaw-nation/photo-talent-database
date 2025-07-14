@@ -5,6 +5,7 @@ export default class ModalHandler {
 	modal;
 	modalEl: HTMLDivElement;
 	modalTrigger: HTMLButtonElement;
+	private isLoading: boolean = false;
 
 	get listContainer(): HTMLDivElement {
 		return document.getElementById(
@@ -138,21 +139,37 @@ export default class ModalHandler {
 		this.disableClearSelectionButton();
 	}
 
+	/**
+	 * Generates the list of selected talents in the modal. Called on modal open.
+	 * @param db LocalStorage instance to fetch selected data
+	 */
 	async buildSelectedList( db: LocalStorage ) {
 		const ids = db.getIds();
 		if ( this.list ) {
 			if ( ids.size === this.list.children.length ) {
 				return;
+			} else {
+				console.log( 'updating existing list' );
+				const existingPosts =
+					this.list.querySelectorAll< HTMLLIElement >( 'li' );
+				const existingPostIds = [ ...existingPosts ].map( ( li ) =>
+					Number( li.id )
+				);
+				this.createPlaceholderListItems(
+					Array.from( db.getIds().values() )
+				);
+				this.renderListItems( db, this.list, existingPostIds );
 			}
 		} else {
+			console.log( 'initial render' );
 			const ul = this.appendUl();
 			this.appendClearActions();
 			this.enableClearSelectionButton();
-			const posts = await db.getSelectedData();
-			posts.forEach( ( post ) => {
-				const listItem = this.createTalentListItem( post );
-				ul.appendChild( listItem );
-			} );
+			this.createPlaceholderListItems(
+				Array.from( db.getIds().values() ),
+				ul
+			);
+			this.renderListItems( db, ul );
 		}
 	}
 
@@ -185,16 +202,65 @@ export default class ModalHandler {
 		return ul;
 	}
 
-	private createTalentListItem( data: PostData ): HTMLLIElement {
-		const li = document.createElement( 'li' );
-		li.classList.add(
-			'row',
-			'row-cols-2',
-			'align-items-center',
-			'gx-0',
-			'gap-2'
-		);
-		li.innerHTML = `
+	private async renderListItems(
+		db: LocalStorage,
+		ul: HTMLUListElement,
+		existingPostIds?: number[]
+	) {
+		this.isLoading = true;
+		const posts = await db.getSelectedData();
+		const ulEl = ul || this.list!;
+		const postsToRender = existingPostIds
+			? posts.filter( ( post ) => ! existingPostIds.includes( post.id ) )
+			: posts;
+		postsToRender.forEach( ( post ) => {
+			const listItemMarkup = this.createTalentListItem( post );
+			const liEl = ulEl.querySelector(
+				`#talent-${ post.id }`
+			) as HTMLLIElement;
+			if ( liEl ) {
+				liEl.innerHTML = listItemMarkup;
+			}
+		} );
+		this.isLoading = false;
+	}
+
+	/**
+	 * Creates a placeholder list item for the modal.
+	 */
+	private createPlaceholderListItems( ids: number[], ul?: HTMLUListElement ) {
+		const list = ul || this.list!;
+		const existingPosts = list.querySelectorAll< HTMLLIElement >( 'li' );
+		const existingPostIds = [ ...existingPosts ].map( ( li ) => li.id );
+		ids.forEach( ( id ) => {
+			if ( existingPostIds.includes( `talent-${ id }` ) ) {
+				return;
+			}
+			const li = document.createElement( 'li' );
+			li.classList.add(
+				'row',
+				'row-cols-2',
+				'align-items-center',
+				'gx-0',
+				'gap-2'
+			);
+			li.innerHTML = `
+			<div class="col-2">
+				<figure class="ratio ratio-1x1 mb-0 rounded-circle overflow-hidden">
+					<svg aria-label="Placeholder" class="" height="180" preserveAspectRatio="xMidYMid slice" role="img" width="100%" xmlns="http://www.w3.org/2000/svg"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect></svg>
+				</figure>
+			</div>
+			<div>
+				<h3 class="mb-0 fs-6 d-flex flex-wrap gap-2 placeholder-glow"><span class="placeholder col-6"></span></h3>
+			</div>
+		`;
+			li.id = `talent-${ id }`;
+			list.appendChild( li );
+		} );
+	}
+
+	private createTalentListItem( data: PostData ): string {
+		return `
 			<div class="col-2">
 				<figure class="ratio ratio-1x1 mb-0 rounded-circle overflow-hidden">
 				${ data.thumbnail }
@@ -216,7 +282,6 @@ export default class ModalHandler {
 				}
 			</div>
 		`;
-		return li;
 	}
 
 	/**
