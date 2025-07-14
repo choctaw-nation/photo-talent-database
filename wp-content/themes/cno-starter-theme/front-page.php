@@ -5,6 +5,12 @@
  * @package ChoctawNation
  */
 
+if ( is_user_logged_in() ) {
+	// Redirect logged-in users to the talent page.
+	wp_safe_redirect( home_url( '/talent' ) );
+	exit;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php bloginfo( 'language' ); ?>">
