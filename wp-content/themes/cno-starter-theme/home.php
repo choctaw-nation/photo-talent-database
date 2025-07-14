@@ -18,15 +18,13 @@ get_header();
 		<h1 class="display-1 mb-0">All Talent</h1>
 	</header>
 	<div class="container-fluid">
-		<div class="row align-items-stretch gx-2 row-gap-5">
-			<section class="col-12 col-lg-2 position-relative">
-				<div class="text-bg-primary py-5 px-2 position-sticky top-0">
-					<h2 class="fs-6">Filters</h2>
-				</div>
+		<div class="row align-items-stretch gx-3 row-gap-5">
+			<section class="col-12 col-lg-3 col-xxl-2 position-relative">
+				<?php get_template_part( 'template-parts/sidebar', 'filters' ); ?>
 			</section>
 			<section class="col" id="talent">
 				<?php if ( have_posts() ) : ?>
-				<div class="row row-cols-auto row-cols-sm-2 row-cols-md-3 row-cols-xxl-4 row-gap-4">
+				<div class="row row-cols-auto row-cols-sm-2 row-cols-md-3 row-cols-xxl-4 gx-2 row-gap-2">
 					<?php
 					while ( have_posts() ) {
 						the_post();
