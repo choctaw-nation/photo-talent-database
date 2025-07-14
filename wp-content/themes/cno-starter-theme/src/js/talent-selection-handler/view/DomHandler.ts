@@ -1,13 +1,24 @@
 import LocalStorage from '../LocalStorage';
 import ModalHandler from './ModalHandler';
+import ToastHandler from './ToastHandler';
 
 export default class DomHandler extends ModalHandler {
 	TARGET_SELECTOR: string;
 	BUTTON_ATTRIBUTE: string;
+
+	/**
+	 * The Toast handler for displaying messages
+	 */
+	toast: ToastHandler;
+
+	/**
+	 * The Badge that tracks the number of selected talents
+	 */
 	selectionTracker: HTMLSpanElement;
 
 	constructor() {
 		super();
+		this.toast = new ToastHandler();
 		this.TARGET_SELECTOR = '#talent';
 		this.BUTTON_ATTRIBUTE = 'data-post-id';
 		this.initSelectionTracker();
@@ -24,7 +35,10 @@ export default class DomHandler extends ModalHandler {
 			this.enableClearSelectionButton();
 		}
 		this.handleAddSelectionListener( db );
-		this.clearSelectionButton.addEventListener( 'click', ( ev ) => {
+		const form = document.getElementById(
+			'create-email-form'
+		) as HTMLFormElement;
+		form.addEventListener( 'reset', ( ev ) => {
 			this.handleClearSelection( ev, db );
 		} );
 
@@ -57,19 +71,21 @@ export default class DomHandler extends ModalHandler {
 		const container = document.querySelector( this.TARGET_SELECTOR );
 		if ( ! container ) return;
 		container.addEventListener( 'click', ( ev ) => {
-			if (
-				ev.target instanceof HTMLButtonElement &&
-				ev.target.hasAttribute( this.BUTTON_ATTRIBUTE )
-			) {
+			if ( ev.target instanceof HTMLButtonElement ) {
 				const postId = ev.target.getAttribute( this.BUTTON_ATTRIBUTE );
-				if ( ! postId ) return;
+				const talentName = ev.target.getAttribute( 'data-talent-name' );
+				if ( ! postId || ! talentName ) return;
 				try {
 					const idDidSave = db.saveId( postId );
 					if ( idDidSave ) {
 						this.incrementSelectionCounter();
+						this.toast.showToast(
+							`${ talentName } selected.`,
+							'success'
+						);
 					}
 				} catch ( error ) {
-					console.error( 'Failed to save ID:', error );
+					this.toast.showToast( error.message, error.type );
 				}
 			}
 		} );
@@ -88,24 +104,29 @@ export default class DomHandler extends ModalHandler {
 		this.selectionTracker.textContent = String( currentCount + 1 );
 	}
 
-	private handleClearSelection( ev: MouseEvent, db: LocalStorage ) {
-		const { cancelButton, isSecondClick } = this.getClickState();
-		if ( isSecondClick ) {
+	handleClearSelection( ev: Event, db: LocalStorage ) {
+		if ( this.isSecondClick ) {
 			db.clearIds();
 			this.selectionTracker.textContent = '0';
 			this.selectionTracker.classList.add( 'd-none' );
 			this.resetModalState();
 			this.modal.hide();
 			this.hideModalTrigger();
-			console.log( 'Selection cleared successfully.' );
+			this.toast.showToast( 'Selection cleared successfully.', 'info' );
 		} else {
 			ev.preventDefault();
 			this.showClearConfirmationButtons();
-			cancelButton.addEventListener(
-				'click',
-				this.hideClearConfirmationButtons.bind( this )
+			const hideActionsEvents = {
+				click: this.cancelButton,
+				'hide.bs.modal': this.modalEl,
+			};
+			Object.entries( hideActionsEvents ).forEach(
+				( [ event, element ] ) => {
+					element?.addEventListener( event, () =>
+						this.hideClearConfirmationButtons( false )
+					);
+				}
 			);
-			this.clearSelectionButton.textContent = 'Clear Selection';
 		}
 	}
 }

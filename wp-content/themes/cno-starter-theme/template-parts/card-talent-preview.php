@@ -41,8 +41,7 @@ if ( ! $last_used_date ) {
 			<?php endforeach; ?>
 		</div>
 		<div class="d-flex mt-auto w-auto align-self-end gap-3 flex-wrap">
-			<!-- <a href="<?php // the_permalink(); ?>" class="btn btn-outline-black">View Details</a> -->
-			<button class="btn btn-black" data-post-id="<?php echo get_the_ID(); ?>">Select Talent</button>
+			<button class="btn btn-black" data-post-id="<?php echo get_the_ID(); ?>" data-talent-name="<?php the_title(); ?>">Select Talent</button>
 		</div>
 	</div>
 </div>

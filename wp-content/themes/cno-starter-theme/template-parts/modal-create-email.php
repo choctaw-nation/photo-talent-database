@@ -20,8 +20,8 @@
 						<label class="fs-root" for="email">Email address</label>
 					</div>
 					<div class="row" id="selected-talent-container">
-						<div class="col">
-							<h2 class="fs-5">Selected Talent</h2>
+						<div class="col d-flex flex-wrap row-gap-2 column-gap-3 justify-content-between align-items-center mb-3" id="actions-container">
+							<h2 class="fs-5 mb-0">Selected Talent</h2>
 						</div>
 						<div class="col-12 d-flex flex-column" id="selected-talent-list"></div>
 					</div>
@@ -32,9 +32,6 @@
 				</form>
 			</div>
 			<div class="modal-footer gap-2">
-				<p class="m-0 text-danger fw-bold fs-6 d-none" id="clear-selection-warning">Are you sure?</p>
-				<button type="reset" form="create-email-form" class="btn btn-link text-danger m-0 btn-sm fw-normal">Clear Selection</button>
-				<button class="btn btn-secondary m-0 d-none btn-sm fw-normal" id="create-email-form-button-cancel">Cancel</button>
 				<button class="btn btn-outline-black m-0 btn-sm fw-normal">Save List</button>
 				<input type="submit" class="btn btn-black m-0 btn-sm fw-normal" value="Send Email" form="create-email-form" />
 			</div>

@@ -2,8 +2,6 @@ import Modal from 'bootstrap/js/dist/modal';
 import LocalStorage, { PostData } from '../LocalStorage';
 
 export default class ModalHandler {
-	clearSelectionButton: HTMLButtonElement;
-
 	modal;
 	modalEl: HTMLDivElement;
 	modalTrigger: HTMLButtonElement;
@@ -20,18 +18,40 @@ export default class ModalHandler {
 			: null;
 	}
 
+	get clearSelectionButton(): HTMLButtonElement | null {
+		return document.querySelector< HTMLButtonElement >(
+			'button[type="reset"]'
+		);
+	}
+
+	get warningElement(): HTMLParagraphElement | null {
+		return document.getElementById(
+			'clear-selection-warning'
+		) as HTMLParagraphElement;
+	}
+
+	get cancelButton(): HTMLButtonElement | null {
+		return document.getElementById(
+			'create-email-form-button-cancel'
+		) as HTMLButtonElement;
+	}
+
+	get isSecondClick(): boolean {
+		return [ this.warningElement, this.cancelButton ].every(
+			( el ) => ! el || ! el.classList.contains( 'd-none' )
+		);
+	}
+
+	get clearActionsContainer(): HTMLDivElement {
+		return document.getElementById(
+			'actions-buttons-container'
+		) as HTMLDivElement;
+	}
+
 	constructor() {
-		const clearSelectionButton =
-			document.querySelector< HTMLButtonElement >(
-				'button[type="reset"]'
-			);
-		if ( ! clearSelectionButton ) {
-			throw new Error( 'Clear selection button not found' );
-		}
 		this.modalEl = document.getElementById(
 			'create-email-modal'
 		) as HTMLDivElement;
-		this.clearSelectionButton = clearSelectionButton;
 		this.initModal();
 		this.modalTrigger = document.getElementById(
 			'create-email-modal-trigger'
@@ -79,52 +99,39 @@ export default class ModalHandler {
 	}
 
 	/**
-	 *
-	 * @returns Object containing warning element, cancel button, and whether it's a second click
-	 */
-	getClickState(): {
-		warning: HTMLParagraphElement;
-		cancelButton: HTMLButtonElement;
-		isSecondClick: boolean;
-	} {
-		const warning = document.getElementById(
-			'clear-selection-warning'
-		) as HTMLParagraphElement;
-
-		const cancelButton = document.getElementById(
-			'create-email-form-button-cancel'
-		) as HTMLButtonElement;
-		const isSecondClick = [ warning, cancelButton ].every(
-			( el ) => ! el.classList.contains( 'd-none' )
-		);
-
-		return {
-			warning,
-			cancelButton,
-			isSecondClick,
-		};
-	}
-
-	/**
 	 * Hides the warning and cancel buttons
 	 */
-	hideClearConfirmationButtons() {
-		const { warning, cancelButton } = this.getClickState();
-		warning.classList.add( 'd-none' );
-		cancelButton.classList.add( 'd-none' );
+	hideClearConfirmationButtons( shouldDestroy: boolean = true ) {
+		if ( shouldDestroy ) {
+			this.clearActionsContainer?.remove();
+		} else {
+			this.warningElement?.classList.add( 'd-none' );
+			this.cancelButton?.classList.add( 'd-none' );
+			if (
+				this.clearActionsContainer?.classList.contains( 'flex-grow-1' )
+			) {
+				this.clearActionsContainer.classList.remove( 'flex-grow-1' );
+			}
+		}
 	}
 
 	showClearConfirmationButtons() {
-		const { warning, cancelButton } = this.getClickState();
-		warning.classList.remove( 'd-none' );
-		cancelButton.classList.remove( 'd-none' );
+		this.warningElement?.classList.remove( 'd-none' );
+		this.cancelButton?.classList.remove( 'd-none' );
+		if (
+			! this.clearActionsContainer.classList.contains( 'flex-grow-1' )
+		) {
+			this.clearActionsContainer.classList.add( 'flex-grow-1' );
+		}
 	}
 
+	/**
+	 * Clears the list, hides the buttons
+	 */
 	resetModalState() {
-		const { cancelButton } = this.getClickState();
 		this.hideClearConfirmationButtons();
 		this.clearSelectedList();
-		cancelButton.removeEventListener(
+		this.cancelButton?.removeEventListener(
 			'click',
 			this.hideClearConfirmationButtons.bind( this )
 		);
@@ -138,22 +145,44 @@ export default class ModalHandler {
 				return;
 			}
 		} else {
-			const ul = document.createElement( 'ul' );
-			ul.classList.add(
-				'list-unstyled',
-				'mb-0',
-				'd-flex',
-				'flex-column',
-				'align-items-stretch',
-				'row-gap-3'
-			);
-			this.listContainer.appendChild( ul );
+			const ul = this.appendUl();
+			this.appendClearActions();
+			this.enableClearSelectionButton();
 			const posts = await db.getSelectedData();
 			posts.forEach( ( post ) => {
 				const listItem = this.createTalentListItem( post );
 				ul.appendChild( listItem );
 			} );
 		}
+	}
+
+	private appendClearActions() {
+		const actionsContainer = document.getElementById(
+			'actions-container'
+		) as HTMLDivElement;
+		actionsContainer.insertAdjacentHTML(
+			'beforeend',
+			`<div class="d-flex gap-2 w-auto" id="actions-buttons-container"><p class="m-0 text-danger fw-bold fs-6 d-none" id="clear-selection-warning">Are you sure?</p>
+				<button type="reset" form="create-email-form" class="btn btn-link link-offset-1 link-offset-2-hover text-danger p-0 btn-sm fw-normal flex-grow-1">Clear Selection</button>
+				<button class="flex-grow-1 btn btn-link link-offset-1 link-offset-2-hover p-0 text-secondary d-none btn-sm fw-normal" id="create-email-form-button-cancel">Cancel</button></div>`
+		);
+	}
+
+	/**
+	 * Adds a new UL element to the modal's list container
+	 */
+	private appendUl(): HTMLUListElement {
+		const ul = document.createElement( 'ul' );
+		ul.classList.add(
+			'list-unstyled',
+			'mb-0',
+			'd-flex',
+			'flex-column',
+			'align-items-stretch',
+			'row-gap-3'
+		);
+		this.listContainer.appendChild( ul );
+		return ul;
 	}
 
 	private createTalentListItem( data: PostData ): HTMLLIElement {
