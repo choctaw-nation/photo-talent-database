@@ -40,6 +40,7 @@ export default class LocalStorage {
 		}
 	}
 
+
 	/**
 	 * Save a post ID to localStorage.
 	 *
