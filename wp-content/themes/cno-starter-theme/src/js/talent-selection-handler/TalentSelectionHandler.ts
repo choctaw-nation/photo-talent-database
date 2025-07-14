@@ -1,4 +1,4 @@
-import DomHandler from './DomHandler';
+import DomHandler from './view/DomHandler';
 import LocalStorage from './LocalStorage';
 
 /**
