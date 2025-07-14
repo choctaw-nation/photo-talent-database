@@ -92,7 +92,10 @@ function cno_get_age( ?int $post_id = null ): string {
 	}
 	try {
 		$dob_date = new DateTime( $dob, wp_timezone() );
-		$age      = $now->diff( $dob_date )->y;
+		if ( false === $dob_date ) {
+			return '';
+		}
+		$age = $now->diff( $dob_date )->y;
 		return $age;
 	} catch ( Exception $e ) {
 		return '';
