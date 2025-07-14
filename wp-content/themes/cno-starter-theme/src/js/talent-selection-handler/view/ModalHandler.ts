@@ -149,7 +149,6 @@ export default class ModalHandler {
 			if ( ids.size === this.list.children.length ) {
 				return;
 			} else {
-				console.log( 'updating existing list' );
 				const existingPosts =
 					this.list.querySelectorAll< HTMLLIElement >( 'li' );
 				const existingPostIds = [ ...existingPosts ].map( ( li ) =>
@@ -161,7 +160,6 @@ export default class ModalHandler {
 				this.renderListItems( db, this.list, existingPostIds );
 			}
 		} else {
-			console.log( 'initial render' );
 			const ul = this.appendUl();
 			this.appendClearActions();
 			this.enableClearSelectionButton();
@@ -180,7 +178,7 @@ export default class ModalHandler {
 		actionsContainer.insertAdjacentHTML(
 			'beforeend',
 			`<div class="d-flex gap-2 w-auto" id="actions-buttons-container"><p class="m-0 text-danger fw-bold fs-6 d-none" id="clear-selection-warning">Are you sure?</p>
-				<button type="reset" form="create-email-form" class="btn btn-link link-offset-1 link-offset-2-hover text-danger p-0 btn-sm fw-normal flex-grow-1">Clear Selection</button>
+				<button type="reset" form="create-email-form" class="btn btn-link link-offset-1 link-offset-2-hover text-danger p-0 btn-sm fw-normal flex-grow-1">Clear All</button>
 				<button class="flex-grow-1 btn btn-link link-offset-1 link-offset-2-hover p-0 text-secondary d-none btn-sm fw-normal" id="create-email-form-button-cancel">Cancel</button></div>`
 		);
 	}
@@ -190,14 +188,7 @@ export default class ModalHandler {
 	 */
 	private appendUl(): HTMLUListElement {
 		const ul = document.createElement( 'ul' );
-		ul.classList.add(
-			'list-unstyled',
-			'mb-0',
-			'd-flex',
-			'flex-column',
-			'align-items-stretch',
-			'row-gap-3'
-		);
+		ul.classList.add( 'align-items-stretch', 'list-group' );
 		this.listContainer.appendChild( ul );
 		return ul;
 	}
@@ -238,14 +229,12 @@ export default class ModalHandler {
 			}
 			const li = document.createElement( 'li' );
 			li.classList.add(
-				'row',
-				'row-cols-2',
-				'align-items-center',
-				'gx-0',
-				'gap-2'
+				'd-flex',
+				'list-group-item',
+				'justify-content-between'
 			);
 			li.innerHTML = `
-			<div class="col-2">
+			<div class="col-2 d-none d-md-block">
 				<figure class="ratio ratio-1x1 mb-0 rounded-circle overflow-hidden">
 					<svg aria-label="Placeholder" class="" height="180" preserveAspectRatio="xMidYMid slice" role="img" width="100%" xmlns="http://www.w3.org/2000/svg"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect></svg>
 				</figure>
@@ -261,26 +250,29 @@ export default class ModalHandler {
 
 	private createTalentListItem( data: PostData ): string {
 		return `
-			<div class="col-2">
-				<figure class="ratio ratio-1x1 mb-0 rounded-circle overflow-hidden">
-				${ data.thumbnail }
-				</figure>
+			<div class="flex-grow-1 row gx-0 gap-2 flex-nowrap align-items-center">
+				<div class="col-2 d-sm-none d-md-block">
+					<figure class="ratio ratio-1x1 mb-0 rounded-circle overflow-hidden">
+					${ data.thumbnail }
+					</figure>
+				</div>
+					<h3 class="col mb-0 fs-6 d-flex flex-wrap gap-2">${ data.title }${
+						data.isChoctaw
+							? `<span class="badge text-bg-primary fw-normal">
+						Choctaw
+					</span>`
+							: ''
+					}</h3>
+					
+					${
+						data.lastUsed
+							? `<span class="badge bg-secondary ms-2">Last Used: ${ data.lastUsed }</span>`
+							: ''
+					}
 			</div>
-			<div>
-				<h3 class="mb-0 fs-6 d-flex flex-wrap gap-2">${ data.title }${
-					data.isChoctaw
-						? `<span class="badge text-bg-primary fw-normal">
-					Choctaw
-				</span>`
-						: ''
-				}</h3>
-				
-				${
-					data.lastUsed
-						? `<span class="badge bg-secondary ms-2">Last Used: ${ data.lastUsed }</span>`
-						: ''
-				}
-			</div>
+			<button class="btn-close" data-post-id="${
+				data.id
+			}"><span class="visually-hidden">Close</span></button>
 		`;
 	}
 

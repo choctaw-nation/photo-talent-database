@@ -40,7 +40,6 @@ export default class LocalStorage {
 		}
 	}
 
-
 	/**
 	 * Save a post ID to localStorage.
 	 *
@@ -90,6 +89,30 @@ export default class LocalStorage {
 
 	clearIds() {
 		localStorage.removeItem( this.STORAGE_KEY );
+	}
+
+	removeId( id: number | string ): boolean {
+		if ( typeof id === 'string' ) {
+			id = Number( id );
+		}
+		if ( isNaN( id ) ) {
+			const error = createError(
+				'error',
+				`Invalid ID: must be a number`
+			);
+			throw error;
+		}
+		const ids = this.getIds();
+		if ( ! ids.has( id ) ) {
+			const error = createError(
+				'warning',
+				`This person is not selected`
+			);
+			throw error;
+		}
+		ids.delete( id );
+		this.saveIds( ids );
+		return true;
 	}
 
 	async getSelectedData(): Promise< PostData[] | [] > {
