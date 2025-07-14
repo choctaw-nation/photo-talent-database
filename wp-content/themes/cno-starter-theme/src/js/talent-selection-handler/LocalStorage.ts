@@ -1,3 +1,5 @@
+import createError from './utils/createError';
+
 type APIResponse = {
 	success: boolean;
 	posts: PostData[];
@@ -38,29 +40,44 @@ export default class LocalStorage {
 		}
 	}
 
+
+	/**
+	 * Save a post ID to localStorage.
+	 *
+	 * @param id The ID to save.
+	 * @throws Will throw an error if the ID is not a number or is less than or equal to zero.
+	 * @throws Will throw an error if the ID already exists in localStorage.
+	 * @returns boolean
+	 */
 	saveId( id: number | string ): boolean {
 		if ( typeof id === 'string' ) {
 			id = Number( id );
 		}
 		if ( isNaN( id ) ) {
-			throw new Error( 'Invalid ID: must be a number' );
-		}
-		if ( id <= 0 ) {
-			throw new Error( 'Invalid ID: must be greater than zero' );
-		}
-		try {
-			const ids = this.getIds();
-			if ( ids.has( id ) ) {
-				console.warn( `ID ${ id } already exists in localStorage` );
-				return false; // ID already exists
-			}
-			ids.add( id );
-			this.saveIds( ids );
-			return true;
-		} catch ( error ) {
-			console.error( 'Failed to save ID:', error );
+			const error = createError(
+				'error',
+				`Invalid ID: must be a number`
+			);
 			throw error;
 		}
+		if ( id <= 0 ) {
+			const error = createError(
+				'error',
+				`Invalid ID: must be greater than zero`
+			);
+			throw error;
+		}
+		const ids = this.getIds();
+		if ( ids.has( id ) ) {
+			const error = createError(
+				'warning',
+				`You have already selected this person`
+			);
+			throw error;
+		}
+		ids.add( id );
+		this.saveIds( ids );
+		return true;
 	}
 
 	// Helper to save unique post IDs to localStorage
