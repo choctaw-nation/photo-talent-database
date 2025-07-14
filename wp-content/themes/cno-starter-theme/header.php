@@ -5,7 +5,7 @@
  * @package ChoctawNation
  */
 
-use ChoctawNation\Navwalker;
+$anchor_url = is_user_logged_in() ? home_url( '/talent' ) : home_url();
 ?>
 
 <!DOCTYPE html>
@@ -22,7 +22,7 @@ use ChoctawNation\Navwalker;
 	<?php wp_body_open(); ?>
 	<header class="text-bg-black" id="site-header">
 		<div class="container text-center py-4">
-			<a class="fs-2 text-white text-decoration-none" href="<?php echo esc_url( site_url() ); ?>">
+			<a class="fs-2 text-white text-decoration-none" href="<?php echo esc_url( $anchor_url ); ?>">
 				<?php echo bloginfo( 'title' ); ?>
 			</a>
 		</div>
