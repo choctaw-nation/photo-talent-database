@@ -27,6 +27,25 @@ export default class DomHandler extends ModalHandler {
 	init( db: LocalStorage ) {
 		this.modalEl.addEventListener( 'show.bs.modal', () => {
 			this.buildSelectedList( db );
+			this.list!.addEventListener( 'click', ( ev ) => {
+				if ( ev.target instanceof HTMLButtonElement ) {
+					const postId = ev.target.dataset.postId;
+					if ( postId ) {
+						const liEl = this.list!.querySelector(
+							`#talent-${ postId }`
+						) as HTMLLIElement;
+						if ( liEl ) {
+							liEl.remove();
+							db.removeId( Number( postId ) );
+							if ( this.list!.children.length === 0 ) {
+								this.clearSelectedList();
+								this.hideClearConfirmationButtons();
+							}
+							this.decrementSelectionCounter();
+						}
+					}
+				}
+			} );
 		} );
 		if ( db.getIds().size > 0 ) {
 			this.showModalTrigger();
@@ -102,6 +121,18 @@ export default class DomHandler extends ModalHandler {
 			this.enableClearSelectionButton();
 		}
 		this.selectionTracker.textContent = String( currentCount + 1 );
+	}
+
+	private decrementSelectionCounter() {
+		const currentCount = Number( this.selectionTracker.textContent ) || 0;
+		if ( currentCount > 0 ) {
+			this.selectionTracker.textContent = String( currentCount - 1 );
+		}
+		if ( this.selectionTracker.textContent === '0' ) {
+			this.selectionTracker.classList.add( 'd-none' );
+			this.disableClearSelectionButton();
+			this.hideModalTrigger();
+		}
 	}
 
 	handleClearSelection( ev: Event, db: LocalStorage ) {
