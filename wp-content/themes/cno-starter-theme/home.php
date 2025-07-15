@@ -8,6 +8,7 @@
  */
 
 use ChoctawNation\Asset_Loader;
+use ChoctawNation\Bootstrap_Pagination;
 use ChoctawNation\Enqueue_Type;
 
 new Asset_Loader( 'talent', Enqueue_Type::script, 'pages' );
@@ -21,7 +22,7 @@ get_header();
 		<section class="col-12 col-lg-3 col-xxl-2 position-relative">
 			<?php get_template_part( 'template-parts/sidebar', 'filters' ); ?>
 		</section>
-		<section class="col" id="talent">
+		<section class="col d-flex flex-column align-items-stretch row-gap-5" id="talent">
 			<?php if ( have_posts() ) : ?>
 			<div class="row row-cols-auto row-cols-sm-2 row-cols-md-3 row-cols-xxl-4 gx-2 row-gap-2">
 				<?php
@@ -38,7 +39,8 @@ get_header();
 			<?php endif; ?>
 			<?php
 			if ( have_posts() ) {
-				// Pagination.
+				$paginator = new Bootstrap_Pagination();
+				$paginator->the_pagination();
 			}
 			?>
 		</section>
