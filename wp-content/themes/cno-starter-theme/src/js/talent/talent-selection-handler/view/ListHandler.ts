@@ -284,30 +284,4 @@ export default class ListHandler {
 		);
 		this.disableClearSelectionButton();
 	}
-
-	handleClearSelection( ev: Event, db: LocalStorage ) {
-		if ( this.isSecondClick ) {
-			db.clearIds();
-			this.selectionTracker.textContent = '0';
-			this.selectionTracker.classList.add( 'd-none' );
-			this.resetModalState();
-			this.modal.hide();
-			this.hideModalTrigger();
-			this.toast.showToast( 'Selection cleared successfully.', 'info' );
-		} else {
-			ev.preventDefault();
-			this.showClearConfirmationButtons();
-			const hideActionsEvents = {
-				click: this.cancelButton,
-				'hide.bs.modal': this.modalEl,
-			};
-			Object.entries( hideActionsEvents ).forEach(
-				( [ event, element ] ) => {
-					element?.addEventListener( event, () =>
-						this.hideClearConfirmationButtons( false )
-					);
-				}
-			);
-		}
-	}
 }
