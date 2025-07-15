@@ -8,7 +8,7 @@ const THEME_DIR = `/wp-content/themes/${ THEME_NAME }`;
  *
  * **Be sure to import page scss in these files**
  */
-const appNames = [ 'talent-selection-handler' ];
+const appNames = [ 'talent' ];
 
 /**
  * For SCSS files (no leading `_`)
