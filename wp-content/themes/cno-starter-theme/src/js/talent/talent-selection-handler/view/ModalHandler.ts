@@ -5,7 +5,6 @@ export default class ModalHandler {
 	modal;
 	modalEl: HTMLDivElement;
 	modalTrigger: HTMLButtonElement;
-	private isLoading: boolean = false;
 
 	get listContainer(): HTMLDivElement {
 		return document.getElementById(
@@ -198,7 +197,6 @@ export default class ModalHandler {
 		ul: HTMLUListElement,
 		existingPostIds?: number[]
 	) {
-		this.isLoading = true;
 		const posts = await db.getSelectedData();
 		const ulEl = ul || this.list!;
 		const postsToRender = existingPostIds
@@ -213,7 +211,6 @@ export default class ModalHandler {
 				liEl.innerHTML = listItemMarkup;
 			}
 		} );
-		this.isLoading = false;
 	}
 
 	/**
@@ -231,7 +228,9 @@ export default class ModalHandler {
 			li.classList.add(
 				'd-flex',
 				'list-group-item',
-				'justify-content-between'
+				'list-group-item-action',
+				'justify-content-between',
+				'align-items-center'
 			);
 			li.innerHTML = `
 			<div class="col-2 d-none d-md-block">
@@ -273,12 +272,13 @@ export default class ModalHandler {
 					}
 				</div>
 			</div>
-			<button class="btn-close" data-post-id="${ id }"><span class="visually-hidden">Close</span></button>
+			<button class="btn-close stretched-link" data-post-id="${ id }"><span class="visually-hidden">Close</span></button>
 		`;
 	}
 
 	/**
 	 * Returns a relative time string based on a PHP Ymd date string
+	 *
 	 * @param date PHP Ymd string (e.g. '20250715')
 	 */
 	protected formatDate( date: string ): string {

@@ -11,6 +11,9 @@ details {
 	}
 }
 
-.search-filter-label {
-	font-weight: 700;
+:root {
+	.search-filter-label {
+		font-weight: 700;
+		cursor: pointer;
+	}
 }
