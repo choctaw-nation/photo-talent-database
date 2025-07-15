@@ -15,7 +15,9 @@ export default class ToastHandler {
 	showToast( message: string, type: ToastType = 'success' ) {
 		const toastElement = this.createToastElement( message, type );
 		this.toastContainer.insertAdjacentElement( 'beforeend', toastElement );
-		return Toast.getOrCreateInstance( toastElement ).show();
+		return Toast.getOrCreateInstance( toastElement, {
+			delay: 2500,
+		} ).show();
 	}
 
 	private createToastElement( message: string, type: ToastType ) {
