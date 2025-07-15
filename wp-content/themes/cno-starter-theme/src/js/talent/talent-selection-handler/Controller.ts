@@ -1,8 +1,9 @@
-import LocalStorage from '../LocalStorage';
-import ModalHandler from './ModalHandler';
-import ToastHandler from './ToastHandler';
+import LocalStorage from './LocalStorage';
+import ListHandler from './view/ListHandler';
+import ModalHandler from './view/ModalHandler';
+import ToastHandler from './view/ToastHandler';
 
-export default class DomHandler extends ModalHandler {
+export default class Controller {
 	TARGET_SELECTOR: string;
 	BUTTON_ATTRIBUTE: string;
 
@@ -10,6 +11,9 @@ export default class DomHandler extends ModalHandler {
 	 * The Toast handler for displaying messages
 	 */
 	toast: ToastHandler;
+	db: LocalStorage;
+	Modal: ModalHandler;
+	ListHandler: ListHandler;
 
 	/**
 	 * The Badge that tracks the number of selected talents
@@ -17,76 +21,78 @@ export default class DomHandler extends ModalHandler {
 	selectionTracker: HTMLSpanElement;
 
 	constructor() {
-		super();
-		this.toast = new ToastHandler( this.modalEl );
+		this.db = new LocalStorage();
+		this.Modal = new ModalHandler();
+		this.ListHandler = new ListHandler();
+		this.toast = new ToastHandler( this.Modal.modalEl );
+		this.selectionTracker = document.getElementById(
+			'selection-counter'
+		) as HTMLSpanElement;
 		this.TARGET_SELECTOR = '#talent';
 		this.BUTTON_ATTRIBUTE = 'data-post-id';
-		this.initSelectionTracker();
+		this.init();
 	}
 
-	init( db: LocalStorage ) {
-		this.modalEl.addEventListener( 'show.bs.modal', () => {
-			this.buildSelectedList( db );
-			this.list!.addEventListener( 'click', ( ev ) => {
+	private init() {
+		// refactor to Modal.init()
+		this.Modal.onShow( () => {
+			// builds the list when the modal is shown
+			this.ListHandler.buildSelectedList( this.db );
+
+			// wire event listener to remove elements on click; removes list if length === 0
+			this.ListHandler.list!.addEventListener( 'click', ( ev ) => {
 				if ( ev.target instanceof HTMLButtonElement ) {
 					const postId = ev.target.dataset.postId;
 					if ( postId ) {
-						const liEl = this.list!.querySelector(
+						const liEl = this.ListHandler.list!.querySelector(
 							`#talent-${ postId }`
 						) as HTMLLIElement;
 						if ( liEl ) {
 							liEl.remove();
-							db.removeId( Number( postId ) );
-							if ( this.list!.children.length === 0 ) {
-								this.clearSelectedList();
-								this.hideClearConfirmationButtons();
+							this.db.removeId( Number( postId ) );
+							if (
+								this.ListHandler.list!.children.length === 0
+							) {
+								this.ListHandler.clearSelectedList();
+								this.ListHandler.hideClearConfirmationButtons();
+								this.Modal.hide();
 							}
+							// side effect: decrement selection counter
 							this.decrementSelectionCounter();
 						}
 					}
 				}
 			} );
-		} );
-		if ( db.getIds().size > 0 ) {
-			this.showModalTrigger();
-			this.selectionTracker.classList.remove( 'd-none' );
-			this.selectionTracker.textContent = String( db.getIds().size );
-			this.enableClearSelectionButton();
-		}
-		this.handleAddSelectionListener( db );
-		const form = document.getElementById(
-			'create-email-form'
-		) as HTMLFormElement;
-		form.addEventListener( 'reset', ( ev ) => {
-			this.handleClearSelection( ev, db );
+
+			this.ListHandler.clearSelectionButton?.addEventListener(
+				'click',
+				() => {
+					this.handleClearSelection();
+				}
+			);
 		} );
 
+		// if already has selection, show modal trigger and init button
+		if ( this.db.getIds().size > 0 ) {
+			this.Modal.showTrigger();
+			this.selectionTracker.classList.remove( 'd-none' );
+			this.selectionTracker.textContent = String( this.db.getIds().size );
+			this.ListHandler.enableClearSelectionButton();
+		}
+		this.addSelectTalentListener( this.db );
 		const container = document.querySelector( this.TARGET_SELECTOR );
 		if ( container ) {
 			const observer = new MutationObserver( () => {
-				this.handleAddSelectionListener( db );
+				this.addSelectTalentListener( this.db );
 			} );
 			observer.observe( container, { childList: true, subtree: true } );
 		}
 	}
 
-	private initSelectionTracker() {
-		this.selectionTracker = document.getElementById(
-			'selection-counter'
-		) as HTMLSpanElement;
-
-		if (
-			'' === this.selectionTracker.innerText ||
-			this.selectionTracker.classList.contains( 'd-none' )
-		) {
-			this.disableClearSelectionButton();
-		}
-	}
-
 	/**
-	 * Add click listeners to all target buttons
+	 * Add click listeners to all "Select Talent" buttons
 	 */
-	private handleAddSelectionListener( db: LocalStorage ) {
+	private addSelectTalentListener( db: LocalStorage ) {
 		const container = document.querySelector( this.TARGET_SELECTOR );
 		if ( ! container ) return;
 		container.addEventListener( 'click', ( ev ) => {
@@ -110,19 +116,25 @@ export default class DomHandler extends ModalHandler {
 		} );
 	}
 
+	/**
+	 * Increments the selection counter
+	 */
 	private incrementSelectionCounter() {
 		const currentCount = Number( this.selectionTracker.textContent ) || 0;
 		if (
 			0 === currentCount &&
 			this.selectionTracker.classList.contains( 'd-none' )
 		) {
-			this.showModalTrigger();
+			this.Modal.showTrigger();
 			this.selectionTracker.classList.remove( 'd-none' );
-			this.enableClearSelectionButton();
+			this.ListHandler.enableClearSelectionButton();
 		}
 		this.selectionTracker.textContent = String( currentCount + 1 );
 	}
 
+	/**
+	 * Decrements the selection counter
+	 */
 	private decrementSelectionCounter() {
 		const currentCount = Number( this.selectionTracker.textContent ) || 0;
 		if ( currentCount > 0 ) {
@@ -130,31 +142,30 @@ export default class DomHandler extends ModalHandler {
 		}
 		if ( this.selectionTracker.textContent === '0' ) {
 			this.selectionTracker.classList.add( 'd-none' );
-			this.disableClearSelectionButton();
-			this.hideModalTrigger();
+			this.ListHandler.disableClearSelectionButton();
+			this.Modal.hideTrigger();
 		}
 	}
 
-	handleClearSelection( ev: Event, db: LocalStorage ) {
-		if ( this.isSecondClick ) {
-			db.clearIds();
+	private handleClearSelection() {
+		if ( this.ListHandler.isSecondClick ) {
+			this.db.clearIds();
 			this.selectionTracker.textContent = '0';
 			this.selectionTracker.classList.add( 'd-none' );
-			this.resetModalState();
-			this.modal.hide();
-			this.hideModalTrigger();
+			this.ListHandler.resetListState();
+			this.Modal.hide();
+			this.Modal.hideTrigger();
 			this.toast.showToast( 'Selection cleared successfully.', 'info' );
 		} else {
-			ev.preventDefault();
-			this.showClearConfirmationButtons();
+			this.ListHandler.showClearConfirmationButtons();
 			const hideActionsEvents = {
-				click: this.cancelButton,
-				'hide.bs.modal': this.modalEl,
+				click: this.ListHandler.cancelButton,
+				'hide.bs.modal': this.Modal.modalEl,
 			};
 			Object.entries( hideActionsEvents ).forEach(
 				( [ event, element ] ) => {
 					element?.addEventListener( event, () =>
-						this.hideClearConfirmationButtons( false )
+						this.ListHandler.hideClearConfirmationButtons( false )
 					);
 				}
 			);
