@@ -20,6 +20,9 @@ export default class ModalHandler {
 			'create-email-modal-trigger'
 		) as HTMLButtonElement;
 		this.initModal();
+		this.modalEl.addEventListener( 'submit', ( ev ) => {
+			this.handleSaveList( ev );
+		} );
 	}
 
 	initModal() {
@@ -63,6 +66,7 @@ export default class ModalHandler {
 		if ( ! triggers.length ) {
 			return;
 		}
+
 		triggers.forEach( ( trigger, index ) => {
 			const tab = Tab.getOrCreateInstance( trigger );
 			if ( 0 === index ) {
@@ -108,5 +112,14 @@ export default class ModalHandler {
 		if ( this.sendEmailButton ) {
 			this.sendEmailButton.disabled = false;
 		}
+	}
+
+	private handleSaveList( ev: SubmitEvent ) {
+		const target = ev.target as HTMLFormElement;
+		if ( target.id !== 'save-list-form' ) {
+			return;
+		}
+		ev.preventDefault();
+		// Handle the save list logic here
 	}
 }
