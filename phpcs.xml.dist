@@ -46,4 +46,13 @@
 		<exclude name="Squiz.Commenting.FunctionComment.ParamCommentFullStop" />
 		<exclude name="Squiz.Commenting.InlineComment.InvalidEndChar" />
 	</rule>
+
+	<!-- Check for unknown capabilities. -->
+	<rule ref="WordPress.WP.Capabilities">
+	<properties>
+		<property name="custom_capabilities" type="array">
+			<element value="edit_talent-list"/>
+		</property>
+	</properties>
+</rule>
 </ruleset>
