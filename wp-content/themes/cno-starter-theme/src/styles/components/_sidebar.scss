@@ -1,0 +1,16 @@
+details {
+	&::details-content {
+		opacity: 0;
+		transition:
+			opacity 0.15s ease-in-out,
+			content-visibility 0.15s allow-discrete;
+	}
+
+	&[open]::details-content {
+		opacity: 1;
+	}
+}
+
+.search-filter-label {
+	font-weight: 700;
+}
