@@ -5,13 +5,7 @@
  * @package ChoctawNation
  */
 
-$last_used_date = get_field( 'last_used' );
-if ( ! $last_used_date ) {
-	$last_used_date = 'N/A';
-} else {
-	$last_used_datetime = DateTime::createFromFormat( 'Ymd', $last_used_date, wp_timezone() );
-	$last_used_date     = $last_used_datetime ? $last_used_datetime->format( 'F j, Y' ) : 'N/A';
-}
+$last_used_date = cno_get_last_used_string();
 ?>
 <div class="card border border-2 rounded-3 border-black h-100">
 	<?php get_template_part( 'template-parts/talent-preview/card', 'carousel-top' ); ?>

@@ -249,31 +249,70 @@ export default class ModalHandler {
 	}
 
 	private createTalentListItem( data: PostData ): string {
+		const { thumbnail, title, isChoctaw, id } = data;
+		const lastUsed = data.lastUsed ? this.formatDate( data.lastUsed ) : '';
+
 		return `
 			<div class="flex-grow-1 row gx-0 gap-2 flex-nowrap align-items-center">
 				<div class="col-2 d-sm-none d-md-block">
 					<figure class="ratio ratio-1x1 mb-0 rounded-circle overflow-hidden">
-					${ data.thumbnail }
+					${ thumbnail }
 					</figure>
 				</div>
-					<h3 class="col mb-0 fs-6 d-flex flex-wrap gap-2">${ data.title }${
-						data.isChoctaw
-							? `<span class="badge text-bg-primary fw-normal">
-						Choctaw
-					</span>`
-							: ''
-					}</h3>
-					
+				<div class="col d-flex flex-wrap gap-2">
+					<h3 class="mb-0 fs-6">${ title }</h3>
 					${
-						data.lastUsed
-							? `<span class="badge bg-secondary ms-2">Last Used: ${ data.lastUsed }</span>`
+						isChoctaw
+							? `<span class="badge text-bg-primary fw-normal">Choctaw</span>`
 							: ''
 					}
+					${
+						lastUsed
+							? `<span class="badge bg-secondary fw-normal fs-root w-auto">Last Used: ${ lastUsed }</span>`
+							: ''
+					}
+				</div>
 			</div>
-			<button class="btn-close" data-post-id="${
-				data.id
-			}"><span class="visually-hidden">Close</span></button>
+			<button class="btn-close" data-post-id="${ id }"><span class="visually-hidden">Close</span></button>
 		`;
+	}
+
+	/**
+	 * Returns a relative time string based on a PHP Ymd date string
+	 * @param date PHP Ymd string (e.g. '20250715')
+	 */
+	protected formatDate( date: string ): string {
+		// Parse PHP Ymd string
+		if ( ! date || date.length !== 8 ) return '';
+		const year = parseInt( date.slice( 0, 4 ), 10 );
+		const month = parseInt( date.slice( 4, 6 ), 10 ) - 1; // JS months are 0-based
+		const day = parseInt( date.slice( 6, 8 ), 10 );
+		const inputDate = new Date( year, month, day );
+		const now = new Date();
+		// Zero out time for both dates
+		inputDate.setHours( 0, 0, 0, 0 );
+		now.setHours( 0, 0, 0, 0 );
+		const diffMs = now.getTime() - inputDate.getTime();
+		const diffDays = Math.floor( diffMs / ( 1000 * 60 * 60 * 24 ) );
+		if ( diffDays === 0 ) return 'today';
+		if ( diffDays === 1 ) return 'yesterday';
+		if ( diffDays < 7 ) return `${ diffDays } days ago`;
+		if ( diffDays < 30 ) {
+			const weeks = Math.floor( diffDays / 7 );
+			return weeks === 1 ? '1 week ago' : `${ weeks } weeks ago`;
+		}
+		if ( diffDays < 365 ) {
+			const months = Math.floor( diffDays / 30 );
+			return months === 1 ? '1 month ago' : `${ months } months ago`;
+		}
+		const years = Math.floor( diffDays / 365 );
+		return years === 1
+			? '1 year ago'
+			: inputDate.toLocaleDateString( 'en-US', {
+					year: 'numeric',
+					month: 'long',
+					day: 'numeric',
+			  } );
 	}
 
 	/**
