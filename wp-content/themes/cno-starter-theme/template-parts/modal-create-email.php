@@ -16,16 +16,7 @@
 			<div class="modal-body bg-light">
 				<div class="row row-cols-auto row-cols-sm-2 row-gap-4">
 					<div class="col flex-grow-1">
-						<form action="" id="create-email-form" class="d-flex flex-column row-gap-3 align-items-stretch">
-							<div class="form-floating">
-								<input type="email" class="form-control" id="email" placeholder="name@choctawnation.com" required>
-								<label class="fs-root" for="email">Email address</label>
-							</div>
-							<div class="form-floating">
-								<textarea class="form-control" id="message" style="height:clamp(100px,30vh,300px)" placeholder="Enter your message here..."></textarea>
-								<label class="fs-root" for="message">Optional Message</label>
-							</div>
-						</form>
+						<?php get_template_part( 'template-parts/form', 'create-email' ); ?>
 					</div>
 					<div class="col flex-grow-1">
 						<div class="row" id="selected-talent-container">

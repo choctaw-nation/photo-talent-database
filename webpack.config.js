@@ -3,18 +3,7 @@ const RemoveEmptyScriptsPlugin = require( 'webpack-remove-empty-scripts' );
 const THEME_NAME = 'cno-starter-theme';
 const THEME_DIR = `/wp-content/themes/${ THEME_NAME }`;
 
-/**
- * Array of strings modeled after folder names (e.g. 'about-choctaw'). Inside of these folders, an `index.ts` file is expected. If that's not what you want, consider editing the `addEntries` function below.
- *
- * **Be sure to import page scss in these files**
- */
-const appNames = [ 'talent' ];
-
-/**
- * For SCSS files (no leading `_`)
- * Array of strings modeled after scss names (e.g. 'we-are-choctaw')
- */
-const styleSheets = []; // for scss only
+const appNames = [ 'talent', 'talent-list' ];
 
 module.exports = {
 	...defaultConfig,
@@ -24,8 +13,6 @@ module.exports = {
 				global: `.${ THEME_DIR }/src/index.js`,
 				'vendors/bootstrap': `.${ THEME_DIR }/src/js/vendors/bootstrap.js`,
 				...addEntries( appNames, 'pages' ),
-				// ...addEntries( styleSheets, 'styles' ),
-				// ...addEntries( blockEditor, 'admin' ),
 			};
 		},
 

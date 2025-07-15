@@ -5,10 +5,15 @@
  * @package ChoctawNation
  */
 
+use ChoctawNation\Asset_Loader;
+use ChoctawNation\Enqueue_Type;
+
 if ( ! is_user_logged_in() || ! current_user_can( 'edit_talent-lists' ) ) {
 	wp_safe_redirect( home_url() );
 	exit;
 }
+
+new Asset_Loader( 'talentList', Enqueue_Type::script, 'pages' );
 get_header();
 ?>
 <main <?php post_class( 'container my-5' ); ?>>
@@ -55,24 +60,14 @@ get_header();
 						</div>
 					</div>
 					<button class="btn-close stretched-link" data-post-id="<?php echo $talent_id; ?>"><span class="visually-hidden">Close</span></button>
-
 				</li>
 				<?php endforeach; ?>
 			</ul>
 		</section>
 		<section class="col flex-grow-1 d-flex flex-column align-items-stretch row-gap-3">
 			<h2>Send Email</h2>
-			<form action="" id="create-email-form" class="d-flex flex-column row-gap-3 align-items-stretch">
-				<div class="form-floating">
-					<input type="email" class="form-control" id="email" placeholder="name@choctawnation.com" required>
-					<label class="fs-root" for="email">Email address</label>
-				</div>
-				<div class="form-floating">
-					<textarea class="form-control" id="message" style="height:clamp(100px,30vh,300px)" placeholder="Enter your message here..."></textarea>
-					<label class="fs-root" for="message">Optional Message</label>
-				</div>
-				<input type="submit" class="btn btn-black m-0 btn-sm fw-normal mt-auto align-self-end" value="Send Email" />
-			</form>
+			<?php get_template_part( 'template-parts/form', 'create-email' ); ?>
+			<input type="submit" class="btn btn-black m-0 btn-sm fw-normal mt-auto align-self-end" value="Send Email" form="create-email-form" />
 		</section>
 	</div>
 	<?php comments_template(); ?>
