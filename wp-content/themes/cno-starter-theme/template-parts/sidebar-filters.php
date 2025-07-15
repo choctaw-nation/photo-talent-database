@@ -6,7 +6,7 @@
  */
 
 $fields = array(
-	'Last Used',
+	'Is Choctaw',
 	'Experience',
 	'Gender',
 	'Skin Tone',
@@ -15,6 +15,7 @@ $fields = array(
 	'Weight',
 	'Age Range',
 	'Features',
+	'Last Used',
 );
 
 ?>
