@@ -67,7 +67,7 @@ class Rest_Router {
 			array(
 				'methods'             => WP_REST_Server::CREATABLE,
 				'callback'            => array( $this, 'save_talent_list' ),
-				'permission_callback' => fn()=> current_user_can( 'edit_talent-list' ),
+				'permission_callback' => fn()=> current_user_can( 'edit_talent-lists' ),
 				'args'                => array(
 					'ids'             => array(
 						'required'          => true,
@@ -149,7 +149,7 @@ class Rest_Router {
 		$ids          = $params['ids'];
 		$post_id      = wp_insert_post(
 			array(
-				'post_type'    => 'talent_list',
+				'post_type'    => 'talent-list',
 				'post_title'   => $post_title,
 				'post_excerpt' => $post_excerpt,
 				'post_status'  => 'publish',
@@ -205,7 +205,7 @@ class Rest_Router {
 			array(
 				'success' => true,
 				'message' => 'Talent list saved successfully.',
-				'data'    => $post_details,
+				'data'    => array( 'post' => $post_details ),
 			),
 			200,
 		);
