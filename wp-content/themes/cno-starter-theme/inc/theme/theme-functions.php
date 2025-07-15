@@ -143,3 +143,42 @@ function cno_get_is_choctaw( ?int $post_id = null ): string {
 
 	}
 }
+
+/**
+ * Retrieves the last used date as a formatted string.
+ *
+ * @param ?int $post_id The post ID to retrieve the last used date from. If null, it uses the current post ID.
+ */
+function cno_get_last_used_string( ?int $post_id = null ): string {
+	$post_id   = $post_id ?: get_the_ID(); // phpcs:ignore Universal.Operators.DisallowShortTernary.Found
+	$last_used = get_field( 'last_used', $post_id );
+	if ( ! $last_used ) {
+		return 'N/A';
+	}
+	$last_used_datetime = DateTime::createFromFormat( 'Ymd', $last_used, wp_timezone() );
+	if ( ! $last_used_datetime ) {
+		return 'N/A';
+	}
+
+	$now = new DateTime( 'now', wp_timezone() );
+	$now->setTime( 0, 0, 0 );
+	$last_used_datetime->setTime( 0, 0, 0 );
+	$diff_days = (int) $now->diff( $last_used_datetime )->days;
+
+	if ( 0 === $diff_days ) {
+		return 'today';
+	} elseif ( 1 === $diff_days ) {
+		return 'yesterday';
+	} elseif ( 7 > $diff_days ) {
+		return $diff_days . ' days ago';
+	} elseif ( 30 > $diff_days ) {
+		$weeks = (int) floor( $diff_days / 7 );
+		return 1 === $weeks ? '1 week ago' : $weeks . ' weeks ago';
+	} elseif ( 365 > $diff_days ) {
+		$months = (int) floor( $diff_days / 30 );
+		return 1 === $months ? '1 month ago' : $months . ' months ago';
+	} else {
+		$years = (int) floor( $diff_days / 365 );
+		return 1 === $years ? '1 year ago' : $last_used_datetime->format( 'F j, Y' );
+	}
+}
