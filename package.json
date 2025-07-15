@@ -20,6 +20,7 @@
 		"bootstrap": "^5.3.7"
 	},
 	"devDependencies": {
+		"@types/bootstrap": "^5.2.10",
 		"@wordpress/scripts": "^30.19.0",
 		"webpack-remove-empty-scripts": "^1.1.1"
 	}
