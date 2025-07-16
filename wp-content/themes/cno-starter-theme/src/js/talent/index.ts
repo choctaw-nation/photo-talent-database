@@ -1,8 +1,9 @@
+import sendEmail from '../utils/sendEmail';
 import sidebarToggleHandler from './sidebarToggleHandler';
-import Controller from './talent-selection-handler/TalentSelectionHandler';
+import Controller from './talent-selection-handler/Controller';
 
 window.addEventListener( 'DOMContentLoaded', () => {
-	const handler = new Controller();
-	handler.init();
+	new Controller();
 	sidebarToggleHandler();
+	sendEmail();
 } );

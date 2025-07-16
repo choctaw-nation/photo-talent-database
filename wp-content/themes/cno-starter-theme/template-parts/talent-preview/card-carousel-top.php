@@ -5,7 +5,8 @@
  * @package ChoctawNation
  */
 
-$slug        = 'carousel-' . sanitize_title( get_the_title() );
+$talent_id   = $args['id'] ?? get_the_ID();
+$slug        = 'carousel-' . sanitize_title( get_the_title( $talent_id ) );
 $image_names = array( 'front', 'back', 'left', 'right', 'three_quarters' );
 $image_args  = array(
 	'loading' => 'lazy',
@@ -15,7 +16,7 @@ $image_args  = array(
 $images = array();
 
 foreach ( $image_names as $name ) {
-	$image = get_field( 'image_' . $name );
+	$image = get_field( 'image_' . $name, $talent_id );
 	if ( $image ) {
 		$images[ $name ] = wp_get_attachment_image( $image, 'full', false, $image_args );
 	}

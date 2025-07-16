@@ -125,11 +125,21 @@ class Theme_Init {
 	/** Remove comments, pings and trackbacks support from posts types. */
 	private function disable_discussion() {
 		// Close comments on the front-end
-		add_filter( 'comments_open', '__return_false', 20, 2 );
+		add_filter(
+			'comments_open',
+			fn( $open, $post_id ) => 'talent-list' === get_post_type( $post_id ),
+			20,
+			2
+		);
 		add_filter( 'pings_open', '__return_false', 20, 2 );
 
 		// Hide existing comments.
-		add_filter( 'comments_array', '__return_empty_array', 10, 2 );
+		add_filter(
+			'comments_array',
+			fn( $comments, $post_id ) => 'talent-list' === get_post_type( $post_id ) ? $comments : array(),
+			10,
+			2
+		);
 
 		// Remove comments page in menu.
 		add_action(
