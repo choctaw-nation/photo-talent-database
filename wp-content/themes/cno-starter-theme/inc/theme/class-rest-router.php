@@ -49,15 +49,17 @@ class Rest_Router {
 			"{$this->namespace}/v{$this->version}",
 			'/talent',
 			array(
-				'methods'             => WP_REST_Server::CREATABLE,
+				'methods'             => WP_REST_Server::READABLE,
 				'callback'            => array( $this, 'get_posts' ),
 				'permission_callback' => fn()=> current_user_can( 'edit_posts' ),
 				'args'                => array(
-					'ids' => array(
+					'talent-ids' => array(
 						'required'          => true,
-						'type'              => 'array',
-						'description'       => 'Array of post IDs to retrieve.',
-						'sanitize_callback' => 'wp_parse_id_list',
+						'type'              => 'string',
+						'description'       => 'Comma-separated list of talent post IDs to retrieve.',
+						'sanitize_callback' => function ( $value ) {
+							return implode( ',', wp_parse_id_list( $value ) );
+						},
 					),
 				),
 			)
@@ -123,9 +125,10 @@ class Rest_Router {
 	 * @return WP_REST_Response The response containing the posts.
 	 */
 	public function get_posts( WP_REST_Request $request ): WP_REST_Response {
-		$params = $request->get_json_params();
-		$ids    = $params['ids'];
-		$args   = array(
+		// Accept talent-ids as a comma-separated string
+		$talent_ids_str = $request->get_param( 'talent-ids' );
+		$ids            = wp_parse_id_list( $talent_ids_str );
+		$args           = array(
 			'post_type'   => 'post',
 			'post__in'    => $ids,
 			'post_status' => 'publish',

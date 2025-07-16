@@ -43,8 +43,10 @@
 							aria-selected="false">Save
 						List</button>
 				</div>
+				<button type="button" class="btn btn-outline-primary m-0 btn-sm fw-normal" id="generate-pdf-btn">Generate PDF</button>
 				<input type="submit" class="btn btn-black m-0 btn-sm fw-normal" value="Send Email" form="create-email-form" />
 			</div>
 		</div>
 	</div>
+</div>
 </div>

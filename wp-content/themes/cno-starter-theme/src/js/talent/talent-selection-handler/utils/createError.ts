@@ -1,4 +1,4 @@
-import { ToastType } from './types';
+import { ToastType } from '../../../utils/types';
 
 export default function createError( type: ToastType, message: string ): Error {
 	const error = new Error( message );

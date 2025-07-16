@@ -1,5 +1,5 @@
 import Toast from 'bootstrap/js/dist/toast';
-import { ToastType } from '../talent/talent-selection-handler/utils/types';
+import { ToastType } from './types';
 
 export default class ToastHandler {
 	toastContainer: HTMLDivElement;
