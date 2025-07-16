@@ -31,17 +31,7 @@
 						</div>
 					</div>
 					<div class="tab-pane fade" id="save-list" aria-labelledby="save-list-tab" role="tabpanel">
-						<form action="" method="POST" id="save-list-form" class="d-flex flex-column align-items-stretch gap-3">
-							<div class="form-floating">
-								<input type="text" class="form-control" id="listName" name="listName" placeholder="List Name" required>
-								<label for="listName">List Name</label>
-							</div>
-							<div class="form-floating">
-								<textarea class="form-control" placeholder="List Description" id="listDescription" name="listDescription" style="height: 100px"></textarea>
-								<label for="listDescription">List Description</label>
-							</div>
-							<input type="submit" class="btn btn-black btn-sm fw-normal mt-auto align-self-end" value="Save List" />
-						</form>
+						<?php get_template_part( 'template-parts/form', 'save-list' ); ?>
 					</div>
 				</div>
 			</div>

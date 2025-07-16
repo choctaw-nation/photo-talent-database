@@ -31,7 +31,10 @@ get_header();
 		<section class="col flex-grow-1">
 			<h2>Selected Talent</h2>
 			<?php $selected_talent = get_field( 'selected_talent' ); ?>
-			<ul class="list-group rounded-1">
+			<?php
+			if ( ! empty( $selected_talent ) ) :
+				?>
+			<ul class="list-group rounded-1" id="selected-talent-list">
 				<?php foreach ( $selected_talent as $talent_id ) : ?>
 				<li class="list-group-item list-group-item-action ps-2 d-flex flex-wrap gap-3 align-items-center justify-content-between">
 					<div class="d-flex gap-3 flex-wrap align-items-center">
@@ -63,6 +66,9 @@ get_header();
 				</li>
 				<?php endforeach; ?>
 			</ul>
+			<?php else : ?>
+			<p class="text-muted">No talent selected.</p>
+			<?php endif; ?>
 		</section>
 		<section class="col flex-grow-1 d-flex flex-column align-items-stretch row-gap-3">
 			<h2>Send Email</h2>
@@ -73,4 +79,5 @@ get_header();
 	<?php comments_template(); ?>
 </main>
 <?php
+get_template_part( 'template-parts/toast', 'container' );
 get_footer();

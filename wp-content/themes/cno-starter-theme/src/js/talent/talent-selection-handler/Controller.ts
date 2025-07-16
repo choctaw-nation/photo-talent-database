@@ -1,7 +1,7 @@
 import LocalStorage from './LocalStorage';
 import ListHandler from './view/ListHandler';
 import ModalHandler from './view/ModalHandler';
-import ToastHandler from './view/ToastHandler';
+import ToastHandler from '../../utils/ToastHandler';
 
 export default class Controller {
 	TARGET_SELECTOR: string;
@@ -24,7 +24,7 @@ export default class Controller {
 		this.db = new LocalStorage();
 		this.Modal = new ModalHandler();
 		this.ListHandler = new ListHandler();
-		this.toast = new ToastHandler( this.Modal.modalEl );
+		this.toast = new ToastHandler();
 		this.selectionTracker = document.getElementById(
 			'selection-counter'
 		) as HTMLSpanElement;
@@ -34,7 +34,31 @@ export default class Controller {
 	}
 
 	private init() {
-		// refactor to Modal.init()
+		this.Modal.modalEl.addEventListener( 'submit', async ( ev ) => {
+			const target = ev.target as HTMLFormElement;
+			if ( target.id !== 'save-list-form' ) {
+				return;
+			}
+			ev.preventDefault();
+
+			try {
+				this.Modal.useLoadingSpinner( true, 'list' );
+				const { success, message, link } =
+					await this.Modal.handleSaveList( target, this.db.getIds() );
+				if ( success ) {
+					this.toast.showToast(
+						`${ message }\n<a href="${ link }">Preview the post.</a>`,
+						'success'
+					);
+				}
+			} catch ( error ) {
+				this.toast.showToast(
+					'There was an error saving your list. Please try again.',
+					'error'
+				);
+				console.error( 'Error handling save list:', error );
+			}
+		} );
 		this.Modal.onShow( () => {
 			// builds the list when the modal is shown
 			this.ListHandler.buildSelectedList( this.db );

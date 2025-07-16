@@ -1,5 +1,6 @@
 import Modal from 'bootstrap/js/dist/modal';
 import Tab from 'bootstrap/js/dist/tab';
+import { SaveListFormData } from '../utils/types';
 
 export default class ModalHandler {
 	modal: Modal;
@@ -11,6 +12,15 @@ export default class ModalHandler {
 			'input[type="submit"][value="Send Email"]'
 		);
 	}
+	get saveListButton(): HTMLButtonElement | null {
+		return document.querySelector< HTMLButtonElement >(
+			'input[type="submit"][value="Save List"]'
+		);
+	}
+
+	get listNameInput(): HTMLInputElement | null {
+		return this.modalEl.querySelector< HTMLInputElement >( '#listName' );
+	}
 
 	constructor() {
 		this.modalEl = document.getElementById(
@@ -20,9 +30,6 @@ export default class ModalHandler {
 			'create-email-modal-trigger'
 		) as HTMLButtonElement;
 		this.initModal();
-		this.modalEl.addEventListener( 'submit', ( ev ) => {
-			this.handleSaveList( ev );
-		} );
 	}
 
 	initModal() {
@@ -77,10 +84,22 @@ export default class ModalHandler {
 					this.showOtherTrigger( trigger, triggers );
 					this.disableSendEmailButton();
 					trigger.disabled = true;
+					if ( this.listNameInput ) {
+						this.listNameInput.addEventListener(
+							'change',
+							this.renderListNamePreview.bind( this )
+						);
+					}
 				}
 				if ( 'back-to-form' === trigger.id ) {
 					this.showOtherTrigger( trigger, triggers );
 					this.enableSendEmailButton();
+					if ( this.listNameInput ) {
+						this.listNameInput.removeEventListener(
+							'change',
+							this.renderListNamePreview.bind( this )
+						);
+					}
 				}
 				tab.show();
 			} );
@@ -114,12 +133,114 @@ export default class ModalHandler {
 		}
 	}
 
-	private handleSaveList( ev: SubmitEvent ) {
-		const target = ev.target as HTMLFormElement;
-		if ( target.id !== 'save-list-form' ) {
+	/**
+	 * Renders the preview of the list name.
+	 */
+	private renderListNamePreview() {
+		const listNamePreview =
+			this.modalEl.querySelector< HTMLElement >( '#listNamePreview' );
+		const listNameHelper =
+			this.modalEl.querySelector< HTMLElement >( '#listNameHelper' );
+		const today = new Date();
+		const ymd = this.toYmd( today );
+		if ( this.listNameInput && listNamePreview ) {
+			if ( listNameHelper?.classList.contains( 'd-none' ) ) {
+				listNameHelper?.classList.remove( 'd-none' );
+			}
+			listNamePreview.textContent = `“${ ymd } — ${ this.listNameInput.value }”`;
+		}
+	}
+
+	disableSaveListButton() {
+		if ( this.saveListButton ) {
+			this.saveListButton.disabled = true;
+		}
+	}
+
+	enableSaveListButton() {
+		if ( this.saveListButton ) {
+			this.saveListButton.disabled = false;
+		}
+	}
+
+	/**
+	 * Renders a Bootstrap loading spinner next to a button
+	 * @param isLoading Represents whether the button is in a loading state
+	 * @param button The button to apply the loading state to
+	 * @returns
+	 */
+	useLoadingSpinner( isLoading: boolean, button: 'list' | 'email' ) {
+		const buttonElement =
+			button === 'list' ? this.saveListButton : this.sendEmailButton;
+		if ( ! buttonElement ) {
 			return;
 		}
-		ev.preventDefault();
-		// Handle the save list logic here
+
+		buttonElement.disabled = isLoading;
+		if ( isLoading ) {
+			buttonElement.insertAdjacentHTML(
+				'beforebegin',
+				`<div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>`
+			);
+		} else {
+			buttonElement.previousElementSibling?.remove();
+		}
+	}
+
+	async handleSaveList( target: HTMLFormElement, ids: Set< number > ) {
+		const formData = Object.fromEntries(
+			new FormData( target )
+		) as unknown as SaveListFormData;
+		const expiration = this.getListExpiration(
+			formData.listExpirationLength,
+			formData.listExpirationUnit
+		);
+		const jsonData = JSON.stringify( {
+			...formData,
+			listExpiry: expiration,
+			ids: Array.from( ids ),
+		} );
+		const response = await fetch( '/wp-json/cno/v1/talent-list', {
+			method: 'POST',
+			body: jsonData,
+			headers: {
+				'Content-Type': 'application/json',
+				'X-WP-Nonce': window.cnoApi.nonce,
+			},
+		} );
+		if ( ! response.ok ) {
+			const error = await response.json();
+			throw new Error( error );
+		}
+		const {
+			success,
+			message,
+			data: { post },
+		} = await response.json();
+		this.useLoadingSpinner( false, 'list' );
+		return { success, message, link: post.link };
+	}
+
+	private getListExpiration(
+		length: string,
+		unit: SaveListFormData[ 'listExpirationUnit' ]
+	) {
+		const expirationMap: Record< string, number > = {
+			days: 1,
+			weeks: 7,
+			months: 30,
+		};
+		const expiry = expirationMap[ unit ] * Number( length );
+		const expiryDate = new Date();
+		expiryDate.setDate( expiryDate.getDate() + expiry );
+		return this.toYmd( expiryDate );
+	}
+
+	private toYmd( date: Date ): number {
+		return (
+			date.getFullYear() * 10000 +
+			( date.getMonth() + 1 ) * 100 +
+			date.getDate()
+		);
 	}
 }

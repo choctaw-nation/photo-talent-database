@@ -1,15 +1,13 @@
 import Toast from 'bootstrap/js/dist/toast';
-import { ToastType } from '../utils/types';
+import { ToastType } from '../talent/talent-selection-handler/utils/types';
 
 export default class ToastHandler {
 	toastContainer: HTMLDivElement;
 
-	constructor( modalEl: HTMLDivElement ) {
+	constructor() {
 		this.toastContainer = document.getElementById(
 			'toast-container'
 		) as HTMLDivElement;
-
-		modalEl.addEventListener( 'show.bs.modal', () => {} );
 	}
 
 	showToast( message: string, type: ToastType = 'success' ) {
@@ -22,7 +20,7 @@ export default class ToastHandler {
 
 	private createToastElement( message: string, type: ToastType ) {
 		const toastEl = document.createElement( 'div' );
-		const color = type === 'warning' ? 'danger' : type;
+		const color = type === 'error' ? 'danger' : type;
 		toastEl.className = `toast bg-${ color }-subtle`;
 		toastEl.setAttribute( 'role', 'alert' );
 		toastEl.setAttribute( 'aria-live', 'assertive' );

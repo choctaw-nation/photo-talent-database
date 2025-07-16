@@ -52,6 +52,7 @@
 	<properties>
 		<property name="custom_capabilities" type="array">
 			<element value="edit_talent-lists"/>
+			<element value="edit_others_talent-lists"/>
 		</property>
 	</properties>
 </rule>

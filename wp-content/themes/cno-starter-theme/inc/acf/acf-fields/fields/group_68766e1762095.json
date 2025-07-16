@@ -9,7 +9,7 @@
             "aria-label": "",
             "type": "relationship",
             "instructions": "",
-            "required": 0,
+            "required": 1,
             "conditional_logic": 0,
             "wrapper": {
                 "width": "",
@@ -23,16 +23,33 @@
                 "publish"
             ],
             "taxonomy": "",
-            "filters": [
-                "post_type"
-            ],
+            "filters": "",
             "return_format": "id",
-            "min": "",
+            "min": 1,
             "max": "",
             "allow_in_bindings": 0,
             "elements": "",
             "bidirectional": 0,
             "bidirectional_target": []
+        },
+        {
+            "key": "field_6877b467a5aca",
+            "label": "Post Expiry",
+            "name": "post_expiry",
+            "aria-label": "",
+            "type": "date_picker",
+            "instructions": "Set a date for when this post should be deleted.",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "display_format": "F j, Y",
+            "return_format": "Ymd",
+            "first_day": 1,
+            "allow_in_bindings": 0
         }
     ],
     "location": [
@@ -53,5 +70,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1752591957
+    "modified": 1752682928
 }
