@@ -5,6 +5,7 @@
  * @package ChoctawNation
  */
 
+cno_lock_down_route();
 get_header();
 ?>
 <main <?php post_class( 'container my-5 d-flex flex-column align-items-stretch row-gap-5' ); ?>>

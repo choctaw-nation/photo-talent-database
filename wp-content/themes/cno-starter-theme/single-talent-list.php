@@ -8,11 +8,7 @@
 use ChoctawNation\Asset_Loader;
 use ChoctawNation\Enqueue_Type;
 
-if ( ! is_user_logged_in() || ! current_user_can( 'edit_talent-lists' ) ) {
-	wp_safe_redirect( home_url() );
-	exit;
-}
-
+cno_lock_down_route( ! current_user_can( 'edit_talent-lists' ) );
 new Asset_Loader( 'talentList', Enqueue_Type::script, 'pages' );
 new Asset_Loader( 'pdfGenerator', Enqueue_Type::script, 'pages' );
 get_header();
