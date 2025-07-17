@@ -1,17 +1,5 @@
+import { APIResponse, PostData } from '../../utils/types';
 import createError from './utils/createError';
-
-type APIResponse = {
-	success: boolean;
-	posts: PostData[];
-};
-
-export type PostData = {
-	id: number;
-	title: string;
-	isChoctaw: boolean;
-	thumbnail: string;
-	lastUsed: string;
-};
 
 /**
  * Model. Interacts with localStorage to manage post IDs.
@@ -129,7 +117,7 @@ export default class LocalStorage {
 		const response = await fetch(
 			`/wp-json/cno/v1/talent?talent-ids=${ Array.from( ids ).join(
 				','
-			) }`,
+			) }&images=front`,
 			{
 				headers: {
 					'Content-Type': 'application/json',
