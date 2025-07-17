@@ -1,4 +1,4 @@
-import LocalStorage, { PostData } from '../LocalStorage';
+import LocalStorage, { Image, ImageDetails, PostData } from '../LocalStorage';
 
 export default class ListHandler {
 	/**
@@ -199,14 +199,14 @@ export default class ListHandler {
 	}
 
 	private createTalentListItem( data: PostData ): string {
-		const { thumbnail, title, isChoctaw, id } = data;
+		const { images, title, isChoctaw, id } = data;
 		const lastUsed = data.lastUsed ? this.formatDate( data.lastUsed ) : '';
 
 		return `
 			<div class="flex-grow-1 row gx-0 gap-2 flex-nowrap align-items-center">
 				<div class="col-2 d-sm-none d-md-block">
 					<figure class="ratio ratio-1x1 mb-0 rounded-circle overflow-hidden">
-					${ thumbnail }
+					${ this.generateImage( images.front ) }
 					</figure>
 				</div>
 				<div class="col d-flex flex-wrap gap-2">
@@ -224,6 +224,15 @@ export default class ListHandler {
 				</div>
 			</div>
 			<button class="btn-close stretched-link" data-post-id="${ id }"><span class="visually-hidden">Close</span></button>
+		`;
+	}
+
+	private generateImage( image: ImageDetails ): string {
+		const { url, alt, sizes, srcset } = image;
+		return `
+			<figure class="ratio ratio-1x1 mb-0 rounded-circle overflow-hidden">
+				<img src="${ url }" alt="${ alt }" sizes="${ sizes }" srcset="${ srcset }" class="img-fluid" />
+			</figure>
 		`;
 	}
 
