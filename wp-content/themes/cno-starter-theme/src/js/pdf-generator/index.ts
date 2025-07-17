@@ -1,5 +1,5 @@
-import jsPDF from 'jspdf';
 import { GetTalentResponse, TalentPost } from '../utils/types';
+import PdfGenerator from './PdfGenerator';
 
 const generatePdfButton = document.getElementById( 'generate-pdf-btn' );
 if ( generatePdfButton ) {
@@ -26,7 +26,7 @@ if ( generatePdfButton ) {
 
 export async function fetchTalentData( ids: number[] ) {
 	const response = await fetch(
-		`/wp-json/cno/v1/talent?talent-ids=${ ids.join( ',' ) }`,
+		`/wp-json/cno/v1/talent?talent-ids=${ ids.join( ',' ) }&images=all`,
 		{
 			headers: {
 				'Content-Type': 'application/json',
@@ -41,6 +41,6 @@ export async function fetchTalentData( ids: number[] ) {
 
 export async function generatePdf( talentData: TalentPost[] ) {
 	const pdfGenerator = new PdfGenerator();
-	pdfGenerator.buildPdf( talentData );
-	window.open( doc.output( 'bloburl' ), '_blank' );
+	const pdf = pdfGenerator.buildPdf( talentData );
+	window.open( pdf.output( 'bloburl' ), '_blank' );
 }

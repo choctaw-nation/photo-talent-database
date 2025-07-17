@@ -11,18 +11,9 @@ export type APIResponse = {
 	posts: PostData[];
 };
 
-// /talent GET response
-export interface TalentPost {
-	id: number;
-	title: string;
-	isChoctaw: boolean;
-	thumbnail: string;
-	lastUsed: string | null;
-}
-
 export interface GetTalentResponse {
 	success: boolean;
-	posts: TalentPost[];
+	posts: PostData[];
 }
 
 // /talent-list POST response
@@ -57,7 +48,7 @@ export type PostData = {
 	id: number;
 	title: string;
 	isChoctaw: boolean;
-	images: Image;
+	images: Image | { all: Image };
 	lastUsed: string;
 };
 

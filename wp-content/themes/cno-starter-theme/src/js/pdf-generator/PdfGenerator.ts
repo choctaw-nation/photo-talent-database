@@ -1,5 +1,5 @@
-import jsPDF from 'jspdf';
-import { TalentPost } from '../utils/types';
+import jsPDF, { jsPDFOptions } from 'jspdf';
+import { ImageDetails, PostData } from '../utils/types';
 
 export default class PdfGenerator {
 	/**
@@ -9,16 +9,22 @@ export default class PdfGenerator {
 		| [ number, number ]
 		| { top: number; right: number; bottom: number; left: number };
 	doc: jsPDF;
-
 	fontSize: { [ key: string ]: number };
+	pageOptions: jsPDFOptions;
+
+	/**
+	 * Current vertical position for text and images
+	 */
+	currentVerticalPosition: number = 1;
 
 	constructor() {
 		this.margin = [ 1, 1 ];
-		this.doc = new jsPDF( {
+		this.pageOptions = {
 			unit: 'in',
 			format: 'letter',
 			orientation: 'portrait',
-		} );
+		};
+		this.doc = new jsPDF( this.pageOptions );
 		this.fontSize = {
 			title: 18,
 			subtitle: 14,
@@ -26,29 +32,54 @@ export default class PdfGenerator {
 		};
 	}
 
-	buildPdf( talentData: TalentPost[] ) {
-		talentData.forEach( ( talent, idx ) => {
-			if ( idx > 0 ) this.doc.addPage();
-			let y = 20;
-			// Add thumbnail if available (expects base64 or image url)
-			if ( talent.thumbnail ) {
-				// If thumbnail is an <img> tag, extract src
-				const match = talent.thumbnail.match( /src=["']([^"']+)["']/ );
-				if ( match && match[ 1 ] ) {
-					// For demo: try to add image, but jsPDF needs base64 or CORS-enabled image
-					// this.doc.addImage(match[1], 'JPEG', 15, y, 40, 40); // Uncomment if image is base64
-					y += 45;
-				}
-			}
-			this.doc.setFontSize( this.fontSize.headers );
-			this.doc.text( talent.title || 'Talent Name', 15, y );
-			y += 10;
-			this.doc.setFontSize( this.fontSize.body );
-			if ( talent.isChoctaw ) this.doc.text( 'Choctaw', 15, y );
-			y += 10;
-			if ( talent.lastUsed )
-				this.doc.text( 'Last Used: ' + talent.lastUsed, 15, y );
-			// Add more fields as needed to match single.php
+	buildPdf( talentData: PostData[] ): jsPDF {
+		talentData.forEach( ( talent, index ) => {
+			this.buildPages( talent, index );
 		} );
+		return this.doc;
+	}
+
+	private buildPages( talent: PostData, index: number ) {
+		if ( index > 0 ) {
+			this.doc.addPage( this.pageOptions.format );
+			this.currentVerticalPosition = this.margin[ 1 ] as number;
+		}
+		this.addImages( talent );
+		this.doc.setFontSize( this.fontSize.headers );
+		this.doc.text(
+			talent.title,
+			this.margin[ 0 ],
+			this.currentVerticalPosition
+		);
+		this.currentVerticalPosition += 0.5;
+		this.doc.setFontSize( this.fontSize.body );
+		if ( talent.isChoctaw ) {
+			this.doc.text(
+				'Choctaw',
+				this.margin[ 0 ],
+				this.currentVerticalPosition
+			);
+		}
+	}
+
+	private addImages( talent: PostData ) {
+		const images = talent.images;
+		if ( ! images ) {
+			return;
+		}
+		if ( images.all ) {
+			Object.entries( images.all ).forEach( ( [ key, image ] ) => {
+				this.addImage( image as ImageDetails );
+			} );
+		} else {
+			Object.entries( images ).forEach( ( [ key, image ] ) => {
+				this.addImage( image as ImageDetails );
+			} );
+		}
+	}
+
+	private addImage( image: ImageDetails ) {
+		this.doc.addImage( btoa( image.url ), 'JPEG', 15, 15, 40, 40 );
+		this.currentVerticalPosition += 0.5;
 	}
 }
