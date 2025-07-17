@@ -61,6 +61,21 @@ class Rest_Router {
 							return implode( ',', wp_parse_id_list( $value ) );
 						},
 					),
+					'images'     => array(
+						'required'          => false,
+						'type'              => 'array',
+						'description'       => 'Comma-separated list of image types ("front","back","left","right","three_quarters")',
+						'sanitize_callback' => function ( $value ) {
+							$value = explode( ',', $value );
+							$allowed_values = array( 'front', 'back', 'left', 'right', 'three_quarters', 'all' );
+							$value = array_map( 'sanitize_text_field', $value );
+							$value = array_intersect( $value, $allowed_values );
+							if ( empty( $value ) ) {
+								return new \WP_Error( 'invalid_image_types', 'No valid image types provided.', array( 'status' => 400 ) );
+							}
+							return array_values( $value );
+						},
+					),
 				),
 			)
 		);
@@ -141,26 +156,54 @@ class Rest_Router {
 		);
 		if ( ! empty( $posts ) ) {
 			foreach ( $posts as $post ) {
-				$data['posts'][] = array(
+				$post_data = array(
 					'id'        => $post->ID,
 					'title'     => $post->post_title,
 					'isChoctaw' => cno_get_is_choctaw( $post->ID ) === 'Choctaw',
-					'thumbnail' => wp_get_attachment_image(
-						get_field( 'image_front', $post->ID ),
-						'medium',
-						false,
-						array(
-							'loading' => 'lazy',
-							'class'   => 'w-100 h-100 object-fit-cover',
-						)
-					),
 					'lastUsed'  => get_field( 'last_used', $post->ID ),
 				);
+				$images    = $request->get_param( 'images' );
+				if ( ! empty( $images ) ) {
+					$image_array = array();
+					foreach ( $images as $image ) {
+						$image_array[ $image ] = $this->get_image_array( $image, $post->ID );
+					}
+					$post_data['images'] = $image_array;
+				}
+				$data['posts'][] = $post_data;
 			}
 			$data['success'] = true;
 		}
 
 		return rest_ensure_response( $data );
+	}
+
+	/**
+	 * Get the image data for a specific image ID and post ID.
+	 *
+	 * @param string $image_id The image ID.
+	 * @param int    $post_id The post ID.
+	 * @return array The image data.
+	 */
+	private function get_image_array( string $image_id, int $post_id ): array {
+		$image_data     = array();
+		$allowed_values = array( 'front', 'back', 'left', 'right', 'three_quarters' );
+		if ( 'all' === $image_id ) {
+			$ids = $allowed_values;
+		} else {
+			$ids = array( $image_id );
+		}
+		foreach ( $ids as $image_id ) {
+			$id = get_field( "image_{$image_id}", $post_id );
+			if ( ! $id ) {
+				return array();
+			}
+			$image_data[ $image_id ]['url']    = wp_get_attachment_url( $id, 'full', false );
+			$image_data[ $image_id ]['srcset'] = wp_get_attachment_image_srcset( $id );
+			$image_data[ $image_id ]['alt']    = wp_get_attachment_metadata( $id )['image_meta']['alt'];
+			$image_data[ $image_id ]['sizes']  = wp_get_attachment_image_sizes( $id );
+		}
+		return 'all' === $image_id ? $image_data : $image_data[ $image_id ];
 	}
 
 	/**
