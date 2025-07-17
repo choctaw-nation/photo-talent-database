@@ -7,7 +7,6 @@
 
 $fields = array(
 	'Is Choctaw',
-	'Experience',
 	'Gender',
 	'Skin Tone',
 	'Hair Color',
@@ -16,6 +15,7 @@ $fields = array(
 	'Age Range',
 	'Features',
 	'Last Used',
+	'Experience',
 );
 
 ?>
