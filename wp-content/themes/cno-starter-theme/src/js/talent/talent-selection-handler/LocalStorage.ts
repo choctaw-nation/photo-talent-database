@@ -1,17 +1,5 @@
+import { APIResponse, PostData } from '../../utils/types';
 import createError from './utils/createError';
-
-type APIResponse = {
-	success: boolean;
-	posts: PostData[];
-};
-
-export type PostData = {
-	id: number;
-	title: string;
-	isChoctaw: boolean;
-	thumbnail: string;
-	lastUsed: string;
-};
 
 /**
  * Model. Interacts with localStorage to manage post IDs.
@@ -126,14 +114,17 @@ export default class LocalStorage {
 			console.error( 'API nonce is not available' );
 			return [];
 		}
-		const response = await fetch( `/wp-json/cno/v1/talent`, {
-			method: 'POST',
-			body: JSON.stringify( { ids: Array.from( ids ) } ),
-			headers: {
-				'Content-Type': 'application/json',
-				'X-WP-Nonce': ( window as any ).cnoApi?.nonce ?? '',
-			},
-		} );
+		const response = await fetch(
+			`/wp-json/cno/v1/talent?talent-ids=${ Array.from( ids ).join(
+				','
+			) }&images=front&fields=isChoctaw,lastUsed`,
+			{
+				headers: {
+					'Content-Type': 'application/json',
+					'X-WP-Nonce': ( window as any ).cnoApi?.nonce ?? '',
+				},
+			}
+		);
 		if ( ! response.ok ) {
 			console.error(
 				'Failed to fetch selected data:',

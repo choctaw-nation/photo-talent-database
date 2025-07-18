@@ -1,13 +1,27 @@
 import Toast from 'bootstrap/js/dist/toast';
-import { ToastType } from '../talent/talent-selection-handler/utils/types';
+import { ToastType } from './types';
 
 export default class ToastHandler {
 	toastContainer: HTMLDivElement;
 
 	constructor() {
-		this.toastContainer = document.getElementById(
+		this.init();
+	}
+
+	private init() {
+		const toastContainer = document.getElementById(
 			'toast-container'
 		) as HTMLDivElement;
+		if ( ! toastContainer ) {
+			const newToastContainer = document.createElement( 'div' );
+			newToastContainer.className =
+				'toast-container position-fixed top-0 start-50 translate-middle-x p-3';
+			newToastContainer.id = 'toast-container';
+			document.body.appendChild( newToastContainer );
+			this.toastContainer = newToastContainer;
+		} else {
+			this.toastContainer = toastContainer;
+		}
 	}
 
 	showToast( message: string, type: ToastType = 'success' ) {

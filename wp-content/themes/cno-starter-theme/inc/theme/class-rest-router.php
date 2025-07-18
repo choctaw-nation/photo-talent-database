@@ -49,15 +49,50 @@ class Rest_Router {
 			"{$this->namespace}/v{$this->version}",
 			'/talent',
 			array(
-				'methods'             => WP_REST_Server::CREATABLE,
+				'methods'             => WP_REST_Server::READABLE,
 				'callback'            => array( $this, 'get_posts' ),
 				'permission_callback' => fn()=> current_user_can( 'edit_posts' ),
 				'args'                => array(
-					'ids' => array(
+					'talent-ids' => array(
 						'required'          => true,
+						'type'              => 'string',
+						'description'       => 'Comma-separated list of talent post IDs to retrieve.',
+						'sanitize_callback' => function ( $value ) {
+							return implode( ',', wp_parse_id_list( $value ) );
+						},
+					),
+					'images'     => array(
+						'required'          => false,
 						'type'              => 'array',
-						'description'       => 'Array of post IDs to retrieve.',
-						'sanitize_callback' => 'wp_parse_id_list',
+						'description'       => 'Comma-separated list of image types ("front","back","left","right","three_quarters")',
+						'sanitize_callback' => function ( $value ) {
+							$value = explode( ',', $value );
+							$allowed_values = array( 'front', 'back', 'left', 'right', 'three_quarters', 'all' );
+							$value = array_map( 'sanitize_text_field', $value );
+							$value = array_intersect( $value, $allowed_values );
+							if ( empty( $value ) ) {
+								return new \WP_Error( 'invalid_image_types', 'No valid image types provided.', array( 'status' => 400 ) );
+							}
+							return array_values( $value );
+						},
+					),
+					'fields'     => array(
+						'required'          => false,
+						'type'              => 'string',
+						'description'       => 'Comma-separated list of fields to include in the response.',
+						'sanitize_callback' => function ( $value ) {
+							if ( ! is_string( $value ) ) {
+								return new \WP_Error( 'invalid_fields', 'Fields must be a string.', array( 'status' => 400 ) );
+							}
+							$value = explode( ',', $value );
+							$allowed_values = array( 'contact', 'lastUsed', 'isChoctaw' );
+							$value = array_map( 'sanitize_text_field', $value );
+							$value = array_intersect( $value, $allowed_values );
+							if ( empty( $value ) ) {
+								return new \WP_Error( 'invalid_fields', 'No valid fields provided.', array( 'status' => 400 ) );
+							}
+							return array_values( $value );
+						},
 					),
 				),
 			)
@@ -123,9 +158,10 @@ class Rest_Router {
 	 * @return WP_REST_Response The response containing the posts.
 	 */
 	public function get_posts( WP_REST_Request $request ): WP_REST_Response {
-		$params = $request->get_json_params();
-		$ids    = $params['ids'];
-		$args   = array(
+		// Accept talent-ids as a comma-separated string
+		$talent_ids_str = $request->get_param( 'talent-ids' );
+		$ids            = wp_parse_id_list( $talent_ids_str );
+		$args           = array(
 			'post_type'   => 'post',
 			'post__in'    => $ids,
 			'post_status' => 'publish',
@@ -138,26 +174,67 @@ class Rest_Router {
 		);
 		if ( ! empty( $posts ) ) {
 			foreach ( $posts as $post ) {
-				$data['posts'][] = array(
-					'id'        => $post->ID,
-					'title'     => $post->post_title,
-					'isChoctaw' => cno_get_is_choctaw( $post->ID ) === 'Choctaw',
-					'thumbnail' => wp_get_attachment_image(
-						get_field( 'image_front', $post->ID ),
-						'medium',
-						false,
-						array(
-							'loading' => 'lazy',
-							'class'   => 'w-100 h-100 object-fit-cover',
-						)
-					),
-					'lastUsed'  => get_field( 'last_used', $post->ID ),
+				$post_data = array(
+					'id'    => $post->ID,
+					'title' => $post->post_title,
 				);
+				$fields    = $request->get_param( 'fields' );
+				if ( ! empty( $fields ) && is_array( $fields ) ) {
+					if ( in_array( 'isChoctaw', $fields, true ) ) {
+						$post_data['isChoctaw'] = cno_get_is_choctaw( $post->ID ) === 'Choctaw';
+					}
+					if ( in_array( 'lastUsed', $fields, true ) ) {
+						$post_data['lastUsed'] = get_field( 'last_used', $post->ID );
+					}
+					if ( in_array( 'contact', $fields, true ) ) {
+						$post_data['contact'] = array(
+							'email' => get_field( 'email', $post->ID ),
+							'phone' => get_field( 'phone', $post->ID ),
+						);
+					}
+				}
+				$images = $request->get_param( 'images' );
+				if ( ! empty( $images ) ) {
+					$image_array = array();
+					foreach ( $images as $image ) {
+						$image_array[ $image ] = $this->get_image_array( $image, $post->ID );
+					}
+					$post_data['images'] = $image_array;
+				}
+				$data['posts'][] = $post_data;
 			}
 			$data['success'] = true;
 		}
 
 		return rest_ensure_response( $data );
+	}
+
+	/**
+	 * Get the image data for a specific image ID and post ID.
+	 *
+	 * @param string $image_id The image ID.
+	 * @param int    $post_id The post ID.
+	 * @return array The image data.
+	 */
+	private function get_image_array( string $image_id, int $post_id ): array {
+		$image_data     = array();
+		$allowed_values = array( 'front', 'back', 'left', 'right', 'three_quarters' );
+		if ( 'all' === $image_id ) {
+			$ids = $allowed_values;
+		} else {
+			$ids = array( $image_id );
+		}
+		foreach ( $ids as $current_image_id ) {
+			$id = get_field( "image_{$current_image_id}", $post_id );
+			if ( ! $id ) {
+				return array();
+			}
+			$image_data[ $current_image_id ]['url']    = wp_get_attachment_url( $id, 'full', false );
+			$image_data[ $current_image_id ]['srcset'] = wp_get_attachment_image_srcset( $id );
+			$image_data[ $current_image_id ]['alt']    = wp_get_attachment_metadata( $id )['image_meta']['alt'];
+			$image_data[ $current_image_id ]['sizes']  = wp_get_attachment_image_sizes( $id );
+		}
+		return 'all' === $image_id ? $image_data : $image_data[ $image_id ];
 	}
 
 	/**

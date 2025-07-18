@@ -1,6 +1,6 @@
 import Modal from 'bootstrap/js/dist/modal';
 import Tab from 'bootstrap/js/dist/tab';
-import { SaveListFormData } from '../utils/types';
+import { SaveListFormData } from '../../../utils/types';
 
 export default class ModalHandler {
 	modal: Modal;

@@ -17,7 +17,8 @@
 	"author": "Choctaw Nation of Oklahoma",
 	"license": "GPL-3.0-or-later",
 	"dependencies": {
-		"bootstrap": "^5.3.7"
+		"bootstrap": "^5.3.7",
+		"jspdf": "^3.0.1"
 	},
 	"devDependencies": {
 		"@types/bootstrap": "^5.2.10",

@@ -8,12 +8,9 @@
 use ChoctawNation\Asset_Loader;
 use ChoctawNation\Enqueue_Type;
 
-if ( ! is_user_logged_in() || ! current_user_can( 'edit_talent-lists' ) ) {
-	wp_safe_redirect( home_url() );
-	exit;
-}
-
+cno_lock_down_route( ! current_user_can( 'edit_talent-lists' ) );
 new Asset_Loader( 'talentList', Enqueue_Type::script, 'pages' );
+new Asset_Loader( 'pdfGenerator', Enqueue_Type::script, 'pages' );
 get_header();
 ?>
 <main <?php post_class( 'container my-5' ); ?>>
@@ -31,9 +28,7 @@ get_header();
 		<section class="col flex-grow-1">
 			<h2>Selected Talent</h2>
 			<?php $selected_talent = get_field( 'selected_talent' ); ?>
-			<?php
-			if ( ! empty( $selected_talent ) ) :
-				?>
+			<?php if ( ! empty( $selected_talent ) ) : ?>
 			<ul class="list-group rounded-1" id="selected-talent-list">
 				<?php foreach ( $selected_talent as $talent_id ) : ?>
 				<li class="list-group-item list-group-item-action ps-2 d-flex flex-wrap gap-3 align-items-center justify-content-between">

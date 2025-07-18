@@ -11,7 +11,9 @@ use ChoctawNation\Asset_Loader;
 use ChoctawNation\Bootstrap_Pagination;
 use ChoctawNation\Enqueue_Type;
 
+cno_lock_down_route();
 new Asset_Loader( 'talent', Enqueue_Type::script, 'pages' );
+new Asset_Loader( 'pdfGenerator', Enqueue_Type::script, 'pages' );
 get_header();
 ?>
 <main <?php post_class( 'd-flex flex-column align-items-stretch row-gap-5 my-5 container-fluid' ); ?>>

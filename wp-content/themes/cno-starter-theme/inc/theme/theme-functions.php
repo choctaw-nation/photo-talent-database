@@ -182,3 +182,16 @@ function cno_get_last_used_string( ?int $post_id = null ): string {
 		return 1 === $years ? '1 year ago' : $last_used_datetime->format( 'F j, Y' );
 	}
 }
+
+/**
+ * Global helper to lock down a route unless permitted
+ *
+ * @param boolean $extra_condition [Optional] extra conditions to check.
+ */
+function cno_lock_down_route( bool $extra_condition = false ) {
+	if ( ! is_user_logged_in() || $extra_condition ) {
+		// Redirect logged-in users to the talent page.
+		wp_safe_redirect( home_url( '/talent' ) );
+		exit;
+	}
+}
