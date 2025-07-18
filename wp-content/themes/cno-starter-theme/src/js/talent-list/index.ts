@@ -1,8 +1,6 @@
-import sendEmail from '../utils/sendEmail';
 import ToastHandler from '../utils/ToastHandler';
 
 window.addEventListener( 'DOMContentLoaded', () => {
-	sendEmail();
 	const toaster = new ToastHandler();
 	const selectedTalentList = document.getElementById(
 		'selected-talent-list'

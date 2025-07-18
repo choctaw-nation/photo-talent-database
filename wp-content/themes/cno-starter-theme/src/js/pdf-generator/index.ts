@@ -7,6 +7,7 @@ const generatePdfButton = document.getElementById(
 ) as HTMLButtonElement | null;
 if ( generatePdfButton ) {
 	generatePdfButton.addEventListener( 'click', async () => {
+		if ( generatePdfButton.disabled ) return;
 		const talentItems = document.querySelectorAll< HTMLButtonElement >(
 			'#selected-talent-list .btn-close'
 		);
@@ -20,7 +21,7 @@ if ( generatePdfButton ) {
 		let spinner: HTMLElement | null = null;
 		try {
 			const modalFooter = document.querySelector< HTMLElement >(
-				'#create-email-modal .modal-footer'
+				'#create-pdf-modal .modal-footer'
 			);
 			if ( modalFooter ) {
 				spinner = insertSpinner( modalFooter );

@@ -7,10 +7,10 @@ export default class ModalHandler {
 	modalEl: HTMLDivElement;
 	modalTrigger: HTMLButtonElement;
 
-	get sendEmailButton(): HTMLButtonElement | null {
-		return document.querySelector< HTMLButtonElement >(
-			'input[type="submit"][value="Send Email"]'
-		);
+	get generatePdfButton(): HTMLButtonElement | null {
+		return document.getElementById(
+			'generate-pdf-btn'
+		) as HTMLButtonElement | null;
 	}
 	get saveListButton(): HTMLButtonElement | null {
 		return document.querySelector< HTMLButtonElement >(
@@ -22,12 +22,25 @@ export default class ModalHandler {
 		return this.modalEl.querySelector< HTMLInputElement >( '#listName' );
 	}
 
+	get modalTitle(): string {
+		return (
+			this.modalEl.querySelector< HTMLElement >( '.modal-title' )
+				?.textContent || ''
+		);
+	}
+
+	set modalTitle( title: string ) {
+		this.modalEl.querySelector< HTMLElement >(
+			'.modal-title'
+		)!.textContent = title;
+	}
+
 	constructor() {
 		this.modalEl = document.getElementById(
-			'create-email-modal'
+			'create-pdf-modal'
 		) as HTMLDivElement;
 		this.modalTrigger = document.getElementById(
-			'create-email-modal-trigger'
+			'create-pdf-modal-trigger'
 		) as HTMLButtonElement;
 		this.initModal();
 	}
@@ -81,8 +94,9 @@ export default class ModalHandler {
 			}
 			trigger.addEventListener( 'click', ( ev ) => {
 				if ( 'save-list-tab' === trigger.id ) {
+					this.modalTitle = 'Save Selected Talent List';
 					this.showOtherTrigger( trigger, triggers );
-					this.disableSendEmailButton();
+					this.disableGeneratePdfButton();
 					trigger.disabled = true;
 					if ( this.listNameInput ) {
 						this.listNameInput.addEventListener(
@@ -92,8 +106,9 @@ export default class ModalHandler {
 					}
 				}
 				if ( 'back-to-form' === trigger.id ) {
+					this.modalTitle = 'Generate PDF';
 					this.showOtherTrigger( trigger, triggers );
-					this.enableSendEmailButton();
+					this.enableGeneratePdfButton();
 					if ( this.listNameInput ) {
 						this.listNameInput.removeEventListener(
 							'change',
@@ -119,18 +134,6 @@ export default class ModalHandler {
 		}
 		trigger.disabled = true;
 		trigger.classList.add( 'd-none' );
-	}
-
-	private disableSendEmailButton() {
-		if ( this.sendEmailButton ) {
-			this.sendEmailButton.disabled = true;
-		}
-	}
-
-	private enableSendEmailButton() {
-		if ( this.sendEmailButton ) {
-			this.sendEmailButton.disabled = false;
-		}
 	}
 
 	/**
@@ -163,27 +166,41 @@ export default class ModalHandler {
 		}
 	}
 
+	disableGeneratePdfButton() {
+		if ( this.generatePdfButton ) {
+			this.generatePdfButton.disabled = true;
+			this.generatePdfButton.classList.add( 'disabled' );
+		}
+	}
+
+	enableGeneratePdfButton() {
+		if ( this.generatePdfButton ) {
+			this.generatePdfButton.disabled = false;
+			this.generatePdfButton.classList.remove( 'disabled' );
+		}
+	}
+
 	/**
 	 * Renders a Bootstrap loading spinner next to a button
 	 * @param isLoading Represents whether the button is in a loading state
 	 * @param button The button to apply the loading state to
 	 * @returns
 	 */
-	useLoadingSpinner( isLoading: boolean, button: 'list' | 'email' ) {
+	useLoadingSpinner( isLoading: boolean, button: 'list' | 'pdf' ) {
 		const buttonElement =
-			button === 'list' ? this.saveListButton : this.sendEmailButton;
+			button === 'list' ? this.saveListButton : this.generatePdfButton;
 		if ( ! buttonElement ) {
 			return;
 		}
-
 		buttonElement.disabled = isLoading;
+		const modalFooter = buttonElement.closest( '.modal-footer' )!;
 		if ( isLoading ) {
-			buttonElement.insertAdjacentHTML(
-				'beforebegin',
-				`<div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>`
+			modalFooter.insertAdjacentHTML(
+				'afterbegin',
+				`<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>`
 			);
 		} else {
-			buttonElement.previousElementSibling?.remove();
+			modalFooter?.querySelector( '.spinner-border' )?.remove();
 		}
 	}
 

@@ -49,9 +49,9 @@ get_header();
 		<?php
 		if ( have_posts() ) {
 			// Pagination.
-			get_template_part( 'template-parts/button', 'create-email-modal-trigger' );
+			get_template_part( 'template-parts/button', 'create-pdf-modal-trigger' );
 			get_template_part( 'template-parts/toast', 'container' );
-			get_template_part( 'template-parts/modal', 'create-email' );
+			get_template_part( 'template-parts/modal', 'create-pdf' );
 		}
 		?>
 	</div>
