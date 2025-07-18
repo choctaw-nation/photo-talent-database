@@ -6,20 +6,17 @@
  */
 
 ?>
-<div class="modal fade" tabindex="-1" id="create-email-modal">
+<div class="modal fade" tabindex="-1" id="create-pdf-modal">
 	<div class="modal-dialog modal-dialog-centered modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h1 class="modal-title fs-5">Selected Talent List</h1>
+				<h1 class="modal-title fs-5">Generate PDF</h1>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body bg-light">
 				<div class="tab-content" id="modal-tab-content">
 					<div class="tab-pane fade show active" id="form-and-list" role="tabpanel" aria-labelledby="back-to-form">
 						<div class="row row-cols-auto row-cols-sm-2 row-gap-4">
-							<div class="col flex-grow-1">
-								<?php get_template_part( 'template-parts/form', 'create-email' ); ?>
-							</div>
 							<div class="col flex-grow-1">
 								<div class="row" id="selected-talent-container">
 									<div class="col d-flex flex-wrap row-gap-2 column-gap-3 justify-content-between align-items-center mb-3" id="actions-container">
@@ -43,8 +40,7 @@
 							aria-selected="false">Save
 						List</button>
 				</div>
-				<button type="button" class="btn btn-outline-primary m-0 btn-sm fw-normal" id="generate-pdf-btn">Generate PDF</button>
-				<input type="submit" class="btn btn-black m-0 btn-sm fw-normal" value="Send Email" form="create-email-form" />
+				<button type="button" class="btn btn-black m-0 btn-sm fw-normal" id="generate-pdf-btn">Generate PDF</button>
 			</div>
 		</div>
 	</div>

@@ -60,8 +60,11 @@ export default class Controller {
 			}
 		} );
 		this.Modal.onShow( () => {
+			this.Modal.useLoadingSpinner( true, 'pdf' );
 			// builds the list when the modal is shown
-			this.ListHandler.buildSelectedList( this.db );
+			this.ListHandler.buildSelectedList( this.db ).then( () => {
+				this.Modal.useLoadingSpinner( false, 'pdf' );
+			} );
 
 			// wire event listener to remove elements on click; removes list if length === 0
 			this.ListHandler.list!.addEventListener( 'click', ( ev ) => {
