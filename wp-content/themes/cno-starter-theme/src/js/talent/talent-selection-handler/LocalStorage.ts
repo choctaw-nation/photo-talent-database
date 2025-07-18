@@ -117,7 +117,7 @@ export default class LocalStorage {
 		const response = await fetch(
 			`/wp-json/cno/v1/talent?talent-ids=${ Array.from( ids ).join(
 				','
-			) }&images=front`,
+			) }&images=front&fields=isChoctaw,lastUsed`,
 			{
 				headers: {
 					'Content-Type': 'application/json',

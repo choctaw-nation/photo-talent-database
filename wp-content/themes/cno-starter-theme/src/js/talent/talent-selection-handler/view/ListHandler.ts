@@ -184,7 +184,7 @@ export default class ListHandler {
 				'align-items-center'
 			);
 			li.innerHTML = `
-			<div class="col-2 d-none d-md-block">
+			<div class="col-2 d-sm-none d-md-block">
 				<figure class="ratio ratio-1x1 mb-0 rounded-circle overflow-hidden">
 					<svg aria-label="Placeholder" class="" height="180" preserveAspectRatio="xMidYMid slice" role="img" width="100%" xmlns="http://www.w3.org/2000/svg"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect></svg>
 				</figure>
@@ -229,11 +229,7 @@ export default class ListHandler {
 
 	private generateImage( image: ImageDetails ): string {
 		const { url, alt, sizes, srcset } = image;
-		return `
-			<figure class="ratio ratio-1x1 mb-0 rounded-circle overflow-hidden">
-				<img src="${ url }" alt="${ alt }" sizes="${ sizes }" srcset="${ srcset }" class="img-fluid" />
-			</figure>
-		`;
+		return `<img src="${ url }" alt="${ alt }" sizes="${ sizes }" srcset="${ srcset }" class="w-100 h-100 object-fit-cover" />`;
 	}
 
 	/**

@@ -76,6 +76,24 @@ class Rest_Router {
 							return array_values( $value );
 						},
 					),
+					'fields'     => array(
+						'required'          => false,
+						'type'              => 'string',
+						'description'       => 'Comma-separated list of fields to include in the response.',
+						'sanitize_callback' => function ( $value ) {
+							if ( ! is_string( $value ) ) {
+								return new \WP_Error( 'invalid_fields', 'Fields must be a string.', array( 'status' => 400 ) );
+							}
+							$value = explode( ',', $value );
+							$allowed_values = array( 'contact', 'lastUsed', 'isChoctaw' );
+							$value = array_map( 'sanitize_text_field', $value );
+							$value = array_intersect( $value, $allowed_values );
+							if ( empty( $value ) ) {
+								return new \WP_Error( 'invalid_fields', 'No valid fields provided.', array( 'status' => 400 ) );
+							}
+							return array_values( $value );
+						},
+					),
 				),
 			)
 		);
@@ -157,12 +175,25 @@ class Rest_Router {
 		if ( ! empty( $posts ) ) {
 			foreach ( $posts as $post ) {
 				$post_data = array(
-					'id'        => $post->ID,
-					'title'     => $post->post_title,
-					'isChoctaw' => cno_get_is_choctaw( $post->ID ) === 'Choctaw',
-					'lastUsed'  => get_field( 'last_used', $post->ID ),
+					'id'    => $post->ID,
+					'title' => $post->post_title,
 				);
-				$images    = $request->get_param( 'images' );
+				$fields    = $request->get_param( 'fields' );
+				if ( ! empty( $fields ) && is_array( $fields ) ) {
+					if ( in_array( 'isChoctaw', $fields, true ) ) {
+						$post_data['isChoctaw'] = cno_get_is_choctaw( $post->ID ) === 'Choctaw';
+					}
+					if ( in_array( 'lastUsed', $fields, true ) ) {
+						$post_data['lastUsed'] = get_field( 'last_used', $post->ID );
+					}
+					if ( in_array( 'contact', $fields, true ) ) {
+						$post_data['contact'] = array(
+							'email' => get_field( 'email', $post->ID ),
+							'phone' => get_field( 'phone', $post->ID ),
+						);
+					}
+				}
+				$images = $request->get_param( 'images' );
 				if ( ! empty( $images ) ) {
 					$image_array = array();
 					foreach ( $images as $image ) {

@@ -47,9 +47,13 @@ export interface RemoveTalentResponse {
 export type PostData = {
 	id: number;
 	title: string;
-	isChoctaw: boolean;
-	images: Image | { all: Image };
-	lastUsed: string;
+	isChoctaw?: boolean;
+	images?: Image | { all: Image };
+	lastUsed?: string;
+	contact?: {
+		email: string;
+		phone: string;
+	};
 };
 
 export type Image = {
