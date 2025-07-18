@@ -193,14 +193,14 @@ export default class ModalHandler {
 			return;
 		}
 		buttonElement.disabled = isLoading;
-		const modalFooter = buttonElement.closest( '.modal-footer' )!;
+		const modalFooter = this.modalEl.querySelector( '.modal-footer' )!;
 		if ( isLoading ) {
 			modalFooter.insertAdjacentHTML(
 				'afterbegin',
 				`<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>`
 			);
 		} else {
-			modalFooter?.querySelector( '.spinner-border' )?.remove();
+			modalFooter.querySelector( '.spinner-border' )?.remove();
 		}
 	}
 
