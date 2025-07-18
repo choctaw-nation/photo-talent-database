@@ -8,6 +8,7 @@ const generatePdfButton = document.getElementById(
 if ( generatePdfButton ) {
 	generatePdfButton.addEventListener( 'click', async () => {
 		if ( generatePdfButton.disabled ) return;
+		const toaster = new ToastHandler();
 		const talentItems = document.querySelectorAll< HTMLButtonElement >(
 			'#selected-talent-list .btn-close'
 		);
@@ -15,23 +16,20 @@ if ( generatePdfButton ) {
 			.map( ( item ) => Number( item.dataset.postId ) )
 			.filter( Boolean );
 		if ( ! ids.length ) {
-			alert( 'No talent selected.' );
+			toaster.showToast( 'No talent selected.', 'info' );
 			return;
 		}
 		let spinner: HTMLElement | null = null;
 		try {
-			const modalFooter = document.querySelector< HTMLElement >(
-				'#create-pdf-modal .modal-footer'
-			);
-			if ( modalFooter ) {
-				spinner = insertSpinner( modalFooter );
+			const parentElement = getParentElement();
+			if ( parentElement ) {
+				spinner = insertSpinner( parentElement );
 				generatePdfButton.disabled = true;
 				generatePdfButton.classList.add( 'disabled' );
 				const talentData = await fetchTalentData( ids );
 				await generatePdf( talentData );
 			}
 		} catch ( error ) {
-			const toaster = new ToastHandler();
 			toaster.showToast( 'Error building the PDF.', 'error' );
 			console.error( 'Error generating PDF:', error );
 			return;
@@ -41,6 +39,20 @@ if ( generatePdfButton ) {
 			generatePdfButton.classList.remove( 'disabled' );
 		}
 	} );
+}
+
+function getParentElement(): HTMLElement | null {
+	const elements = [
+		'#create-pdf-modal .modal-footer',
+		'#selected-talent-list-footer',
+	];
+	for ( const selector of elements ) {
+		const element = document.querySelector< HTMLElement >( selector );
+		if ( element ) {
+			return element;
+		}
+	}
+	return null;
 }
 
 export async function fetchTalentData( ids: number[] ): Promise< PostData[] > {

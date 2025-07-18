@@ -33,7 +33,7 @@ get_header();
 				<?php foreach ( $selected_talent as $talent_id ) : ?>
 				<li class="list-group-item list-group-item-action ps-2 d-flex flex-wrap gap-3 align-items-center justify-content-between">
 					<div class="d-flex gap-3 flex-wrap align-items-center">
-						<figure class="mb-0 ratio ratio-1x1 overflow-hidden rounded-2" style="width:75px; height:75px;">
+						<figure class="mb-0 ratio ratio-1x1 overflow-hidden rounded-circle" style="width:75px; height:75px;">
 							<?php
 							echo wp_get_attachment_image(
 								get_field( 'image_front', $talent_id ),
@@ -61,14 +61,12 @@ get_header();
 				</li>
 				<?php endforeach; ?>
 			</ul>
+			<div class="mt-4 d-flex gap-2" id="selected-talent-list-footer">
+				<?php get_template_part( 'template-parts/button', 'generate-pdf-button' ); ?>
+			</div>
 			<?php else : ?>
 			<p class="text-muted">No talent selected.</p>
 			<?php endif; ?>
-		</section>
-		<section class="col flex-grow-1 d-flex flex-column align-items-stretch row-gap-3">
-			<h2>Send Email</h2>
-			<?php get_template_part( 'template-parts/form', 'create-email' ); ?>
-			<input type="submit" class="btn btn-black m-0 btn-sm fw-normal mt-auto align-self-end" value="Send Email" form="create-email-form" />
 		</section>
 	</div>
 	<?php comments_template(); ?>
