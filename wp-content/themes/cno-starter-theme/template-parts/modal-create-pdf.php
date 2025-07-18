@@ -40,7 +40,7 @@
 							aria-selected="false">Save
 						List</button>
 				</div>
-				<button type="button" class="btn btn-black m-0 btn-sm fw-normal" id="generate-pdf-btn">Generate PDF</button>
+				<?php get_template_part( 'template-parts/button', 'generate-pdf-button' ); ?>
 			</div>
 		</div>
 	</div>
