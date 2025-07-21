@@ -1,11 +1,26 @@
 .carousel-item {
 	&__overlay {
+		--darken-color: 0, 0, 0;
+		--darken-opacity: 0.2;
 		background-image: linear-gradient(
-			to bottom,
-			transparent 80%,
-			rgba(black, 0.5)
-		);
+				to bottom,
+				transparent 90%,
+				rgba(var(--darken-color), var(--darken-opacity))
+			),
+			linear-gradient(
+				to right,
+				rgba(var(--darken-color), var(--darken-opacity)) 0%,
+				transparent 20%,
+				transparent 80%,
+				rgba(var(--darken-color), var(--darken-opacity)) 100%
+			);
 		inset: 0;
+		opacity: 0;
+		transition: opacity var(--transition-standard);
+
+		.carousel:hover & {
+			opacity: 1;
+		}
 	}
 
 	&__image {
