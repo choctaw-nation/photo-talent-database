@@ -191,7 +191,7 @@ function cno_get_last_used_string( ?int $post_id = null ): string {
 function cno_lock_down_route( bool $extra_condition = false ) {
 	if ( ! is_user_logged_in() || $extra_condition ) {
 		// Redirect logged-in users to the talent page.
-		wp_safe_redirect( home_url( '/talent' ) );
+		wp_safe_redirect( home_url() );
 		exit;
 	}
 }
