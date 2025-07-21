@@ -15,7 +15,7 @@ get_header();
 		</h1>
 		<?php
 		if ( 'Choctaw' === cno_get_is_choctaw() ) {
-				echo '<p class="badge text-bg-primary fs-6 mb-0">Choctaw</p>';
+			echo '<p class="badge text-bg-primary fs-6 mb-0">Choctaw</p>';
 		}
 		?>
 	</header>
@@ -76,7 +76,7 @@ get_header();
 			$image_ids = array_map(
 				function ( $image ) {
 					$image_id = get_field( 'image_' . $image );
-					return $image_id ?: null;
+					return $image_id ?: null; // phpcs:ignore Universal.Operators.DisallowShortTernary.Found
 				},
 				$images
 			);
