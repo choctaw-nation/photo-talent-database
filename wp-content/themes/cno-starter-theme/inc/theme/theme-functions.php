@@ -166,9 +166,9 @@ function cno_get_last_used_string( ?int $post_id = null ): string {
 	$diff_days = (int) $now->diff( $last_used_datetime )->days;
 
 	if ( 0 === $diff_days ) {
-		return 'today';
+		return 'Today';
 	} elseif ( 1 === $diff_days ) {
-		return 'yesterday';
+		return 'Yesterday';
 	} elseif ( 7 > $diff_days ) {
 		return $diff_days . ' days ago';
 	} elseif ( 30 > $diff_days ) {

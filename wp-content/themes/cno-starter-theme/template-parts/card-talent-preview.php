@@ -8,7 +8,8 @@
 $talent_id      = $args['id'] ?? get_the_ID();
 $last_used_date = cno_get_last_used_string( $talent_id );
 ?>
-<div class="card border border-2 rounded-3 border-black h-100">
+<div class="card border border-2 rounded-3 border-black h-100" data-post-id="<?php echo $talent_id; ?>" data-talent-name="<?php echo get_the_title( $talent_id ); ?>"
+	 id="talent-<?php echo $talent_id; ?>">
 	<?php get_template_part( 'template-parts/talent-preview/card', 'carousel-top', array( 'id' => $talent_id ) ); ?>
 	<div class="card-body d-flex flex-column align-items-stretch">
 		<h3 class="card-title d-flex flex-wrap align-items-center gap-2 mb-3">
@@ -31,18 +32,20 @@ $last_used_date = cno_get_last_used_string( $talent_id );
 			?>
 			<?php foreach ( $props as $label => $value ) : ?>
 			<p class="mb-0">
-				<span class="fw-bold"><?php echo esc_html( $label ); ?>:</span> <?php echo esc_html( $value ); ?>
+				<span class="fw-bold"><?php echo esc_html( $label ); ?>:</span>
+				<?php
+				if ( 'Last Used' === $label ) {
+					echo '<span class="last-used-value">' . esc_html( $value ) . '</span>';
+				} else {
+					echo esc_html( $value );
+				}
+				?>
 			</p>
 			<?php endforeach; ?>
 		</div>
-		<?php if ( isset( $args['id'] ) ) : ?>
-		<div class="d-flex mt-auto w-auto align-self-end gap-3 flex-wrap">
-			<button class="btn btn-outline-danger" data-post-id="<?php echo $talent_id; ?>" data-talent-name="<?php echo get_the_title( $talent_id ); ?>">Remove Talent</button>
+		<div class="d-flex mt-auto w-auto align-self-end gap-3 flex-wrap card-footer p-0 bg-transparent border-0">
+			<button class="btn btn-outline-black btn-last-used">Set As Used</button>
+			<button class="btn btn-black btn-select-talent">Select Talent</button>
 		</div>
-		<?php else : ?>
-		<div class="d-flex mt-auto w-auto align-self-end gap-3 flex-wrap">
-			<button class="btn btn-black" data-post-id="<?php echo $talent_id; ?>" data-talent-name="<?php echo get_the_title( $talent_id ); ?>">Select Talent</button>
-		</div>
-		<?php endif; ?>
 	</div>
 </div>

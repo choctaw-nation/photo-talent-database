@@ -57,9 +57,7 @@ class Rest_Router {
 						'required'          => true,
 						'type'              => 'string',
 						'description'       => 'Comma-separated list of talent post IDs to retrieve.',
-						'sanitize_callback' => function ( $value ) {
-							return implode( ',', wp_parse_id_list( $value ) );
-						},
+						'sanitize_callback' => 'wp_parse_id_list',
 					),
 					'images'     => array(
 						'required'          => false,
@@ -92,6 +90,39 @@ class Rest_Router {
 								return new \WP_Error( 'invalid_fields', 'No valid fields provided.', array( 'status' => 400 ) );
 							}
 							return array_values( $value );
+						},
+					),
+				),
+			)
+		);
+		register_rest_route(
+			"{$this->namespace}/v{$this->version}",
+			'/talent/(?P<id>\d+)',
+			array(
+				'methods'             => WP_REST_Server::EDITABLE,
+				'callback'            => array( $this, 'set_last_used' ),
+				'permission_callback' => fn()=> current_user_can( 'edit_posts' ),
+				'args'                => array(
+					'id'       => array(
+						'required'          => true,
+						'type'              => 'number',
+						'description'       => '',
+						'sanitize_callback' => 'absint',
+					),
+					'lastUsed' => array(
+						'required'          => true,
+						'type'              => 'string',
+						'description'       => 'The date to set as last used.',
+						'sanitize_callback' => function ( $value ) {
+							if ( ! preg_match( '/^\d{8}$/', $value ) ) {
+								return new \WP_Error( 'invalid_date_format', 'Date must be in Ymd format.', array( 'status' => 400 ) );
+							}
+							$date_obj = DateTime::createFromFormat( 'Ymd', $value );
+							$errors = DateTime::getLastErrors();
+							if ( ! $date_obj || $errors['warning_count'] > 0 || $errors['error_count'] > 0 ) {
+								return new \WP_Error( 'invalid_date', 'Invalid date provided.', array( 'status' => 400 ) );
+							}
+							return $value;
 						},
 					),
 				),
@@ -159,9 +190,8 @@ class Rest_Router {
 	 */
 	public function get_posts( WP_REST_Request $request ): WP_REST_Response {
 		// Accept talent-ids as a comma-separated string
-		$talent_ids_str = $request->get_param( 'talent-ids' );
-		$ids            = wp_parse_id_list( $talent_ids_str );
-		$args           = array(
+		$ids  = $request->get_param( 'talent-ids' );
+		$args = array(
 			'post_type'   => 'post',
 			'post__in'    => $ids,
 			'post_status' => 'publish',
@@ -207,6 +237,42 @@ class Rest_Router {
 		}
 
 		return rest_ensure_response( $data );
+	}
+
+	/**
+	 * Set the last used date for a specific post.
+	 *
+	 * @param WP_REST_Request $request The REST request object.
+	 * @return WP_REST_Response The response indicating success or failure.
+	 */
+	public function set_last_used( WP_REST_Request $request ): WP_REST_Response {
+		$id        = $request->get_param( 'id' );
+		$date      = $request->get_param( 'lastUsed' );
+		$last_used = get_field( 'last_used', $id );
+		if ( $date === $last_used ) {
+			return new WP_REST_Response(
+				array(
+					'success' => true,
+					'message' => 'Last used date is already set to today!',
+					'data'    => array(
+						'post'      => get_post( $id ),
+						'last_used' => get_field( 'last_used', $id ),
+					),
+				)
+			);
+		}
+		$success = (bool) update_field( 'last_used', $date, $id );
+
+		return new WP_REST_Response(
+			array(
+				'success' => $success,
+				'message' => true === $success ? 'Last used date updated successfully.' : 'Failed to update last used date.',
+				'data'    => array(
+					'post'      => get_post( $id ),
+					'last_used' => get_field( 'last_used', $id ),
+				),
+			)
+		);
 	}
 
 	/**
