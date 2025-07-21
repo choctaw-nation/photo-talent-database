@@ -17,8 +17,8 @@ $images = array();
 
 foreach ( $image_names as $name ) {
 	$image = get_field( 'image_' . $name, $talent_id );
-	if ( $image ) {
-		$images[ $name ] = wp_get_attachment_image( $image, 'full', false, $image_args );
+	if ( $image && is_array( $image ) ) {
+		$images[ $name ] = wp_get_attachment_image( $image['ID'], 'full', false, $image_args );
 	}
 }
 
@@ -27,7 +27,7 @@ foreach ( $image_names as $name ) {
 	<div id="<?php echo esc_attr( $slug ); ?>" class="carousel slide">
 		<div class="carousel-indicators mb-0">
 			<?php foreach ( $images as $name => $image ) : ?>
-				<?php $active_class = 'front' === $name ? 'active' : ''; ?>
+			<?php $active_class = 'front' === $name ? 'active' : ''; ?>
 			<button type="button" data-bs-target="#<?php echo esc_attr( $slug ); ?>" data-bs-slide-to="<?php echo esc_attr( array_search( $name, array_keys( $images ), true ) ); ?>"
 					class="<?php echo esc_attr( $active_class ); ?> rounded-circle" aria-current="<?php echo esc_attr( $active_class ? 'true' : 'false' ); ?>"
 					aria-label="<?php echo esc_attr( ucfirst( $name ) ); ?>"></button>

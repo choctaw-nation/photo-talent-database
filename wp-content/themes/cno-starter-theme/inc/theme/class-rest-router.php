@@ -225,14 +225,14 @@ class Rest_Router {
 			$ids = array( $image_id );
 		}
 		foreach ( $ids as $current_image_id ) {
-			$id = get_field( "image_{$current_image_id}", $post_id );
-			if ( ! $id ) {
+			$acf_image_array = get_field( "image_{$current_image_id}", $post_id );
+			if ( ! $acf_image_array ) {
 				return array();
 			}
-			$image_data[ $current_image_id ]['url']    = wp_get_attachment_url( $id, 'full', false );
-			$image_data[ $current_image_id ]['srcset'] = wp_get_attachment_image_srcset( $id );
-			$image_data[ $current_image_id ]['alt']    = wp_get_attachment_metadata( $id )['image_meta']['alt'];
-			$image_data[ $current_image_id ]['sizes']  = wp_get_attachment_image_sizes( $id );
+			$image_data[ $current_image_id ]['url']    = $acf_image_array['url'];
+			$image_data[ $current_image_id ]['srcset'] = wp_get_attachment_image_srcset( $acf_image_array['id'] );
+			$image_data[ $current_image_id ]['alt']    = $acf_image_array['alt'];
+			$image_data[ $current_image_id ]['sizes']  = $acf_image_array['sizes'];
 		}
 		return 'all' === $image_id ? $image_data : $image_data[ $image_id ];
 	}

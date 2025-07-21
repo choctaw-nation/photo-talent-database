@@ -262,8 +262,8 @@
                 "class": "",
                 "id": ""
             },
-            "return_format": "id",
-            "library": "uploadedTo",
+            "return_format": "array",
+            "library": "all",
             "min_width": "",
             "min_height": "",
             "min_size": "",
@@ -288,8 +288,8 @@
                 "class": "",
                 "id": ""
             },
-            "return_format": "id",
-            "library": "uploadedTo",
+            "return_format": "array",
+            "library": "all",
             "min_width": "",
             "min_height": "",
             "min_size": "",
@@ -314,8 +314,8 @@
                 "class": "",
                 "id": ""
             },
-            "return_format": "id",
-            "library": "uploadedTo",
+            "return_format": "array",
+            "library": "all",
             "min_width": "",
             "min_height": "",
             "min_size": "",
@@ -340,8 +340,8 @@
                 "class": "",
                 "id": ""
             },
-            "return_format": "id",
-            "library": "uploadedTo",
+            "return_format": "array",
+            "library": "all",
             "min_width": "",
             "min_height": "",
             "min_size": "",
@@ -366,8 +366,8 @@
                 "class": "",
                 "id": ""
             },
-            "return_format": "id",
-            "library": "uploadedTo",
+            "return_format": "array",
+            "library": "all",
             "min_width": "",
             "min_height": "",
             "min_size": "",
@@ -397,5 +397,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 1,
-    "modified": 1752591829
+    "modified": 1753111106
 }
