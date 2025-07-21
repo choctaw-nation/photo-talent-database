@@ -1,5 +1,5 @@
 import { ImageDetails, PostData } from '../../../utils/types';
-import LocalStorage from '../LocalStorage';
+import LocalStorage from '../model/LocalStorage';
 
 export default class ListHandler {
 	/**

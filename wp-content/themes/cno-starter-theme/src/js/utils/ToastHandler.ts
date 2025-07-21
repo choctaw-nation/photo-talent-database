@@ -26,6 +26,9 @@ export default class ToastHandler {
 
 	showToast( message: string, type: ToastType = 'success' ) {
 		const toastElement = this.createToastElement( message, type );
+		toastElement.addEventListener( 'hidden.bs.toast', () => {
+			toastElement.remove();
+		} );
 		this.toastContainer.insertAdjacentElement( 'beforeend', toastElement );
 		return Toast.getOrCreateInstance( toastElement, {
 			delay: 2500,

@@ -1,13 +1,15 @@
-import { APIResponse, PostData } from '../../utils/types';
-import createError from './utils/createError';
+import { APIResponse, PostData } from '../../../utils/types';
+import createError from '../utils/createError';
+import WPHandler from './WPHandler';
 
 /**
  * Model. Interacts with localStorage to manage post IDs.
  */
-export default class LocalStorage {
+export default class LocalStorage extends WPHandler {
 	STORAGE_KEY: string;
 
 	constructor() {
+		super();
 		this.STORAGE_KEY = 'cartPostIds';
 	}
 	// Helper to get unique post IDs from localStorage
@@ -109,34 +111,7 @@ export default class LocalStorage {
 			console.warn( 'No IDs found in localStorage' );
 			return [];
 		}
-		const nonce = ( window as any ).cnoApi?.nonce ?? null;
-		if ( ! nonce ) {
-			console.error( 'API nonce is not available' );
-			return [];
-		}
-		const response = await fetch(
-			`/wp-json/cno/v1/talent?talent-ids=${ Array.from( ids ).join(
-				','
-			) }&images=front&fields=isChoctaw,lastUsed`,
-			{
-				headers: {
-					'Content-Type': 'application/json',
-					'X-WP-Nonce': ( window as any ).cnoApi?.nonce ?? '',
-				},
-			}
-		);
-		if ( ! response.ok ) {
-			console.error(
-				'Failed to fetch selected data:',
-				response.statusText
-			);
-			return [];
-		}
-		const data: APIResponse = await response.json();
-		if ( ! data.success ) {
-			console.error( 'API response was not successful:', data );
-			return [];
-		}
-		return data.posts;
+		const posts = await this.getPosts( ids );
+		return posts;
 	}
 }

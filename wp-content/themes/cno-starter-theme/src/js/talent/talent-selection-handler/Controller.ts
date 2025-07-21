@@ -1,7 +1,8 @@
-import LocalStorage from './LocalStorage';
+import LocalStorage from './model/LocalStorage';
 import ListHandler from './view/ListHandler';
 import ModalHandler from './view/ModalHandler';
 import ToastHandler from '../../utils/ToastHandler';
+import CardHandler from './view/CardHandler';
 
 export default class Controller {
 	TARGET_SELECTOR: string;
@@ -19,6 +20,10 @@ export default class Controller {
 	 * The Badge that tracks the number of selected talents
 	 */
 	selectionTracker: HTMLSpanElement;
+
+	get talentContainer(): HTMLElement | null {
+		return document.querySelector( this.TARGET_SELECTOR );
+	}
 
 	constructor() {
 		this.db = new LocalStorage();
@@ -106,13 +111,19 @@ export default class Controller {
 			this.selectionTracker.textContent = String( this.db.getIds().size );
 			this.ListHandler.enableClearSelectionButton();
 		}
+
+		// add click listener for "Select Talent" buttons
 		this.addSelectTalentListener( this.db );
-		const container = document.querySelector( this.TARGET_SELECTOR );
-		if ( container ) {
+		this.addLastUsedListener( this.db );
+		if ( this.talentContainer ) {
 			const observer = new MutationObserver( () => {
 				this.addSelectTalentListener( this.db );
+				this.addLastUsedListener( this.db );
 			} );
-			observer.observe( container, { childList: true, subtree: true } );
+			observer.observe( this.talentContainer, {
+				childList: true,
+				subtree: false,
+			} );
 		}
 	}
 
@@ -120,13 +131,17 @@ export default class Controller {
 	 * Add click listeners to all "Select Talent" buttons
 	 */
 	private addSelectTalentListener( db: LocalStorage ) {
-		const container = document.querySelector( this.TARGET_SELECTOR );
-		if ( ! container ) return;
-		container.addEventListener( 'click', ( ev ) => {
+		if ( ! this.talentContainer ) return;
+		this.talentContainer.addEventListener( 'click', ( ev ) => {
 			if ( ev.target instanceof HTMLButtonElement ) {
-				const postId = ev.target.getAttribute( this.BUTTON_ATTRIBUTE );
-				const talentName = ev.target.getAttribute( 'data-talent-name' );
-				if ( ! postId || ! talentName ) return;
+				const { postId, talentName, actionType } =
+					this.getTalentAttributes( ev.target );
+				if (
+					! postId ||
+					! talentName ||
+					'select-talent' !== actionType
+				)
+					return;
 				try {
 					const idDidSave = db.saveId( postId );
 					if ( idDidSave ) {
@@ -138,6 +153,59 @@ export default class Controller {
 					}
 				} catch ( error ) {
 					this.toast.showToast( error.message, error.type );
+				}
+			}
+		} );
+	}
+
+	/**
+	 * Get the attributes from a button element
+	 * @param button The button element
+	 * @returns An object containing the post ID, talent name, and action type
+	 */
+	private getTalentAttributes( button: HTMLButtonElement ): {
+		postId: string | null;
+		talentName: string | null;
+		actionType: 'select-talent' | 'last-used' | null;
+	} {
+		const card = button.closest( '.card' );
+		if ( ! card ) {
+			throw new Error( "Couldn't find the talent card!" );
+		}
+		let actionType: 'select-talent' | 'last-used' | null = null;
+		if ( button.classList.contains( 'btn-select-talent' ) ) {
+			actionType = 'select-talent';
+		}
+		if ( button.classList.contains( 'btn-last-used' ) ) {
+			actionType = 'last-used';
+		}
+		return {
+			postId: card.getAttribute( this.BUTTON_ATTRIBUTE ),
+			talentName: card.getAttribute( 'data-talent-name' ),
+			actionType,
+		};
+	}
+
+	private addLastUsedListener( db: LocalStorage ) {
+		if ( ! this.talentContainer ) return;
+		this.talentContainer.addEventListener( 'click', async ( ev ) => {
+			if ( ev.target instanceof HTMLButtonElement ) {
+				const { postId, talentName, actionType } =
+					this.getTalentAttributes( ev.target );
+				if ( ! postId || ! talentName || 'last-used' !== actionType )
+					return;
+				const cardHandler = new CardHandler( postId );
+				try {
+					cardHandler.useIsLoading( true );
+					const data = await db.setLastUsed( Number( postId ) );
+					if ( data ) {
+						cardHandler.updateLastUsedString();
+						this.toast.showToast( data.message, 'success' );
+					}
+				} catch ( error ) {
+					this.toast.showToast( error.message, error.type );
+				} finally {
+					cardHandler.useIsLoading( false );
 				}
 			}
 		} );
