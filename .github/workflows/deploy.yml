@@ -9,7 +9,7 @@ jobs:
         if: github.ref == 'refs/heads/main'
         uses: choctaw-nation/shared-github-actions/.github/workflows/deploy.yml@main
         with:
-            WPE_ENV: # WP Engine environment name
+            WPE_ENV: cnophotodb
             theme_name: cno-starter-theme
         secrets: inherit
 
