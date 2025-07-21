@@ -75,8 +75,8 @@ get_header();
 			$images    = array( 'front', 'back', 'left', 'right', 'three_quarters' );
 			$image_ids = array_map(
 				function ( $image ) {
-					$image_id = get_field( 'image_' . $image );
-					return $image_id ?: null; // phpcs:ignore Universal.Operators.DisallowShortTernary.Found
+					$image_arr = get_field( 'image_' . $image );
+					return $image_arr ? $image_arr['ID'] : null;
 				},
 				$images
 			);
