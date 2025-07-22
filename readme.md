@@ -7,6 +7,7 @@ A WordPress site to allow the photo team to find models for different photoshoot
 ### v1.1.0
 
 -   Added: "Login / Logout" button added to header
+-   Fixed: Cleaned up footer
 
 ### v1.0.2
 
