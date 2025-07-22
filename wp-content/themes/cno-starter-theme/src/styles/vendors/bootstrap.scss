@@ -117,6 +117,19 @@ $card-border-width: 2px;
 // ================================================
 
 /**
+* Accordion
+*/
+
+$accordion-bg: transparent;
+$accordion-border-color: transparent;
+$accordion-border-width: 2px;
+
+$accordion-button-bg: transparent;
+$accordion-button-active-bg: transparent;
+
+// ================================================
+
+/**
 * Carousel
 */
 
@@ -202,7 +215,7 @@ $theme-colors: map.merge($theme-colors, $custom-colors);
 @import "bootstrap/scss/navbar"; // Requires nav
 @import "bootstrap/scss/card";
 // @import "bootstrap/scss/breadcrumb";
-// @import "bootstrap/scss/accordion";
+@import "bootstrap/scss/accordion";
 @import "bootstrap/scss/pagination";
 @import "bootstrap/scss/badge";
 // @import "bootstrap/scss/alert";
