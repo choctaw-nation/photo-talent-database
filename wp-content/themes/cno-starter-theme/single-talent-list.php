@@ -31,12 +31,16 @@ get_header();
 			<?php if ( ! empty( $selected_talent ) ) : ?>
 			<ul class="list-group rounded-1" id="selected-talent-list">
 				<?php foreach ( $selected_talent as $talent_id ) : ?>
-				<li class="list-group-item list-group-item-action ps-2 d-flex flex-wrap gap-3 align-items-center justify-content-between">
+				<li class="list-group-item ps-2 d-flex flex-wrap gap-3 align-items-center justify-content-between">
 					<div class="d-flex gap-3 flex-wrap align-items-center">
 						<figure class="mb-0 ratio ratio-1x1 overflow-hidden rounded-circle" style="width:75px; height:75px;">
 							<?php
+							$image_id = get_field( 'image_front', $talent_id );
+							if ( is_array( $image_id ) && ! empty( $image_id ) ) {
+								$image_id = $image_id['ID'];
+							}
 							echo wp_get_attachment_image(
-								get_field( 'image_front', $talent_id ),
+								$image_id,
 								'medium',
 								false,
 								array(
@@ -57,7 +61,7 @@ get_header();
 							</div>
 						</div>
 					</div>
-					<button class="btn-close stretched-link" data-post-id="<?php echo $talent_id; ?>"><span class="visually-hidden">Close</span></button>
+					<button class="btn-close" data-post-id="<?php echo $talent_id; ?>"><span class="visually-hidden">Close</span></button>
 				</li>
 				<?php endforeach; ?>
 			</ul>

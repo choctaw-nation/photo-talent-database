@@ -180,7 +180,6 @@ export default class ListHandler {
 			li.classList.add(
 				'd-flex',
 				'list-group-item',
-				'list-group-item-action',
 				'justify-content-between',
 				'align-items-center'
 			);
@@ -228,7 +227,7 @@ export default class ListHandler {
 					}
 				</div>
 			</div>
-			<button class="btn-close stretched-link" data-post-id="${ id }"><span class="visually-hidden">Close</span></button>
+			<button class="btn-close" data-post-id="${ id }"><span class="visually-hidden">Close</span></button>
 		`;
 	}
 
