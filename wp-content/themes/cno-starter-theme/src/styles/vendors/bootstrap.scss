@@ -117,6 +117,16 @@ $card-border-width: 2px;
 // ================================================
 
 /**
+* Breadcrumb
+*/
+
+$breadcrumb-font-size: $h6-font-size;
+$breadcrumb-margin-bottom: 0;
+// $breadcrumb-active-color: $primary;
+
+// ================================================
+
+/**
 * Accordion
 */
 
@@ -146,6 +156,7 @@ $carousel-indicator-spacer: $carousel-indicator-size * 0.5;
 * Options
 * @see https://getbootstrap.com/docs/5.3/customize/options/
 */
+
 $enable-shadows: false;
 $enable-dark-mode: false;
 
@@ -214,7 +225,7 @@ $theme-colors: map.merge($theme-colors, $custom-colors);
 @import "bootstrap/scss/nav";
 @import "bootstrap/scss/navbar"; // Requires nav
 @import "bootstrap/scss/card";
-// @import "bootstrap/scss/breadcrumb";
+@import "bootstrap/scss/breadcrumb";
 @import "bootstrap/scss/accordion";
 @import "bootstrap/scss/pagination";
 @import "bootstrap/scss/badge";

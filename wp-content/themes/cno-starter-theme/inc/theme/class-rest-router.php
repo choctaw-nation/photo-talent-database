@@ -100,7 +100,7 @@ class Rest_Router {
 			'/talent/(?P<id>\d+)',
 			array(
 				'methods'             => WP_REST_Server::EDITABLE,
-				'callback'            => array( $this, 'set_last_used' ),
+				'callback'            => array( $this, 'edit_post' ),
 				'permission_callback' => fn()=> current_user_can( 'edit_posts' ),
 				'args'                => array(
 					'id'       => array(
@@ -110,7 +110,7 @@ class Rest_Router {
 						'sanitize_callback' => 'absint',
 					),
 					'lastUsed' => array(
-						'required'          => true,
+						'required'          => false,
 						'type'              => 'string',
 						'description'       => 'The date to set as last used.',
 						'sanitize_callback' => function ( $value ) {
@@ -128,6 +128,25 @@ class Rest_Router {
 				),
 			)
 		);
+
+		register_rest_route(
+			"{$this->namespace}/v{$this->version}",
+			'/talent/(?P<id>\d+)',
+			array(
+				'methods'             => WP_REST_Server::DELETABLE,
+				'callback'            => array( $this, 'trash_post' ),
+				'permission_callback' => fn()=> current_user_can( 'edit_posts' ),
+				'args'                => array(
+					'id' => array(
+						'required'          => true,
+						'type'              => 'number',
+						'description'       => '',
+						'sanitize_callback' => 'absint',
+					),
+				),
+			)
+		);
+
 		register_rest_route(
 			"{$this->namespace}/v{$this->version}",
 			'/talent-list',
@@ -163,6 +182,7 @@ class Rest_Router {
 				),
 			)
 		);
+
 		register_rest_route(
 			"{$this->namespace}/v{$this->version}",
 			'/talent-list/(?P<id>\d+)',
@@ -245,9 +265,93 @@ class Rest_Router {
 	 * @param WP_REST_Request $request The REST request object.
 	 * @return WP_REST_Response The response indicating success or failure.
 	 */
-	public function set_last_used( WP_REST_Request $request ): WP_REST_Response {
-		$id        = $request->get_param( 'id' );
-		$date      = $request->get_param( 'lastUsed' );
+	public function edit_post( WP_REST_Request $request ): WP_REST_Response {
+		$id   = $request->get_param( 'id' );
+		$date = $request->get_param( 'lastUsed' );
+		if ( $date ) {
+			return $this->set_last_used( $id, $date );
+		} else {
+			$post = get_post( $id );
+			if ( ! $post ) {
+				return new WP_REST_Response(
+					array(
+						'success' => false,
+						'message' => 'Post not found.',
+					),
+					404
+				);
+			}
+			$post->post_status = 'publish';
+			$updated           = wp_update_post( $post, true );
+			if ( is_wp_error( $updated ) ) {
+				return new WP_REST_Response(
+					array(
+						'success' => false,
+						'message' => 'Failed to update post status.',
+					),
+					500
+				);
+			} else {
+				return new WP_REST_Response(
+					array(
+						'success' => true,
+						'message' => $post->post_title . ' has been approved.',
+						'data'    => array(
+							'post' => get_post( $id ),
+						),
+					),
+					200
+				);
+			}
+		}
+	}
+
+	/**
+	 * Delete a specific post.
+	 *
+	 * @param WP_REST_Request $request The REST request object.
+	 * @return WP_REST_Response The response indicating success or failure.
+	 */
+	public function trash_post( WP_REST_Request $request ): WP_REST_Response {
+		$id   = $request->get_param( 'id' );
+		$post = get_post( $id );
+		if ( ! $post ) {
+			return new WP_REST_Response(
+				array(
+					'success' => false,
+					'message' => 'Post not found.',
+				),
+				404
+			);
+		}
+		$success = wp_trash_post( $id, true );
+		if ( ! $success ) {
+			return new WP_REST_Response(
+				array(
+					'success' => false,
+					'message' => 'Failed to delete post.',
+				),
+				500
+			);
+		} else {
+			return new WP_REST_Response(
+				array(
+					'success' => true,
+					'message' => $post->post_title . ' was rejected. Heading back to the Talent page.',
+				),
+				200
+			);
+		}
+	}
+
+	/**
+	 * Update the post status to 'publish' for a specific post ID.
+	 *
+	 * @param string $id The post ID.
+	 * @param string $date The “last used” date passed in the request.
+	 * @return WP_REST_Response The response indicating success or failure.
+	 */
+	private function set_last_used( string $id, string $date ): WP_REST_Response {
 		$last_used = get_field( 'last_used', $id );
 		if ( $date === $last_used ) {
 			return new WP_REST_Response(

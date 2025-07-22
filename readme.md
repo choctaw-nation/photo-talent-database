@@ -4,6 +4,11 @@ A WordPress site to allow the photo team to find models for different photoshoot
 
 ## Changelog
 
+### v1.2.0
+
+-   Added: Pending Talent posts can now be approved/rejected on client side.
+-   Added: Pending Talent posts also have breadcrumbs
+
 ### v1.1.0
 
 -   Added: "Login / Logout" button added to header

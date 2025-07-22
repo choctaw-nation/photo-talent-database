@@ -3,7 +3,7 @@ const RemoveEmptyScriptsPlugin = require( 'webpack-remove-empty-scripts' );
 const THEME_NAME = 'cno-starter-theme';
 const THEME_DIR = `/wp-content/themes/${ THEME_NAME }`;
 
-const appNames = [ 'talent', 'talent-list', 'pdf-generator' ];
+const appNames = [ 'talent', 'talent-list', 'pdf-generator', 'talent-actions' ];
 
 module.exports = {
 	...defaultConfig,

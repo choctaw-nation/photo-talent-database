@@ -24,10 +24,17 @@ export default class ToastHandler {
 		}
 	}
 
-	showToast( message: string, type: ToastType = 'success' ) {
+	showToast(
+		message: string,
+		type: ToastType = 'success',
+		onHiddenCallback?: () => void
+	) {
 		const toastElement = this.createToastElement( message, type );
 		toastElement.addEventListener( 'hidden.bs.toast', () => {
 			toastElement.remove();
+			if ( onHiddenCallback ) {
+				onHiddenCallback();
+			}
 		} );
 		this.toastContainer.insertAdjacentElement( 'beforeend', toastElement );
 		return Toast.getOrCreateInstance( toastElement, {
@@ -38,6 +45,8 @@ export default class ToastHandler {
 	private createToastElement( message: string, type: ToastType ) {
 		const toastEl = document.createElement( 'div' );
 		const color = type === 'error' ? 'danger' : type;
+		const title = this.getToastTitle( type );
+
 		toastEl.className = `toast bg-${ color }-subtle`;
 		toastEl.setAttribute( 'role', 'alert' );
 		toastEl.setAttribute( 'aria-live', 'assertive' );
@@ -49,9 +58,7 @@ export default class ToastHandler {
 					<div class="text-${ color } rounded-5 flex-grow-0 m-0" style="height: 20px; width: 20px;">
 						<svg aria-hidden="true" class="bd-placeholder-img rounded me-2" height="100%" preserveAspectRatio="xMidYMid slice" width="100%" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="currentColor"></rect></svg>
 					</div>
-					<strong class="fs-5 fw-normal mt-1 mb-0">${
-						type.charAt( 0 ).toUpperCase() + type.slice( 1 )
-					}</strong>
+					<strong class="fs-5 fw-normal mt-1 mb-0">${ title }</strong>
 				</span>
 				<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
 			</div>
@@ -61,5 +68,20 @@ export default class ToastHandler {
 		`;
 
 		return toastEl;
+	}
+
+	private getToastTitle( type: ToastType ): string {
+		switch ( type ) {
+			case 'success':
+				return 'Success';
+			case 'error':
+				return 'Error';
+			case 'info':
+				return 'Update';
+			case 'warning':
+				return 'Warning';
+			default:
+				return 'Notification';
+		}
 	}
 }
