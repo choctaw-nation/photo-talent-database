@@ -7,37 +7,21 @@
 
 ?>
 
-<footer class="footer text-bg-black py-3">
-	<div class="container d-flex flex-column row-gap-4">
-		<div class="row">
-			<?php
-			if ( has_nav_menu( 'footer_menu' ) ) {
-				wp_nav_menu(
-					array(
-						'theme_location'  => 'footer_menu',
-						'menu_class'      => 'footer-nav list-unstyled navbar-nav flex-row',
-						'container'       => 'nav',
-						'container_class' => 'navbar',
-						'depth'           => 1,
-					)
-				);
-			}
-			?>
-		</div>
-		<div class="row">
+<footer class="footer text-bg-black py-4">
+	<div class="container-fluid">
+		<div class="row row-cols-auto justify-content-between align-items-center">
 			<div class="col-auto">
-				<a href="<?php echo esc_url( site_url() ); ?>" class="logo">
-					<figure class="logo-img d-inline-block">
-						<span aria-label="to Home Page">
-							<?php echo bloginfo( 'name' ); ?>
-						</span>
-					</figure>
+				<a href="<?php echo esc_url( is_user_logged_in() ? home_url( '/talent' ) : home_url() ); ?>" class="link-offset-1 link-offset-2-hover fs-base text-white">
+					<?php echo bloginfo( 'name' ); ?>
 				</a>
 			</div>
-		</div>
-		<div class="row">
-			<div class="col text-center" id="copyright">
-				<?php echo '&copy;&nbsp;' . date( 'Y' ) . '&nbsp;Choctaw Nation of Oklahoma'; // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date ?>
+			<div class="col" id="copyright">
+				<p class="mb-0">
+					<?php
+					$current_year = ( new DateTime( 'now', wp_timezone() ) )->format( 'Y' );
+					echo '&copy;&nbsp;' . $current_year . '&nbsp;Choctaw Nation of Oklahoma';
+					?>
+				</p>
 			</div>
 		</div>
 	</div>
