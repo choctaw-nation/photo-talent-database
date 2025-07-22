@@ -1,3 +1,4 @@
+import todayAsYmd from '../../../utils/todayAsYmd';
 import { APIResponse, PostData } from '../../../utils/types';
 
 export default class WPHandler {
@@ -41,7 +42,7 @@ export default class WPHandler {
 	}
 
 	async setLastUsed( id: number ) {
-		const today = this.todayAsYmd();
+		const today = todayAsYmd();
 		try {
 			const nonce = this.getNonce();
 			const response = await fetch(
@@ -75,14 +76,6 @@ export default class WPHandler {
 		} catch ( err ) {
 			throw err;
 		}
-	}
-
-	private todayAsYmd(): string {
-		const today = new Date();
-		const year = today.getFullYear();
-		const month = String( today.getMonth() + 1 ).padStart( 2, '0' );
-		const day = String( today.getDate() ).padStart( 2, '0' );
-		return `${ year }${ month }${ day }`;
 	}
 
 	private idsList( ids: Set< number > ): string {

@@ -7,6 +7,7 @@ A WordPress site to allow the photo team to find models for different photoshoot
 ### v1.0.2
 
 -   Fixed: Swapped `<details>` block for BS Collapse for better mobile support (iOS Webkit bug)
+-   Fixed: Swapped method for saving pdf to save instead of opening the blob in new window for better mobile support
 
 ### v1.0.1
 
