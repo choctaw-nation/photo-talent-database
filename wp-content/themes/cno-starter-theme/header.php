@@ -29,6 +29,29 @@ $anchor_url = is_user_logged_in() ? home_url( '/talent' ) : home_url();
 					</a>
 
 				</div>
+				<?php $lists = get_posts( array( 'post_type' => 'talent-list' ) ); ?>
+				<?php
+				$pending_talent = get_posts(
+					array(
+						'post_type' => 'post',
+						'status'    => 'pending,draft',
+					)
+				);
+				?>
+				<?php if ( ! empty( $lists ) || ! empty( $pending_talent ) ) : ?>
+				<div class="col d-flex align-items-center gap-2">
+					<?php if ( ! empty( $lists ) ) : ?>
+					<a href="<?php echo get_post_type_archive_link( 'talent-list' ); ?>">
+						View Talent Lists
+					</a>
+					<?php endif; ?>
+					<?php if ( ! empty( $pending_talent ) ) : ?>
+					<a href="/pending-talent">
+						View Pending Talent
+					</a>
+					<?php endif; ?>
+				</div>
+				<?php endif; ?>
 				<div class="col">
 					<a href="<?php echo is_user_logged_in() ? wp_logout_url( home_url() ) : wp_login_url(); ?>" class="btn btn-outline-white rounded-pill">
 						<?php echo is_user_logged_in() ? 'Logout' : 'Login'; ?></a>
