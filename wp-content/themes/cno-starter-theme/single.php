@@ -9,7 +9,17 @@ cno_lock_down_route();
 get_header();
 ?>
 <main <?php post_class( 'container my-5 d-flex flex-column align-items-stretch row-gap-5' ); ?>>
-	<header class="d-flex flex-column align-items-start">
+	<header class="d-flex flex-column align-items-start row-gap-3">
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a href="<?php echo home_url( '/talent' ); ?>" class="link-offset-1 link-offset-2-hover">All Talent</a>
+				</li>
+				<li class="breadcrumb-item active" aria-current="page">
+					<?php the_title(); ?>
+				</li>
+			</ol>
+		</nav>
 		<h1 class=" display-1 mb-0">
 			<?php the_title(); ?>
 		</h1>
@@ -17,6 +27,7 @@ get_header();
 		if ( 'Choctaw' === cno_get_is_choctaw() ) {
 			echo '<p class="badge text-bg-primary fs-6 mb-0">Choctaw</p>';
 		}
+		get_template_part( 'template-parts/content', 'post-actions' );
 		?>
 	</header>
 	<section class="row row-cols-1 row-cols-lg-2 row-gap-4">
@@ -76,13 +87,13 @@ get_header();
 			$image_ids = array_map(
 				function ( $image ) {
 					$image_arr = get_field( 'image_' . $image );
-					return $image_arr ? $image_arr['ID'] : null;
+					return is_array( $image_arr ) ? $image_arr['ID'] : (int) $image_arr;
 				},
 				$images
 			);
 			?>
 			<?php foreach ( $image_ids as $index => $image_id ) : ?>
-				<?php
+			<?php
 				if ( ! $image_id ) {
 					continue;
 				}
@@ -112,6 +123,7 @@ get_header();
 			<?php endforeach; ?>
 		</div>
 	</section>
+	<?php get_template_part( 'template-parts/content', 'post-actions' ); ?>
 </main>
 <?php
 get_footer();
