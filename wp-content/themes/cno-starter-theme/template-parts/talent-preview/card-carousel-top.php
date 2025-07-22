@@ -17,8 +17,12 @@ $images = array();
 
 foreach ( $image_names as $name ) {
 	$image = get_field( 'image_' . $name, $talent_id );
-	if ( $image && is_array( $image ) ) {
-		$images[ $name ] = wp_get_attachment_image( $image['ID'], 'full', false, $image_args );
+	if ( $image ) {
+		if ( is_array( $image ) ) {
+			$images[ $name ] = wp_get_attachment_image( $image['ID'], 'full', false, $image_args );
+		} else {
+			$images[ $name ] = wp_get_attachment_image( $image, 'full', false, $image_args );
+		}
 	}
 }
 
