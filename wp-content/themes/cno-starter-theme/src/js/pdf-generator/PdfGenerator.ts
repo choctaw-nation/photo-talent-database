@@ -121,20 +121,15 @@ export default class PdfGenerator extends PdfUtilities {
 		slug: string = ''
 	) {
 		const type = this.getImageTypeFromUrl( image.url );
-		const { data: encodedImage, ...imageData } = await convertImage(
-			type,
-			image.url
-		);
+		const {
+			data: encodedImage,
+			width,
+			height,
+		} = await convertImage( type, image.url );
 		if ( 3 === index ) {
 			this.currentPosition.x = this.margin[ 0 ];
 			this.currentPosition.y += this.image.height + this.spacers.md;
 		}
-		const { width, height } = this.getScaledDimensions(
-			imageData.width,
-			imageData.height,
-			this.image.width,
-			this.image.height
-		);
 		this.doc.addImage(
 			encodedImage,
 			type,

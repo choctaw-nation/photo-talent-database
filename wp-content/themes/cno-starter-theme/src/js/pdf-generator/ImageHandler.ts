@@ -22,8 +22,19 @@ export default async function convertImage(
 }
 
 class ImageHandler {
-	private static targetWidth = 2 * 96; // 2 inches in pixels at 96 DPI
-	private static targetHeight = 3 * 96; // 3 inches in pixels at 96 DPI
+	private static retinaScale = 2; // 2x for retina quality
+	private static displayWidth = 2; // inches
+	private static displayHeight = 3; // inches
+	private static baseDPI = 96;
+
+	private static get targetWidth() {
+		return this.displayWidth * this.baseDPI * this.retinaScale;
+	}
+
+	private static get targetHeight() {
+		return this.displayHeight * this.baseDPI * this.retinaScale;
+	}
+
 	static async imageToDataUrl( url: string ) {
 		const img = await this.loadImage( url );
 		const canvas = document.createElement( 'canvas' );
@@ -46,8 +57,8 @@ class ImageHandler {
 		);
 		return {
 			data: canvas.toDataURL( 'image/jpg' ),
-			width: this.targetWidth,
-			height: this.targetHeight,
+			width: this.displayWidth, // Return display size, not canvas size
+			height: this.displayHeight,
 		};
 	}
 
