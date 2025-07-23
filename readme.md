@@ -4,6 +4,11 @@ A WordPress site to allow the photo team to find models for different photoshoot
 
 ## Changelog
 
+### v1.3.1
+
+-   Fixed: Nav Item's conditional rendering logic has been optimized
+-   Fixed: Post images set with Gravity Forms are now handled correctly in the rest router
+
 ### v1.3.0
 
 -   Added: Nav Items added for pending talent and talent lists

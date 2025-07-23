@@ -5,21 +5,14 @@
  * @package ChoctawNation
  */
 
-$lists_count     = wp_count_posts( 'talent-list' );
-$pending_talent  = get_posts(
-	array(
-		'post_type'      => 'post',
-		'status'         => 'pending,draft',
-		'fields'         => 'ids',
-		'posts_per_page' => 1,
-	)
-);
+$lists_count     = wp_count_posts( 'talent-list' )->publish;
+$pending_talent  = wp_count_posts();
 $requested_url   = ( isset( $_SERVER['REQUEST_URI'] ) ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
 $menu_links      = array(
 	'Talent Lists'   => esc_url( get_post_type_archive_link( 'talent-list' ) ),
 	'Pending Talent' => esc_url( user_trailingslashit( '/pending-talent' ) ),
 );
-$link_conditions = array( $lists_count, ! empty( $pending_talent ) );
+$link_conditions = array( $lists_count > 0, ( (int) $pending_talent->pending + (int) $pending_talent->draft ) > 0 );
 ?>
 <div class="offcanvas-header"><button class="btn-close" aria-label="Close"></button></div>
 <div class="offcanvas-body">
