@@ -8,8 +8,8 @@
 
 $pending_talent = new WP_Query(
 	array(
-		'post_type'   => 'post', // Replace with your actual post type
-		'post_status' => 'pending', // Adjust as necessary
+		'post_type'   => 'post',
+		'post_status' => 'pending,draft',
 	)
 );
 cno_lock_down_route( ! $pending_talent->have_posts() );
