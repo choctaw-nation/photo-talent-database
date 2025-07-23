@@ -1,8 +1,14 @@
 @use "../abstracts/mixins" as m;
 
-:where(#site-header) a {
-	--bs-link-color-rgb: 255, 255, 255;
-	--bs-link-hover-color-rgb: var(--bs-secondary-rgb);
+:where(#site-header) {
+	a {
+		--bs-link-color-rgb: 255, 255, 255;
+		--bs-link-hover-color-rgb: var(--bs-secondary-rgb);
+	}
+
+	.btn-close {
+		filter: invert(1);
+	}
 }
 
 .navbar-brand {
