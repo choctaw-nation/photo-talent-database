@@ -1,4 +1,4 @@
-import todayAsYmd from '../../../utils/todayAsYmd';
+import dateAsYmd from '../../../utils/dateAsYmd';
 import { APIResponse, PostData } from '../../../utils/types';
 
 export default class WPHandler {
@@ -42,7 +42,7 @@ export default class WPHandler {
 	}
 
 	async setLastUsed( id: number ) {
-		const today = todayAsYmd();
+		const today = dateAsYmd();
 		try {
 			const nonce = this.getNonce();
 			const response = await fetch(
@@ -74,6 +74,92 @@ export default class WPHandler {
 			}
 			return data;
 		} catch ( err ) {
+			throw err;
+		}
+	}
+
+	async createTalentList(
+		data: Record< string, any >
+	): Promise< { success: boolean; message: string; link: string } > {
+		try {
+			const nonce = this.getNonce();
+			const response = await fetch( `${ this.REST_ROUTE }/talent-list`, {
+				method: 'POST',
+				body: JSON.stringify( data ),
+				headers: {
+					'Content-Type': 'application/json',
+					'X-WP-Nonce': nonce,
+				},
+			} );
+			if ( ! response.ok ) {
+				const error = await response.json();
+				throw new Error( error );
+			}
+			const {
+				success,
+				message,
+				data: { post },
+			} = await response.json();
+			return { success, message, link: post.link };
+		} catch ( error ) {
+			console.error( 'Error creating talent list:', error );
+			throw error;
+		}
+	}
+
+	async deleteTalentList( id: number ): Promise< {
+		success: boolean;
+		message: string;
+	} > {
+		try {
+			const nonce = this.getNonce();
+			const response = await fetch(
+				`${ this.REST_ROUTE }/talent-list/${ id }`,
+				{
+					method: 'DELETE',
+					headers: {
+						'Content-Type': 'application/json',
+						'X-WP-Nonce': nonce,
+					},
+				}
+			);
+			if ( ! response.ok ) {
+				const error = await response.json();
+				throw new Error( error );
+			}
+			const data = await response.json();
+			return { success: data.success, message: data.message };
+		} catch ( error ) {
+			console.error( 'Error deleting talent list:', error );
+			throw error;
+		}
+	}
+
+	async removeTalentFromTalentList(
+		postId: number,
+		talentId: number
+	): Promise< boolean > {
+		try {
+			const nonce = this.getNonce();
+			const response = await fetch(
+				`${ this.REST_ROUTE }/talent-list/${ postId }`,
+				{
+					method: 'PATCH',
+					headers: {
+						'Content-Type': 'application/json',
+						'X-WP-Nonce': nonce,
+					},
+					body: JSON.stringify( { talentId } ),
+				}
+			);
+			const { success, message, data } = await response.json();
+			if ( success ) {
+				return success;
+			} else {
+				throw new Error( message );
+			}
+		} catch ( err ) {
+			console.error( 'Error removing talent from list:', err );
 			throw err;
 		}
 	}

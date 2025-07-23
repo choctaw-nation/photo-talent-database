@@ -27,7 +27,7 @@
 		<div id="listDescriptionHelper" class="form-text fs-root ms-1">Provide a brief description of the list's purpose.</div>
 	</div>
 	<div class="d-flex flex-wrap justify-content-end gap-2">
-		<input type="submit" class="btn btn-black btn-sm fw-normal mt-auto align-self-end" value="Save List" />
+		<input type="submit" class="btn btn-black btn-sm mt-auto align-self-end" value="Save List" />
 
 	</div>
 </form>

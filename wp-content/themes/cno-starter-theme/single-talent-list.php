@@ -14,6 +14,16 @@ new Asset_Loader( 'pdfGenerator', Enqueue_Type::script, 'pages' );
 get_header();
 ?>
 <main <?php post_class( 'container my-5' ); ?>>
+	<nav aria-label="breadcrumb">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item">
+				<a href="<?php echo get_post_type_archive_link( 'talent-list' ); ?>" class="link-offset-1 link-offset-2-hover">All Talent Lists</a>
+			</li>
+			<li class="breadcrumb-item active" aria-current="page">
+				<?php the_title(); ?>
+			</li>
+		</ol>
+	</nav>
 	<header>
 		<h1 class="mb-0">
 			<?php the_title(); ?>
@@ -65,12 +75,13 @@ get_header();
 				</li>
 				<?php endforeach; ?>
 			</ul>
-			<div class="mt-4 d-flex gap-2" id="selected-talent-list-footer">
-				<?php get_template_part( 'template-parts/button', 'generate-pdf-button' ); ?>
-			</div>
 			<?php else : ?>
 			<p class="text-muted">No talent selected.</p>
 			<?php endif; ?>
+			<div class="mt-4 d-flex gap-2" id="selected-talent-list-footer">
+				<?php get_template_part( 'template-parts/ui/button', 'generate-pdf' ); ?>
+				<?php get_template_part( 'template-parts/ui/button', 'delete-list' ); ?>
+			</div>
 		</section>
 	</div>
 	<?php comments_template(); ?>

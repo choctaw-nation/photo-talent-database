@@ -1,7 +1,9 @@
 import ToastHandler from '../utils/ToastHandler';
+import LocalStorage from '../talent/talent-selection-handler/model/LocalStorage';
 
 window.addEventListener( 'DOMContentLoaded', () => {
 	const toaster = new ToastHandler();
+	const db = new LocalStorage();
 	const selectedTalentList = document.getElementById(
 		'selected-talent-list'
 	);
@@ -18,7 +20,7 @@ window.addEventListener( 'DOMContentLoaded', () => {
 				const talentId = parseInt( target.dataset.postId || '', 10 );
 				if ( postId[ 0 ] ) {
 					try {
-						const success = await removeTalent(
+						const success = await db.removeTalentFromTalentList(
 							postId[ 0 ],
 							talentId
 						);
@@ -40,24 +42,41 @@ window.addEventListener( 'DOMContentLoaded', () => {
 			}
 		} );
 	}
-} );
-
-async function removeTalent(
-	postId: number,
-	talentId: number
-): Promise< boolean > {
-	const response = await fetch( `/wp-json/cno/v1/talent-list/${ postId }`, {
-		method: 'DELETE',
-		headers: {
-			'Content-Type': 'application/json',
-			'X-WP-Nonce': window.cnoApi.nonce,
-		},
-		body: JSON.stringify( { talentId } ),
-	} );
-	const { success, message, data } = await response.json();
-	if ( success ) {
-		return success;
-	} else {
-		throw new Error( message );
+	const selectedTalentListFooter = document.getElementById(
+		'selected-talent-list-footer'
+	);
+	if ( selectedTalentListFooter ) {
+		selectedTalentListFooter.addEventListener( 'click', async ( ev ) => {
+			const target = ev.target as HTMLButtonElement;
+			if ( ! target.hasAttribute( 'data-post-id' ) ) {
+				return;
+			}
+			if ( 'Delete List' === target.textContent ) {
+				const postId = parseInt( target.dataset.postId || '', 10 );
+				if ( postId ) {
+					try {
+						target.disabled = true;
+						const { success, message } =
+							await db.deleteTalentList( postId );
+						if ( success ) {
+							toaster.showToast(
+								`${ message } Redirecting you to the talent lists page.`,
+								'success',
+								() => {
+									window.location.href = '/talent-lists';
+								}
+							);
+						} else {
+							toaster.showToast( message, 'error' );
+						}
+					} catch ( err ) {
+						toaster.showToast( err.message, 'error' );
+						console.error( err );
+					} finally {
+						target.disabled = false;
+					}
+				}
+			}
+		} );
 	}
-}
+} );

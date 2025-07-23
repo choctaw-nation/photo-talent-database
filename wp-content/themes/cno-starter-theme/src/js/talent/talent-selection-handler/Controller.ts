@@ -49,7 +49,7 @@ export default class Controller {
 			try {
 				this.Modal.useLoadingSpinner( true, 'list' );
 				const { success, message, link } =
-					await this.Modal.handleSaveList( target, this.db.getIds() );
+					await this.db.handleSaveList( target );
 				if ( success ) {
 					this.toast.showToast(
 						`${ message }\n<a href="${ link }">Preview the post.</a>`,
@@ -62,6 +62,8 @@ export default class Controller {
 					'error'
 				);
 				console.error( 'Error handling save list:', error );
+			} finally {
+				this.Modal.useLoadingSpinner( false, 'list' );
 			}
 		} );
 		this.Modal.onShow( () => {

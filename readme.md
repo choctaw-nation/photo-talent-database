@@ -4,6 +4,16 @@ A WordPress site to allow the photo team to find models for different photoshoot
 
 ## Changelog
 
+### v1.3.0
+
+-   Added: Nav Items added for pending talent and talent lists
+-   Added: Talent Lists can be deleted
+-   Fixed: Generated PDFs also generate higher quality images
+
+### v1.2.1
+
+-   Fixed: Pagination renders if it exists
+
 ### v1.2.0
 
 -   Added: Pending Talent posts can now be approved/rejected on client side.

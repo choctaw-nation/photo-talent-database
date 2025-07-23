@@ -96,22 +96,12 @@ export default class ListHandler {
 		} else {
 			this.warningElement?.classList.add( 'd-none' );
 			this.cancelButton?.classList.add( 'd-none' );
-			if (
-				this.clearActionsContainer?.classList.contains( 'flex-grow-1' )
-			) {
-				this.clearActionsContainer.classList.remove( 'flex-grow-1' );
-			}
 		}
 	}
 
 	showClearConfirmationButtons() {
 		this.warningElement?.classList.remove( 'd-none' );
 		this.cancelButton?.classList.remove( 'd-none' );
-		if (
-			! this.clearActionsContainer.classList.contains( 'flex-grow-1' )
-		) {
-			this.clearActionsContainer.classList.add( 'flex-grow-1' );
-		}
 	}
 	/**
 	 * Enables the clear selection button

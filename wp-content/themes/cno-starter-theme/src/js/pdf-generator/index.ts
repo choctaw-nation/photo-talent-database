@@ -1,5 +1,5 @@
+import dateAsYmd from '../utils/dateAsYmd';
 import ToastHandler from '../utils/ToastHandler';
-import todayAsYmd from '../utils/todayAsYmd';
 import { GetTalentResponse, PostData } from '../utils/types';
 import PdfGenerator from './PdfGenerator';
 
@@ -77,7 +77,7 @@ export async function generatePdf( talentData: PostData[] ) {
 	const pdfGenerator = new PdfGenerator();
 	try {
 		const pdf = await pdfGenerator.buildPdf( talentData );
-		pdf.save( `${ todayAsYmd() }-talent-list.pdf` );
+		pdf.save( `${ dateAsYmd() }-talent-list.pdf` );
 	} catch ( err ) {
 		throw err;
 	}

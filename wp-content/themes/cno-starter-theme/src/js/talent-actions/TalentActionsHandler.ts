@@ -114,6 +114,7 @@ export default class TalentActionsHandler {
 	private approvalCallback() {
 		this.actionsContainers.forEach( ( container ) => {
 			container.remove();
+			window.location.href = '/talent';
 		} );
 	}
 

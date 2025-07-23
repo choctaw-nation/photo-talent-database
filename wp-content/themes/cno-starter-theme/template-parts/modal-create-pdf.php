@@ -34,13 +34,13 @@
 			</div>
 			<div class="modal-footer gap-2">
 				<div role="tablist" class="d-flex gap-2">
-					<button class="btn btn-outline-black d-none m-0 btn-sm fw-normal" id="back-to-form" data-bs-target="#form-and-list" role="tab" aria-controls="form-and-list"
+					<button class="btn btn-outline-black d-none m-0 btn-sm" id="back-to-form" data-bs-target="#form-and-list" role="tab" aria-controls="form-and-list"
 							aria-selected="true">Back to Form</button>
-					<button class="btn btn-outline-black m-0 btn-sm fw-normal" id="save-list-tab" data-bs-toggle="tab" data-bs-target="#save-list" role="tab" aria-controls="save-list"
+					<button class="btn btn-outline-black m-0 btn-sm" id="save-list-tab" data-bs-toggle="tab" data-bs-target="#save-list" role="tab" aria-controls="save-list"
 							aria-selected="false">Save
 						List</button>
 				</div>
-				<?php get_template_part( 'template-parts/button', 'generate-pdf-button' ); ?>
+				<?php get_template_part( 'template-parts/ui/button', 'generate-pdf' ); ?>
 			</div>
 		</div>
 	</div>
