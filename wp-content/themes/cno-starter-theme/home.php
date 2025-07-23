@@ -48,10 +48,14 @@ get_header();
 		</section>
 		<?php
 		if ( have_posts() ) {
-			// Pagination.
-			get_template_part( 'template-parts/button', 'create-pdf-modal-trigger' );
-			get_template_part( 'template-parts/toast', 'container' );
-			get_template_part( 'template-parts/modal', 'create-pdf' );
+			$template_parts = array(
+				'create-pdf-modal-trigger' => 'button',
+				'create-pdf'               => 'modal',
+				'toast-container'          => 'toast',
+			);
+			foreach ( $template_parts as $part => $name ) {
+				get_template_part( 'template-parts/' . $part, $name );
+			}
 		}
 		?>
 	</div>

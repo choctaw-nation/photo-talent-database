@@ -39,7 +39,7 @@ foreach ( $image_names as $name ) {
 		<?php endforeach; ?>
 		<div class="carousel-indicators z-3 mb-0">
 			<?php foreach ( $images as $name => $image ) : ?>
-				<?php $active_class = 'front' === $name ? 'active' : ''; ?>
+			<?php $active_class = 'front' === $name ? 'active' : ''; ?>
 			<button type="button" data-bs-target="#<?php echo esc_attr( $slug ); ?>" data-bs-slide-to="<?php echo esc_attr( array_search( $name, array_keys( $images ), true ) ); ?>"
 					class="<?php echo esc_attr( $active_class ); ?> rounded-circle" aria-current="<?php echo esc_attr( $active_class ? 'true' : 'false' ); ?>"
 					aria-label="<?php echo esc_attr( ucfirst( $name ) ); ?>"></button>
@@ -51,7 +51,7 @@ foreach ( $image_names as $name ) {
 			<div class="carousel-item <?php echo 'front' === $name ? 'active' : ''; ?>">
 				<?php echo $image; ?>
 				<div class="carousel-caption p-0 z-3">
-					<p class="mb-0"><?php echo 'three_quarters' === $name ? 'Three Quarters' : ucfirst( $name ); ?></p>
+					<p class="mb-0 fs-root"><?php echo 'three_quarters' === $name ? 'Three Quarters' : ucfirst( $name ); ?></p>
 				</div>
 			</div>
 			<?php endforeach; ?>

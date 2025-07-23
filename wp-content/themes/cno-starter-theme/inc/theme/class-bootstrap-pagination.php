@@ -30,6 +30,13 @@ class Bootstrap_Pagination {
 	private int $current_index;
 
 	/**
+	 * Whether pagination exists
+	 *
+	 * @var bool $has_pagination
+	 */
+	public bool $has_pagination;
+
+	/**
 	 * Constructor
 	 *
 	 * @param WP_Query|null $wp_query The WP_Query object
@@ -38,7 +45,8 @@ class Bootstrap_Pagination {
 		if ( is_null( $wp_query ) ) {
 			global $wp_query;
 		}
-		$this->query = $wp_query;
+		$this->query          = $wp_query;
+		$this->has_pagination = $this->query->max_num_pages && $this->query->max_num_pages > 1;
 	}
 
 	/**

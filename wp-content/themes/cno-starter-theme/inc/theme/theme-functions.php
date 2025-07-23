@@ -7,6 +7,8 @@
  * @package ChoctawNation
  */
 
+use ChoctawNation\Bootstrap_Pagination;
+
 /**
  * Reads an SVG file and returns its content.
  *
@@ -194,4 +196,19 @@ function cno_lock_down_route( bool $extra_condition = false ) {
 		wp_safe_redirect( home_url() );
 		exit;
 	}
+}
+
+/**
+ * Renders the pagination (or nothing if there is no pagination) inside a Bootstrap `.row` > `.col`.
+ *
+ * @param WP_Query|null $query The WP_Query object to use for pagination. If null, it uses the global query.
+ */
+function cno_the_pagination( ?WP_Query $query = null ): void {
+	$paginator = new Bootstrap_Pagination( $query );
+	if ( ! $paginator->has_pagination ) {
+		return;
+	}
+	echo '<div class="row"><div class="col">';
+	$paginator->the_pagination();
+	echo '</div></div>';
 }
