@@ -10,7 +10,7 @@ export default class LocalStorage extends WPHandler {
 
 	constructor() {
 		super();
-		this.STORAGE_KEY = 'cartPostIds';
+		this.STORAGE_KEY = 'selectedTalentIds';
 	}
 	// Helper to get unique post IDs from localStorage
 	getIds(): Set< number > {

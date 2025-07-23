@@ -11,7 +11,7 @@
 	<div class="container-fluid">
 		<div class="row row-cols-auto justify-content-between align-items-center">
 			<div class="col-auto">
-				<a href="<?php echo esc_url( is_user_logged_in() ? home_url( '/talent' ) : home_url() ); ?>" class="link-offset-1 link-offset-2-hover fs-base text-white">
+				<a href="<?php echo esc_url( is_user_logged_in() ? home_url( '/talent' ) : home_url() ); ?>" class="fs-base text-decoration-none">
 					<?php echo bloginfo( 'name' ); ?>
 				</a>
 			</div>

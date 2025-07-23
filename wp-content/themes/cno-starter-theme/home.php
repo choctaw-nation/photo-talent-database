@@ -8,7 +8,6 @@
  */
 
 use ChoctawNation\Asset_Loader;
-use ChoctawNation\Bootstrap_Pagination;
 use ChoctawNation\Enqueue_Type;
 
 cno_lock_down_route();
@@ -36,22 +35,21 @@ get_header();
 				}
 				?>
 			</div>
+			<?php cno_the_pagination(); ?>
 			<?php else : ?>
 			<p>No posts found!</p>
 			<?php endif; ?>
-			<?php
-			if ( have_posts() ) {
-				$paginator = new Bootstrap_Pagination();
-				$paginator->the_pagination();
-			}
-			?>
 		</section>
 		<?php
 		if ( have_posts() ) {
-			// Pagination.
-			get_template_part( 'template-parts/button', 'create-pdf-modal-trigger' );
-			get_template_part( 'template-parts/toast', 'container' );
-			get_template_part( 'template-parts/modal', 'create-pdf' );
+			$template_parts = array(
+				'create-pdf-modal-trigger' => 'button',
+				'create-pdf'               => 'modal',
+				'toast-container'          => 'toast',
+			);
+			foreach ( $template_parts as $name => $slug ) {
+				get_template_part( 'template-parts/' . $slug, $name );
+			}
 		}
 		?>
 	</div>

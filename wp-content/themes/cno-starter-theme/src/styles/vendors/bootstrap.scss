@@ -113,6 +113,8 @@ $badge-font-size: 1rem;
 */
 
 $card-border-width: 2px;
+$card-border-color: black;
+$card-border-radius: 0.5rem;
 
 // ================================================
 
@@ -123,6 +125,26 @@ $card-border-width: 2px;
 $breadcrumb-font-size: $h6-font-size;
 $breadcrumb-margin-bottom: 0;
 // $breadcrumb-active-color: $primary;
+
+// ================================================
+
+/**
+* Navbar
+*/
+
+$navbar-brand-margin-end: 0;
+$navbar-brand-font-size: $h5-font-size;
+$navbar-light-brand-color: white;
+$navbar-light-brand-hover-color: $secondary;
+$navbar-light-icon-color: white;
+
+// ================================================
+
+/**
+* Offcanvas
+*/
+
+$offcanvas-bg-color: black;
 
 // ================================================
 
@@ -215,7 +237,7 @@ $theme-colors: map.merge($theme-colors, $custom-colors);
 @import "bootstrap/scss/grid";
 
 // Optional Bootstrap Modules (w/ Dependencies)
-// @import "bootstrap/scss/offcanvas";
+@import "bootstrap/scss/offcanvas";
 // @import "bootstrap/scss/dropdown";
 @import "bootstrap/scss/type";
 // @import "bootstrap/scss/images";
