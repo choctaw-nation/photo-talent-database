@@ -111,6 +111,7 @@ class Theme_Init {
 			'post-override'         => 'Post_Override',
 			'acf-handler'           => 'ACF_Handler',
 			'rest-router'           => 'REST_Router',
+			'cron-events'           => 'Cron_Events',
 		);
 		foreach ( $utility_files as $utility_file => $class_name ) {
 			require_once $base_path . "/theme/class-{$utility_file}.php";

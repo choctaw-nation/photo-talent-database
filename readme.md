@@ -4,6 +4,11 @@ A WordPress site to allow the photo team to find models for different photoshoot
 
 ## Changelog
 
+### v1.3.2
+
+-   Updated: Cron Events are now handled in their own class
+-   Fixed: Missing talent-list expiry cron event is now wired up.
+
 ### v1.3.1
 
 -   Fixed: Nav Item's conditional rendering logic has been optimized

@@ -21,7 +21,7 @@ get_header();
 	</header>
 	<section class="row row-cols-1 row-cols-md-auto row-cols-lg-3 row-gap-4">
 		<?php while ( $pending_talent->have_posts() ) : ?>
-		<?php $pending_talent->the_post(); ?>
+			<?php $pending_talent->the_post(); ?>
 		<div class="col">
 			<?php get_template_part( 'template-parts/card', 'talent-preview', array( 'is_preview' => true ) ); ?>
 		</div>
