@@ -23,7 +23,7 @@ get_header();
 	<?php if ( have_posts() ) : ?>
 	<section class="row row-cols-auto row-cols-lg-3 row-gap-4 align-items-stretch">
 		<?php while ( have_posts() ) : ?>
-		<?php the_post(); ?>
+			<?php the_post(); ?>
 		<div class="col">
 			<div class="card border-black">
 				<div class="card-body">
@@ -59,7 +59,7 @@ get_header();
 					<p class="card-text"><?php the_excerpt(); ?></p>
 					<?php endif; ?>
 					<div class="actions-container d-flex flex-wrap justify-content-end align-items-start gap-2 mt-auto">
-						<button data-post-id="<?php echo get_the_ID(); ?>" class="btn btn-outline-danger">Delete List</button>
+						<?php get_template_part( 'template-parts/button', 'delete-list' ); ?>
 						<a href="<?php the_permalink(); ?>" class="btn btn-black">View List</a>
 					</div>
 				</div>
@@ -67,7 +67,7 @@ get_header();
 		</div>
 		<?php endwhile; ?>
 	</section>
-	<?php cno_the_pagination(); ?>
+		<?php cno_the_pagination(); ?>
 	</div>
 	<?php else : ?>
 	<p>No talent lists found.</p>

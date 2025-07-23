@@ -185,13 +185,30 @@ class Rest_Router {
 
 		register_rest_route(
 			"{$this->namespace}/v{$this->version}",
-			'/talent-list/(?P<id>\d+)',
+			'/talent-list',
 			array(
-				'methods'             => WP_REST_Server::DELETABLE,
+				'methods'             => WP_REST_Server::EDITABLE,
 				'callback'            => array( $this, 'remove_selected_talent' ),
 				'permission_callback' => fn()=> current_user_can( 'edit_others_talent-lists' ),
 				'args'                => array(
 					'talentId' => array(
+						'required'          => true,
+						'type'              => 'number',
+						'description'       => 'ID of the talent list to remove.',
+						'sanitize_callback' => 'absint',
+					),
+				),
+			)
+		);
+		register_rest_route(
+			"{$this->namespace}/v{$this->version}",
+			'/talent-list/(?P<id>\d+)',
+			array(
+				'methods'             => WP_REST_Server::DELETABLE,
+				'callback'            => array( $this, 'trash_post' ),
+				'permission_callback' => fn()=> current_user_can( 'edit_others_talent-lists' ),
+				'args'                => array(
+					'id' => array(
 						'required'          => true,
 						'type'              => 'number',
 						'description'       => 'ID of the talent list to remove.',
@@ -337,7 +354,7 @@ class Rest_Router {
 			return new WP_REST_Response(
 				array(
 					'success' => true,
-					'message' => $post->post_title . ' was rejected. Heading back to the Talent page.',
+					'message' => $post->post_title . ' was trashed.',
 				),
 				200
 			);

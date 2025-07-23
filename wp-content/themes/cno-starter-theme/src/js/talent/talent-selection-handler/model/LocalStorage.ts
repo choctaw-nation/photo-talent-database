@@ -105,6 +105,19 @@ export default class LocalStorage extends WPHandler {
 		return true;
 	}
 
+	async handleSaveList( jsonData: Record< string, any > ) {
+		const data = {
+			...jsonData,
+			ids: Array.from( this.getIds() ),
+		};
+		try {
+			return await this.createTalentList( data );
+		} catch ( error ) {
+			console.error( 'Error creating talent list:', error );
+			throw error;
+		}
+	}
+
 	async getSelectedData(): Promise< PostData[] | [] > {
 		const ids = this.getIds();
 		if ( ids.size === 0 ) {

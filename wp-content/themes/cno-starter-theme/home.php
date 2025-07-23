@@ -43,7 +43,7 @@ get_header();
 		<?php
 		if ( have_posts() ) {
 			$template_parts = array(
-				'create-pdf-modal-trigger' => 'button',
+				'create-pdf-modal-trigger' => 'ui/button',
 				'create-pdf'               => 'modal',
 				'toast-container'          => 'toast',
 			);

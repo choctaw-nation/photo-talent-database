@@ -1,6 +1,7 @@
 import Modal from 'bootstrap/js/dist/modal';
 import Tab from 'bootstrap/js/dist/tab';
 import { SaveListFormData } from '../../../utils/types';
+import dateAsYmd from '../../../utils/dateAsYmd';
 
 export default class ModalHandler {
 	modal: Modal;
@@ -145,7 +146,7 @@ export default class ModalHandler {
 		const listNameHelper =
 			this.modalEl.querySelector< HTMLElement >( '#listNameHelper' );
 		const today = new Date();
-		const ymd = this.toYmd( today );
+		const ymd = dateAsYmd( today );
 		if ( this.listNameInput && listNamePreview ) {
 			if ( listNameHelper?.classList.contains( 'd-none' ) ) {
 				listNameHelper?.classList.remove( 'd-none' );
@@ -204,7 +205,7 @@ export default class ModalHandler {
 		}
 	}
 
-	async handleSaveList( target: HTMLFormElement, ids: Set< number > ) {
+	handleSaveList( target: HTMLFormElement ) {
 		const formData = Object.fromEntries(
 			new FormData( target )
 		) as unknown as SaveListFormData;
@@ -212,30 +213,11 @@ export default class ModalHandler {
 			formData.listExpirationLength,
 			formData.listExpirationUnit
 		);
-		const jsonData = JSON.stringify( {
+		const jsonData = {
 			...formData,
 			listExpiry: expiration,
-			ids: Array.from( ids ),
-		} );
-		const response = await fetch( '/wp-json/cno/v1/talent-list', {
-			method: 'POST',
-			body: jsonData,
-			headers: {
-				'Content-Type': 'application/json',
-				'X-WP-Nonce': window.cnoApi.nonce,
-			},
-		} );
-		if ( ! response.ok ) {
-			const error = await response.json();
-			throw new Error( error );
-		}
-		const {
-			success,
-			message,
-			data: { post },
-		} = await response.json();
-		this.useLoadingSpinner( false, 'list' );
-		return { success, message, link: post.link };
+		};
+		return jsonData;
 	}
 
 	private getListExpiration(
@@ -250,14 +232,6 @@ export default class ModalHandler {
 		const expiry = expirationMap[ unit ] * Number( length );
 		const expiryDate = new Date();
 		expiryDate.setDate( expiryDate.getDate() + expiry );
-		return this.toYmd( expiryDate );
-	}
-
-	private toYmd( date: Date ): number {
-		return (
-			date.getFullYear() * 10000 +
-			( date.getMonth() + 1 ) * 100 +
-			date.getDate()
-		);
+		return dateAsYmd( expiryDate );
 	}
 }
