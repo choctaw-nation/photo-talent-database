@@ -8,6 +8,7 @@
 namespace ChoctawNation;
 
 use DateTime;
+use WP_HTML_Tag_Processor;
 use WP_REST_Request;
 use WP_REST_Response;
 use WP_REST_Server;
@@ -416,12 +417,38 @@ class Rest_Router {
 			if ( ! $acf_image_array ) {
 				return array();
 			}
-			$image_data[ $current_image_id ]['url']    = $acf_image_array['url'];
-			$image_data[ $current_image_id ]['srcset'] = wp_get_attachment_image_srcset( $acf_image_array['id'] );
-			$image_data[ $current_image_id ]['alt']    = $acf_image_array['alt'];
-			$image_data[ $current_image_id ]['sizes']  = $acf_image_array['sizes'];
+			if ( is_array( $acf_image_array ) ) {
+				$image_data[ $current_image_id ]['url']    = $acf_image_array['url'];
+				$image_data[ $current_image_id ]['srcset'] = wp_get_attachment_image_srcset( $acf_image_array['id'] );
+				$image_data[ $current_image_id ]['alt']    = $acf_image_array['alt'];
+				$image_data[ $current_image_id ]['sizes']  = $acf_image_array['sizes'];
+			} else {
+				$image_data[ $current_image_id ] = $this->get_image_data( $acf_image_array );
+			}
 		}
 		return 'all' === $image_id ? $image_data : $image_data[ $image_id ];
+	}
+
+	/**
+	 * Get image data for a specific image ID and post ID.
+	 *
+	 * @param string|int $image_id The image ID.
+	 * @return array The image data.
+	 */
+	private function get_image_data( string|int $image_id ): array {
+		if ( ! is_numeric( $image_id ) ) {
+			return array();
+		}
+		$image_data = array();
+		$image      = wp_get_attachment_image( $image_id, 'medium', false );
+		$processor  = new WP_HTML_Tag_Processor( $image );
+		if ( $processor->next_tag( 'img' ) ) {
+			$image_data['url']    = $processor->get_attribute( 'src' );
+			$image_data['alt']    = $processor->get_attribute( 'alt' );
+			$image_data['srcset'] = $processor->get_attribute( 'srcset' );
+			$image_data['sizes']  = $processor->get_attribute( 'sizes' );
+		}
+		return $image_data;
 	}
 
 	/**
