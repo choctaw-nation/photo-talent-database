@@ -35,7 +35,7 @@ get_header();
 				}
 				?>
 			</div>
-			<?php cno_the_pagination(); ?>
+				<?php cno_the_pagination(); ?>
 			<?php else : ?>
 			<p>No posts found!</p>
 			<?php endif; ?>

@@ -93,7 +93,7 @@ get_header();
 			);
 			?>
 			<?php foreach ( $image_ids as $index => $image_id ) : ?>
-			<?php
+				<?php
 				if ( ! $image_id ) {
 					continue;
 				}
