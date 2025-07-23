@@ -8,6 +8,7 @@ A WordPress site to allow the photo team to find models for different photoshoot
 
 -   Added: Nav Items added for pending talent and talent lists
 -   Added: Talent Lists can be deleted
+-   Fixed: Generated PDFs also generate higher quality images
 
 ### v1.2.1
 
