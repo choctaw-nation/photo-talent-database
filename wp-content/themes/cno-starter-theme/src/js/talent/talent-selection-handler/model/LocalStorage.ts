@@ -1,4 +1,4 @@
-import { APIResponse, PostData } from '../../../utils/types';
+import { PostData } from '../../../utils/types';
 import createError from '../utils/createError';
 import WPHandler from './WPHandler';
 
