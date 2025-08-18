@@ -49,13 +49,13 @@ $is_preview     = $args['is_preview'] ?? false;
 			</p>
 			<?php endforeach; ?>
 		</div>
-		<div class="d-flex mt-auto w-auto align-self-end gap-3 flex-wrap card-footer p-0 bg-transparent border-0">
-			<?php if ( $is_preview ) : ?>
-			<a href="<?php the_permalink(); ?>" class="btn btn-black mt-auto align-self-end">View Talent</a>
-			<?php else : ?>
-			<button class="btn btn-outline-black btn-last-used">Set As Used</button>
-			<button class="btn btn-black btn-select-talent">Select Talent</button>
-			<?php endif; ?>
-		</div>
 	</div>
+	<footer class="card-footer d-flex flex-wrap gap-2 align-items-center"><?php if ( $is_preview ) : ?>
+		<a href="<?php the_permalink(); ?>" class="btn btn-black mt-auto align-self-end">View Talent</a>
+		<?php else : ?>
+		<a href="<?php the_permalink(); ?>" class="d-inline-block">View Talent</a>
+		<button class="btn btn-outline-black btn-last-used">Set As Used</button>
+		<button class="btn btn-black btn-select-talent">Select Talent</button>
+		<?php endif; ?>
+	</footer>
 </div>
