@@ -10,8 +10,10 @@ $global_parts = array(
 	'create-pdf'               => 'modal',
 	'container'                => 'toast',
 );
-foreach ( $global_parts as $name => $slug ) {
-	get_template_part( 'template-parts/' . $slug, $name );
+if ( is_user_logged_in() ) {
+	foreach ( $global_parts as $name => $slug ) {
+		get_template_part( 'template-parts/' . $slug, $name );
+	}
 }
 ?>
 

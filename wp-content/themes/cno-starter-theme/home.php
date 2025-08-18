@@ -40,6 +40,7 @@ get_header();
 			<?php endif; ?>
 		</section>
 	</div>
+	<?php get_template_part( 'template-parts/ui/offcanvas', 'date-picker' ); ?>
 </main>
 <?php
 get_footer();
