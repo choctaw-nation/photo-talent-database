@@ -40,7 +40,17 @@ get_header();
 			<?php endif; ?>
 		</section>
 	</div>
-	<?php get_template_part( 'template-parts/ui/offcanvas', 'date-picker' ); ?>
+	<?php
+	if ( have_posts() ) {
+		$partials = array(
+			'date-picker' => 'ui/offcanvas',
+			'view-talent' => 'modal',
+		);
+		foreach ( $partials as $name => $slug ) {
+			get_template_part( 'template-parts/' . $slug, $name );
+		}
+	}
+	?>
 </main>
 <?php
 get_footer();
