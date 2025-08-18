@@ -10,7 +10,7 @@ module.exports = {
 	...{
 		entry: () => {
 			return {
-				global: `.${ THEME_DIR }/src/index.js`,
+				global: `.${ THEME_DIR }/src/index.ts`,
 				'vendors/bootstrap': `.${ THEME_DIR }/src/js/vendors/bootstrap.js`,
 				...addEntries( appNames, 'pages' ),
 			};

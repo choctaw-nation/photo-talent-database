@@ -12,7 +12,6 @@ use ChoctawNation\Enqueue_Type;
 
 cno_lock_down_route();
 new Asset_Loader( 'talent', Enqueue_Type::script, 'pages' );
-new Asset_Loader( 'pdfGenerator', Enqueue_Type::script, 'pages' );
 get_header();
 ?>
 <main <?php post_class( 'd-flex flex-column align-items-stretch row-gap-5 my-5 container-fluid' ); ?>>
@@ -40,18 +39,6 @@ get_header();
 			<p>No posts found!</p>
 			<?php endif; ?>
 		</section>
-		<?php
-		if ( have_posts() ) {
-			$template_parts = array(
-				'create-pdf-modal-trigger' => 'ui/button',
-				'create-pdf'               => 'modal',
-				'toast-container'          => 'toast',
-			);
-			foreach ( $template_parts as $name => $slug ) {
-				get_template_part( 'template-parts/' . $slug, $name );
-			}
-		}
-		?>
 	</div>
 </main>
 <?php
