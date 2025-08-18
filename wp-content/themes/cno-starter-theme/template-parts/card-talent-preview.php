@@ -22,7 +22,7 @@ $is_preview     = $args['is_preview'] ?? false;
 			}
 			?>
 		</h3>
-		<div class="d-flex flex-column mb-5">
+		<div class="d-flex flex-column mb-3">
 			<?php
 			$props = $is_preview ? array() : array(
 				'Last Used' => $last_used_date,
@@ -50,12 +50,24 @@ $is_preview     = $args['is_preview'] ?? false;
 			<?php endforeach; ?>
 		</div>
 	</div>
-	<footer class="card-footer d-flex flex-wrap gap-2 align-items-center"><?php if ( $is_preview ) : ?>
+	<div class="btn-group btn-group-sm" role="group" aria-label="Talent Card Actions">
+		<?php if ( $is_preview ) : ?>
 		<a href="<?php the_permalink(); ?>" class="btn btn-black mt-auto align-self-end">View Talent</a>
 		<?php else : ?>
-		<a href="<?php the_permalink(); ?>" class="d-inline-block">View Talent</a>
-		<button class="btn btn-outline-black btn-last-used">Set As Used</button>
-		<button class="btn btn-black btn-select-talent">Select Talent</button>
+		<a href="<?php the_permalink(); ?>" class="btn rounded-top-0 border-bottom-0 border-start-0 border-end-0 btn-outline-primary">View Talent</a>
+		<button type="button" class="btn rounded-top-0 border-bottom-0 border-start-0 border-end-0 btn-outline-primary" data-bs-toggle="dropdown" aria-expanded="false">
+			Set As Used
+		</button>
+		<ul class="dropdown-menu">
+			<li>
+				<button class="dropdown-item btn btn-link" type="button" data-bs-toggle="offcanvas" data-bs-target="#custom-date-offcanvas" aria-controls="custom-date-offcanvas">Custom
+					Date</button>
+			</li>
+			<li>
+				<button class="dropdown-item btn btn-link btn-last-used">Today</button>
+			</li>
+		</ul>
+		<button class="btn rounded-top-0 border-bottom-0 border-start-0 border-end-0 btn-outline-primary btn-select-talent">Select Talent</button>
 		<?php endif; ?>
-	</footer>
+	</div>
 </div>

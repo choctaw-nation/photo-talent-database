@@ -31,6 +31,7 @@ if ( is_user_logged_in() ) {
 				'btn',
 				'btn-lg',
 				'text-uppercase',
+				'rounded-pill',
 			);
 			$btn_color   = 'black';
 			?>

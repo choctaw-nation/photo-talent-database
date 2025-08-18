@@ -30,7 +30,7 @@ $anchor_url = is_user_logged_in() ? home_url( '/talent' ) : home_url();
 			<button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-			<div class="offcanvas offcanvas-end flex-md-grow-0" tabindex="-1" id="offcanvasNavbar">
+			<div class="offcanvas offcanvas-end flex-md-grow-0" tabindex="-1" id="offcanvasNavbar" style="--bs-offcanvas-bg:black">
 				<?php get_template_part( 'template-parts/menu', 'main-menu' ); ?>
 			</div>
 		</nav>
