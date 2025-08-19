@@ -18,6 +18,6 @@ if ( ! in_array( $post_status, $allowed_statuses, true ) ) {
 new Asset_Loader( 'talentActions', Enqueue_Type::script, 'pages', array() );
 ?>
 <div class="d-flex flex-wrap gap-2 post-actions-container">
-	<button class="btn btn-black" data-action="approve">Approve</button>
-	<button class="btn btn-outline-danger" data-action="reject">Reject</button>
+	<button class="btn btn-black rounded-pill" data-action="approve">Approve</button>
+	<button class="btn btn-outline-danger rounded-pill" data-action="reject">Reject</button>
 </div>

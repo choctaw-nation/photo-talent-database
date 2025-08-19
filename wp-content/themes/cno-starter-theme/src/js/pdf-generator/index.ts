@@ -3,10 +3,15 @@ import ToastHandler from '../utils/ToastHandler';
 import { GetTalentResponse, PostData } from '../utils/types';
 import PdfGenerator from './PdfGenerator';
 
-const generatePdfButton = document.getElementById(
-	'generate-pdf-btn'
-) as HTMLButtonElement | null;
-if ( generatePdfButton ) {
+export function handleGeneratePdfButtonClick() {
+	const generatePdfButton = document.getElementById(
+		'generate-pdf-btn'
+	) as HTMLButtonElement | null;
+
+	if ( ! generatePdfButton ) {
+		return;
+	}
+
 	generatePdfButton.addEventListener( 'click', async () => {
 		if ( generatePdfButton.disabled ) return;
 		const toaster = new ToastHandler();

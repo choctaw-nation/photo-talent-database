@@ -4,6 +4,11 @@ A WordPress site to allow the photo team to find models for different photoshoot
 
 ## Changelog
 
+### v1.4.0 - [August 19, 2025]
+
+-   Added: New Modal to preview Talent Details on Talent archive page
+-   Chore: Updated packages
+
 ### v1.3.2
 
 -   Updated: Cron Events are now handled in their own class

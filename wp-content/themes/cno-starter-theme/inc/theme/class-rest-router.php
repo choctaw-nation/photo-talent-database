@@ -46,8 +46,9 @@ class Rest_Router {
 	 * Register REST API routes.
 	 */
 	public function register_routes() {
+		$namespace = "{$this->namespace}/v{$this->version}";
 		register_rest_route(
-			"{$this->namespace}/v{$this->version}",
+			$namespace,
 			'/talent',
 			array(
 				'methods'             => WP_REST_Server::READABLE,
@@ -96,113 +97,121 @@ class Rest_Router {
 				),
 			)
 		);
+
 		register_rest_route(
-			"{$this->namespace}/v{$this->version}",
+			$namespace,
 			'/talent/(?P<id>\d+)',
 			array(
-				'methods'             => WP_REST_Server::EDITABLE,
-				'callback'            => array( $this, 'edit_post' ),
-				'permission_callback' => fn()=> current_user_can( 'edit_posts' ),
-				'args'                => array(
-					'id'       => array(
-						'required'          => true,
-						'type'              => 'number',
-						'description'       => '',
-						'sanitize_callback' => 'absint',
+				array(
+					'methods'             => WP_REST_Server::CREATABLE,
+					'callback'            => array( $this, 'get_talent_details' ),
+					'permission_callback' => '__return_true',
+					'args'                => array(
+						'id' => array(
+							'required'          => true,
+							'type'              => 'number',
+							'description'       => '',
+							'sanitize_callback' => 'absint',
+						),
 					),
-					'lastUsed' => array(
-						'required'          => false,
-						'type'              => 'string',
-						'description'       => 'The date to set as last used.',
-						'sanitize_callback' => function ( $value ) {
-							if ( ! preg_match( '/^\d{8}$/', $value ) ) {
-								return new \WP_Error( 'invalid_date_format', 'Date must be in Ymd format.', array( 'status' => 400 ) );
-							}
-							$date_obj = DateTime::createFromFormat( 'Ymd', $value );
-							$errors = DateTime::getLastErrors();
-							if ( ! $date_obj || $errors['warning_count'] > 0 || $errors['error_count'] > 0 ) {
-								return new \WP_Error( 'invalid_date', 'Invalid date provided.', array( 'status' => 400 ) );
-							}
-							return $value;
-						},
+				),
+				array(
+					'methods'             => WP_REST_Server::EDITABLE,
+					'callback'            => array( $this, 'edit_post' ),
+					'permission_callback' => fn()=> current_user_can( 'edit_posts' ),
+					'args'                => array(
+						'id'       => array(
+							'required'          => true,
+							'type'              => 'number',
+							'description'       => '',
+							'sanitize_callback' => 'absint',
+						),
+						'lastUsed' => array(
+							'required'          => false,
+							'type'              => 'string',
+							'description'       => 'The date to set as last used.',
+							'sanitize_callback' => function ( $value ) {
+								if ( ! preg_match( '/^\d{8}$/', $value ) ) {
+									return new \WP_Error( 'invalid_date_format', 'Date must be in Ymd format.', array( 'status' => 400 ) );
+								}
+								$date_obj = DateTime::createFromFormat( 'Ymd', $value );
+								$errors = DateTime::getLastErrors();
+								if ( ! $date_obj || $errors['warning_count'] > 0 || $errors['error_count'] > 0 ) {
+									return new \WP_Error( 'invalid_date', 'Invalid date provided.', array( 'status' => 400 ) );
+								}
+								return $value;
+							},
+						),
+					),
+				),
+				array(
+					'methods'             => WP_REST_Server::DELETABLE,
+					'callback'            => array( $this, 'trash_post' ),
+					'permission_callback' => fn()=> current_user_can( 'edit_posts' ),
+					'args'                => array(
+						'id' => array(
+							'required'          => true,
+							'type'              => 'number',
+							'description'       => '',
+							'sanitize_callback' => 'absint',
+						),
 					),
 				),
 			)
 		);
 
 		register_rest_route(
-			"{$this->namespace}/v{$this->version}",
-			'/talent/(?P<id>\d+)',
-			array(
-				'methods'             => WP_REST_Server::DELETABLE,
-				'callback'            => array( $this, 'trash_post' ),
-				'permission_callback' => fn()=> current_user_can( 'edit_posts' ),
-				'args'                => array(
-					'id' => array(
-						'required'          => true,
-						'type'              => 'number',
-						'description'       => '',
-						'sanitize_callback' => 'absint',
-					),
-				),
-			)
-		);
-
-		register_rest_route(
-			"{$this->namespace}/v{$this->version}",
+			$namespace,
 			'/talent-list',
 			array(
-				'methods'             => WP_REST_Server::CREATABLE,
-				'callback'            => array( $this, 'save_talent_list' ),
-				'permission_callback' => fn()=> current_user_can( 'edit_talent-lists' ),
-				'args'                => array(
-					'ids'             => array(
-						'required'          => true,
-						'type'              => 'array',
-						'description'       => 'Array of post IDs to save as a talent list.',
-						'sanitize_callback' => 'wp_parse_id_list',
-					),
-					'listName'        => array(
-						'required'          => true,
-						'type'              => 'string',
-						'description'       => 'Name of the talent list.',
-						'sanitize_callback' => 'sanitize_text_field',
-					),
-					'listDescription' => array(
-						'required'          => false,
-						'type'              => 'string',
-						'description'       => 'Description of the talent list.',
-						'sanitize_callback' => 'sanitize_textarea_field',
-					),
-					'listExpiry'      => array(
-						'required'          => false,
-						'type'              => 'number',
-						'description'       => 'Expiry time for the talent list, formatted as PHP “Ymd”',
-						'sanitize_callback' => 'absint',
+				array(
+					'methods'             => WP_REST_Server::CREATABLE,
+					'callback'            => array( $this, 'save_talent_list' ),
+					'permission_callback' => fn()=> current_user_can( 'edit_talent-lists' ),
+					'args'                => array(
+						'ids'             => array(
+							'required'          => true,
+							'type'              => 'array',
+							'description'       => 'Array of post IDs to save as a talent list.',
+							'sanitize_callback' => 'wp_parse_id_list',
+						),
+						'listName'        => array(
+							'required'          => true,
+							'type'              => 'string',
+							'description'       => 'Name of the talent list.',
+							'sanitize_callback' => 'sanitize_text_field',
+						),
+						'listDescription' => array(
+							'required'          => false,
+							'type'              => 'string',
+							'description'       => 'Description of the talent list.',
+							'sanitize_callback' => 'sanitize_textarea_field',
+						),
+						'listExpiry'      => array(
+							'required'          => false,
+							'type'              => 'number',
+							'description'       => 'Expiry time for the talent list, formatted as PHP “Ymd”',
+							'sanitize_callback' => 'absint',
+						),
 					),
 				),
-			)
-		);
-
-		register_rest_route(
-			"{$this->namespace}/v{$this->version}",
-			'/talent-list',
-			array(
-				'methods'             => WP_REST_Server::EDITABLE,
-				'callback'            => array( $this, 'remove_selected_talent' ),
-				'permission_callback' => fn()=> current_user_can( 'edit_others_talent-lists' ),
-				'args'                => array(
-					'talentId' => array(
-						'required'          => true,
-						'type'              => 'number',
-						'description'       => 'ID of the talent list to remove.',
-						'sanitize_callback' => 'absint',
+				array(
+					'methods'             => WP_REST_Server::EDITABLE,
+					'callback'            => array( $this, 'remove_selected_talent' ),
+					'permission_callback' => fn()=> current_user_can( 'edit_others_talent-lists' ),
+					'args'                => array(
+						'talentId' => array(
+							'required'          => true,
+							'type'              => 'number',
+							'description'       => 'ID of the talent list to remove.',
+							'sanitize_callback' => 'absint',
+						),
 					),
 				),
 			)
 		);
 		register_rest_route(
-			"{$this->namespace}/v{$this->version}",
+			$namespace,
 			'/talent-list/(?P<id>\d+)',
 			array(
 				'methods'             => WP_REST_Server::DELETABLE,
@@ -570,6 +579,36 @@ class Rest_Router {
 					'id'                => $post_data->ID,
 					'remainingSelected' => get_field( 'selected_talent', $post_data->ID ),
 					'removedTalent'     => $talent_id,
+				),
+			),
+			200
+		);
+	}
+
+	/**
+	 * Get Talent Details
+	 *
+	 * @param WP_REST_Request $request the request object
+	 * @return WP_REST_Response the response
+	 */
+	public function get_talent_details( WP_REST_Request $request ): WP_REST_Response {
+		$id   = $request['id'];
+		$post = get_post( $id );
+		if ( is_null( $post ) ) {
+			return new WP_REST_Response(
+				array(
+					'success' => false,
+					'message' => 'Post not found.',
+				),
+				404
+			);
+		}
+		return new WP_REST_Response(
+			array(
+				'success' => true,
+				'message' => 'Talent details retrieved successfully.',
+				'data'    => array(
+					'html' => apply_filters( 'the_content', get_template_part( 'template-parts/content', 'talent-details', array( 'id' => $id ) ) ),
 				),
 			),
 			200

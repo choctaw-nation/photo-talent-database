@@ -1,11 +1,7 @@
 import sidebarToggleHandler from './sidebarToggleHandler';
-import Controller from './talent-selection-handler/Controller';
+import 'bootstrap/js/dist/dropdown';
+import './talent-preview-handler/controller';
 
 window.addEventListener( 'DOMContentLoaded', () => {
-	try {
-		new Controller();
-	} catch ( error ) {
-		console.error( 'Error initializing talent selection:', error );
-	}
 	sidebarToggleHandler();
 } );

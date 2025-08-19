@@ -5,6 +5,16 @@
  * @package ChoctawNation
  */
 
+$global_parts = array(
+	'create-pdf-modal-trigger' => 'ui/button',
+	'create-pdf'               => 'modal',
+	'container'                => 'toast',
+);
+if ( is_user_logged_in() ) {
+	foreach ( $global_parts as $name => $slug ) {
+		get_template_part( 'template-parts/' . $slug, $name );
+	}
+}
 ?>
 
 <footer class="footer text-bg-black py-4">

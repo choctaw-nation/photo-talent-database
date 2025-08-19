@@ -10,7 +10,6 @@ use ChoctawNation\Enqueue_Type;
 
 cno_lock_down_route( ! current_user_can( 'edit_talent-lists' ) );
 new Asset_Loader( 'talentList', Enqueue_Type::script, 'pages' );
-new Asset_Loader( 'pdfGenerator', Enqueue_Type::script, 'pages' );
 get_header();
 ?>
 <main <?php post_class( 'container my-5' ); ?>>

@@ -174,22 +174,26 @@ class Theme_Init {
 				'styles'  => array(),
 			)
 		);
-		new Asset_Loader(
-			'global',
-			Enqueue_Type::both,
-			null,
-			array(
-				'scripts' => array( 'bootstrap' ),
-				'styles'  => array( 'bootstrap' ),
-			)
-		);
-		wp_localize_script(
-			'global',
-			'cnoApi',
-			array(
-				'nonce' => wp_create_nonce( 'wp_rest' ),
-			)
-		);
+		if ( is_user_logged_in() ) {
+			new Asset_Loader(
+				'global',
+				Enqueue_Type::both,
+				null,
+				array(
+					'scripts' => array( 'bootstrap' ),
+					'styles'  => array( 'bootstrap' ),
+				)
+			);
+			wp_localize_script(
+				'global',
+				'cnoApi',
+				array(
+					'nonce' => wp_create_nonce( 'wp_rest' ),
+				)
+			);
+		} else {
+			new Asset_Loader( 'global', Enqueue_Type::style, null, array( 'bootstrap' ) );
+		}
 
 		// style.css
 		wp_enqueue_style(
