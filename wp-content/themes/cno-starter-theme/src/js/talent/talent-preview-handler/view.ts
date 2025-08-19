@@ -34,6 +34,7 @@ export default class ModalHandler {
 
 	onShow( callback: ( id: number ) => void ) {
 		this.modalEl.addEventListener( 'show.bs.modal', ( ev: Modal.Event ) => {
+			this.modalTitle = '';
 			const { name, id } = this.getTalentDetails(
 				ev.relatedTarget as HTMLButtonElement
 			);
