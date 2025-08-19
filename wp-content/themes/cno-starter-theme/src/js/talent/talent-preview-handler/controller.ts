@@ -1,5 +1,5 @@
 import ModalHandler from './view';
-import Model from './model';
+import Model, { SuccessfulApiResponse } from './model';
 
 window.addEventListener( 'DOMContentLoaded', () => {
 	try {
@@ -7,14 +7,16 @@ window.addEventListener( 'DOMContentLoaded', () => {
 		const WP = new Model();
 		Modal.onShow( async ( id ) => {
 			const data = await WP.getTalentData( id );
-			Modal.setBodyContent( generateBodyString( data ) );
+			if ( data.success ) {
+				Modal.clearBody();
+				Modal.setBodyContent( generateBodyString( data.data ) );
+			}
 		} );
 	} catch ( err ) {
 		console.error( err );
 	}
 } );
 
-function generateBodyString( data: {} ): string {
-	console.warn( 'function not implemented yet!' );
-	return '';
+function generateBodyString( data: SuccessfulApiResponse[ 'data' ] ): string {
+	return data.html;
 }
