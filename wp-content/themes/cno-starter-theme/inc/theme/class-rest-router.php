@@ -103,14 +103,13 @@ class Rest_Router {
 			'/talent/(?P<id>\d+)',
 			array(
 				array(
-					'methods'             => WP_REST_Server::CREATABLE,
+					'methods'             => WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'get_talent_details' ),
 					'permission_callback' => '__return_true',
 					'args'                => array(
 						'id' => array(
 							'required'          => true,
 							'type'              => 'number',
-							'description'       => '',
 							'sanitize_callback' => 'absint',
 						),
 					),
@@ -210,6 +209,7 @@ class Rest_Router {
 				),
 			)
 		);
+
 		register_rest_route(
 			$namespace,
 			'/talent-list/(?P<id>\d+)',
@@ -603,12 +603,16 @@ class Rest_Router {
 				404
 			);
 		}
+		$html = ob_start();
+		get_template_part( 'template-parts/content', 'talent-details', array( 'id' => $id ) );
+		$html .= ob_get_contents();
+		$html  = ob_get_clean();
 		return new WP_REST_Response(
 			array(
 				'success' => true,
 				'message' => 'Talent details retrieved successfully.',
 				'data'    => array(
-					'html' => apply_filters( 'the_content', get_template_part( 'template-parts/content', 'talent-details', array( 'id' => $id ) ) ),
+					'html' => $html,
 				),
 			),
 			200
