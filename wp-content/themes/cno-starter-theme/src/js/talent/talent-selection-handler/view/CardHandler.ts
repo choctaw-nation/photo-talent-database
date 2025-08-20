@@ -17,7 +17,7 @@ export default class CardHandler {
 			'.btn-last-used'
 		) as HTMLButtonElement;
 		this.customDateTrigger = this.cardEl.querySelector(
-			'button[data-bs-toggle="offcanvas"]'
+			'.btn-last-used-custom'
 		) as HTMLButtonElement;
 	}
 
