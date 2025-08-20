@@ -24,8 +24,8 @@ export default class ListHandler {
 	}
 
 	get isSecondClick(): boolean {
-		return [ this.warningElement, this.cancelButton ].every(
-			( el ) => ! el || ! el.classList.contains( 'd-none' )
+		return ! [ this.warningElement, this.cancelButton ].every(
+			( el ) => el && el.classList.contains( 'd-none' )
 		);
 	}
 
@@ -46,6 +46,7 @@ export default class ListHandler {
 			? listContainer.querySelector< HTMLUListElement >( 'ul' )
 			: null;
 	}
+
 	/**
 	 * Generates the list of selected talents in the modal. Called on modal open.
 	 * @param db LocalStorage instance to fetch selected data

@@ -2,6 +2,7 @@ import Modal from 'bootstrap/js/dist/modal';
 import Tab from 'bootstrap/js/dist/tab';
 import { SaveListFormData } from '../../../utils/types';
 import dateAsYmd from '../../../utils/dateAsYmd';
+import { insertSpinner, removeSpinner } from '../../../utils/spinner';
 
 export default class ModalHandler {
 	modal: Modal;
@@ -36,18 +37,25 @@ export default class ModalHandler {
 		)!.textContent = title;
 	}
 
-	constructor() {
+	constructor( onShow: () => void ) {
 		this.modalEl = document.getElementById(
 			'create-pdf-modal'
 		) as HTMLDivElement;
 		this.modalTrigger = document.getElementById(
 			'create-pdf-modal-trigger'
 		) as HTMLButtonElement;
-		this.initModal();
+		this.modal = Modal.getOrCreateInstance( this.modalEl );
+		this.init( onShow );
 	}
 
-	initModal() {
-		this.modal = Modal.getOrCreateInstance( this.modalEl );
+	private init( onShow: () => void ) {
+		this.modalTrigger.addEventListener( 'click', () => {
+			this.modal.show();
+		} );
+		this.modalEl.addEventListener( 'show.bs.modal', () => {
+			this.initTabs();
+			onShow();
+		} );
 	}
 
 	/**
@@ -66,13 +74,6 @@ export default class ModalHandler {
 		if ( this.modalTrigger ) {
 			this.modalTrigger.classList.remove( 'd-none' );
 		}
-	}
-
-	onShow( callback: Function ) {
-		this.modalEl.addEventListener( 'show.bs.modal', () => {
-			this.initTabs();
-			callback();
-		} );
 	}
 
 	hide() {
@@ -194,14 +195,12 @@ export default class ModalHandler {
 			return;
 		}
 		buttonElement.disabled = isLoading;
-		const modalFooter = this.modalEl.querySelector( '.modal-footer' )!;
+		const modalFooter =
+			this.modalEl.querySelector< HTMLElement >( '.modal-footer' )!;
 		if ( isLoading ) {
-			modalFooter.insertAdjacentHTML(
-				'afterbegin',
-				`<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>`
-			);
+			insertSpinner( modalFooter );
 		} else {
-			modalFooter.querySelector( '.spinner-border' )?.remove();
+			removeSpinner( modalFooter.querySelector( '.spinner-border' ) );
 		}
 	}
 

@@ -27,8 +27,8 @@ export default class Controller {
 
 	constructor() {
 		this.db = new LocalStorage();
-		this.Modal = new ModalHandler();
 		this.ListHandler = new ListHandler();
+		this.Modal = new ModalHandler( this.onShowCallback.bind( this ) );
 		this.toast = new ToastHandler();
 		this.selectionTracker = document.getElementById(
 			'selection-counter'
@@ -66,45 +66,6 @@ export default class Controller {
 				this.Modal.useLoadingSpinner( false, 'list' );
 			}
 		} );
-		this.Modal.onShow( () => {
-			this.Modal.useLoadingSpinner( true, 'pdf' );
-			// builds the list when the modal is shown
-			this.ListHandler.buildSelectedList( this.db ).then( () => {
-				this.Modal.useLoadingSpinner( false, 'pdf' );
-			} );
-
-			// wire event listener to remove elements on click; removes list if length === 0
-			this.ListHandler.list!.addEventListener( 'click', ( ev ) => {
-				if ( ev.target instanceof HTMLButtonElement ) {
-					const postId = ev.target.dataset.postId;
-					if ( postId ) {
-						const liEl = this.ListHandler.list!.querySelector(
-							`#talent-${ postId }`
-						) as HTMLLIElement;
-						if ( liEl ) {
-							liEl.remove();
-							this.db.removeId( Number( postId ) );
-							if (
-								this.ListHandler.list!.children.length === 0
-							) {
-								this.ListHandler.clearSelectedList();
-								this.ListHandler.hideClearConfirmationButtons();
-								this.Modal.hide();
-							}
-							// side effect: decrement selection counter
-							this.decrementSelectionCounter();
-						}
-					}
-				}
-			} );
-
-			this.ListHandler.clearSelectionButton?.addEventListener(
-				'click',
-				() => {
-					this.handleClearSelection();
-				}
-			);
-		} );
 
 		// if already has selection, show modal trigger and init button
 		if ( this.db.getIds().size > 0 ) {
@@ -126,6 +87,48 @@ export default class Controller {
 				childList: true,
 				subtree: false,
 			} );
+		}
+	}
+
+	private onShowCallback() {
+		if ( this.ListHandler.clearSelectionButton ) {
+			this.ListHandler.clearSelectionButton.removeEventListener(
+				'click',
+				this.handleClearSelection.bind( this )
+			);
+		}
+		this.Modal.useLoadingSpinner( true, 'pdf' );
+		// builds the list when the modal is shown
+		this.ListHandler.buildSelectedList( this.db ).then( () => {
+			this.Modal.useLoadingSpinner( false, 'pdf' );
+		} );
+		// wire event listener to remove elements on click; removes list if length === 0
+		this.ListHandler.list!.addEventListener( 'click', ( ev ) => {
+			if ( ev.target instanceof HTMLButtonElement ) {
+				const postId = ev.target.dataset.postId;
+				if ( postId ) {
+					const liEl = this.ListHandler.list!.querySelector(
+						`#talent-${ postId }`
+					) as HTMLLIElement;
+					if ( liEl ) {
+						liEl.remove();
+						this.db.removeId( Number( postId ) );
+						if ( this.ListHandler.list!.children.length === 0 ) {
+							this.ListHandler.clearSelectedList();
+							this.ListHandler.hideClearConfirmationButtons();
+							this.Modal.hide();
+						}
+						// side effect: decrement selection counter
+						this.decrementSelectionCounter();
+					}
+				}
+			}
+		} );
+		if ( this.ListHandler.clearSelectionButton ) {
+			this.ListHandler.clearSelectionButton.addEventListener(
+				'click',
+				this.handleClearSelection.bind( this )
+			);
 		}
 	}
 

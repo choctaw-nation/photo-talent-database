@@ -1,3 +1,5 @@
+import { insertSpinner, removeSpinner } from '../../../utils/spinner';
+
 export default class CardHandler {
 	cardEl: HTMLDivElement;
 	id: number;
@@ -23,14 +25,12 @@ export default class CardHandler {
 
 	useIsLoading( isLoading: boolean ) {
 		this.setLastUsedButton.disabled = isLoading;
-		const cardFooter = this.cardEl.querySelector( '.card-footer' )!;
+		const cardFooter =
+			this.cardEl.querySelector< HTMLElement >( '.card-footer' )!;
 		if ( isLoading ) {
-			cardFooter.insertAdjacentHTML(
-				'afterbegin',
-				`<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>`
-			);
+			insertSpinner( cardFooter );
 		} else {
-			cardFooter.querySelector( '.spinner-border' )?.remove();
+			removeSpinner( cardFooter.querySelector( '.spinner-border' ) );
 		}
 	}
 }

@@ -1,3 +1,4 @@
+import { insertSpinner, removeSpinner } from '../utils/spinner';
 import ToastHandler from '../utils/ToastHandler';
 
 type ActionType = 'approve' | 'reject';
@@ -76,15 +77,12 @@ export default class TalentActionsHandler {
 			buttons.forEach( ( button ) => {
 				button.disabled = true;
 			} );
-			container.insertAdjacentHTML(
-				'beforeend',
-				`<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>`
-			);
+			insertSpinner( container );
 		} else {
 			buttons.forEach( ( button ) => {
 				button.disabled = false;
 			} );
-			container.querySelector( '.spinner-border' )?.remove();
+			removeSpinner( container.querySelector( '.spinner-border' ) );
 		}
 	}
 
