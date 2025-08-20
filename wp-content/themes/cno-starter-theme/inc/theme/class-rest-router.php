@@ -375,32 +375,30 @@ class Rest_Router {
 	 * Update the post status to 'publish' for a specific post ID.
 	 *
 	 * @param string $id The post ID.
-	 * @param string $date The “last used” date passed in the request.
+	 * @param string $date The “last used” date passed in the request as Ymd.
 	 * @return WP_REST_Response The response indicating success or failure.
 	 */
 	private function set_last_used( string $id, string $date ): WP_REST_Response {
-		$last_used = get_field( 'last_used', $id );
+		$last_used = get_post_meta( $id, 'last_used', true );
 		if ( $date === $last_used ) {
 			return new WP_REST_Response(
 				array(
 					'success' => true,
-					'message' => 'Last used date is already set to today!',
+					'message' => 'Last used date is already set to ' . absint( $last_used ) . '!',
 					'data'    => array(
-						'post'      => get_post( $id ),
-						'last_used' => get_field( 'last_used', $id ),
+						'last_used' => $last_used,
 					),
 				)
 			);
 		}
-		$success = (bool) update_field( 'last_used', $date, $id );
+		$success = update_post_meta( $id, 'last_used', $date );
 
 		return new WP_REST_Response(
 			array(
-				'success' => $success,
-				'message' => true === $success ? 'Last used date updated successfully.' : 'Failed to update last used date.',
+				'success' => ( false !== $success ),
+				'message' => ( false !== $success ) ? 'Last used date updated successfully.' : 'Failed to update last used date.',
 				'data'    => array(
-					'post'      => get_post( $id ),
-					'last_used' => get_field( 'last_used', $id ),
+					'last_used' => $date,
 				),
 			)
 		);

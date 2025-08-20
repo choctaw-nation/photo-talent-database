@@ -4,8 +4,9 @@ A WordPress site to allow the photo team to find models for different photoshoot
 
 ## Changelog
 
-### v1.4.1 - [August 20, 2025]
+### v1.5.0 - [August 20, 2025]
 
+-   Added: Users can now set custom "last-used" date!
 -   Fixed: Modal now has spinner when loading data
 -   Fixed: Refactored spinner to global util functions
 

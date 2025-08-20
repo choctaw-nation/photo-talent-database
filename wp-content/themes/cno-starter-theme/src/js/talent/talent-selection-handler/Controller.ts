@@ -3,6 +3,8 @@ import ListHandler from './view/ListHandler';
 import ModalHandler from './view/ModalHandler';
 import ToastHandler from '../../utils/ToastHandler';
 import CardHandler from './view/CardHandler';
+import dateAsYmd from '../../utils/dateAsYmd';
+import OffCanvasHandler from './view/OffCanvasHandler';
 
 export default class Controller {
 	TARGET_SELECTOR: string;
@@ -77,7 +79,7 @@ export default class Controller {
 
 		// add click listener for "Select Talent" buttons
 		this.addSelectTalentListener( this.db );
-		this.addLastUsedListener( this.db );
+		this.addLastUsedListener();
 		if ( this.talentContainer ) {
 			const observer = new MutationObserver( () => {
 				this.addSelectTalentListener( this.db );
@@ -90,6 +92,9 @@ export default class Controller {
 		}
 	}
 
+	/**
+	 * Callback function to handle modal show event
+	 */
 	private onShowCallback() {
 		if ( this.ListHandler.clearSelectionButton ) {
 			this.ListHandler.clearSelectionButton.removeEventListener(
@@ -171,18 +176,25 @@ export default class Controller {
 	private getTalentAttributes( button: HTMLButtonElement ): {
 		postId: string | null;
 		talentName: string | null;
-		actionType: 'select-talent' | 'last-used' | null;
+		actionType: 'select-talent' | 'last-used' | 'last-used-custom' | null;
 	} {
 		const card = button.closest( '.card' );
 		if ( ! card ) {
 			throw new Error( "Couldn't find the talent card!" );
 		}
-		let actionType: 'select-talent' | 'last-used' | null = null;
+		let actionType:
+			| 'select-talent'
+			| 'last-used'
+			| 'last-used-custom'
+			| null = null;
 		if ( button.classList.contains( 'btn-select-talent' ) ) {
 			actionType = 'select-talent';
 		}
 		if ( button.classList.contains( 'btn-last-used' ) ) {
 			actionType = 'last-used';
+		}
+		if ( button.classList.contains( 'btn-last-used-custom' ) ) {
+			actionType = 'last-used-custom';
 		}
 		return {
 			postId: card.getAttribute( this.BUTTON_ATTRIBUTE ),
@@ -191,29 +203,51 @@ export default class Controller {
 		};
 	}
 
-	private addLastUsedListener( db: LocalStorage ) {
+	/**
+	 * Adds a listener for the "Last Used" buttons
+	 * @param db The local storage instance
+	 */
+	private addLastUsedListener() {
 		if ( ! this.talentContainer ) return;
-		this.talentContainer.addEventListener( 'click', async ( ev ) => {
+		this.talentContainer.addEventListener( 'click', ( ev ) => {
 			if ( ev.target instanceof HTMLButtonElement ) {
 				const { postId, talentName, actionType } =
 					this.getTalentAttributes( ev.target );
-				if ( ! postId || ! talentName || 'last-used' !== actionType )
-					return;
-				const cardHandler = new CardHandler( postId );
-				try {
-					cardHandler.useIsLoading( true );
-					const data = await db.setLastUsed( Number( postId ) );
-					if ( data ) {
-						cardHandler.updateLastUsedString();
-						this.toast.showToast( data.message, 'success' );
-					}
-				} catch ( error ) {
-					this.toast.showToast( error.message, error.type );
-				} finally {
-					cardHandler.useIsLoading( false );
+				if ( ! postId || ! talentName ) return;
+				if ( 'last-used' === actionType ) {
+					this.setLastUsed( postId, ev.target, dateAsYmd() );
+				} else if ( 'last-used-custom' === actionType ) {
+					const offCanvasHandler = new OffCanvasHandler( postId );
+					offCanvasHandler.handleFormSubmission( ( date: string ) =>
+						this.setLastUsed(
+							postId,
+							ev.target as HTMLButtonElement,
+							date
+						)
+					);
 				}
 			}
 		} );
+	}
+
+	private async setLastUsed(
+		postId: string,
+		button: HTMLButtonElement,
+		date: string
+	) {
+		const cardHandler = new CardHandler( postId );
+		try {
+			cardHandler.useIsLoading( true, button );
+			const data = await this.db.setLastUsed( Number( postId ), date );
+			if ( data ) {
+				cardHandler.updateLastUsedString( date );
+				this.toast.showToast( data.message, 'success' );
+			}
+		} catch ( error ) {
+			this.toast.showToast( error.message, error.type );
+		} finally {
+			cardHandler.useIsLoading( false, button );
+		}
 	}
 
 	/**
