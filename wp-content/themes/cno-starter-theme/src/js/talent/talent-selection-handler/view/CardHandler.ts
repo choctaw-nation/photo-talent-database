@@ -4,15 +4,19 @@ export default class CardHandler {
 	cardEl: HTMLDivElement;
 	id: number;
 
-	setLastUsedButton: HTMLButtonElement;
+	lastUsedTodayButton: HTMLButtonElement;
+	customDateTrigger: HTMLButtonElement;
 
 	constructor( postId: string ) {
 		this.id = Number( postId );
 		this.cardEl = document.getElementById(
 			`talent-${ this.id }`
 		) as HTMLDivElement;
-		this.setLastUsedButton = this.cardEl.querySelector(
+		this.lastUsedTodayButton = this.cardEl.querySelector(
 			'.btn-last-used'
+		) as HTMLButtonElement;
+		this.customDateTrigger = this.cardEl.querySelector(
+			'button[data-bs-toggle="offcanvas"]'
 		) as HTMLButtonElement;
 	}
 
@@ -24,13 +28,11 @@ export default class CardHandler {
 	}
 
 	useIsLoading( isLoading: boolean ) {
-		this.setLastUsedButton.disabled = isLoading;
-		const cardFooter =
-			this.cardEl.querySelector< HTMLElement >( '.card-footer' )!;
-		if ( isLoading ) {
-			insertSpinner( cardFooter );
-		} else {
-			removeSpinner( cardFooter.querySelector( '.spinner-border' ) );
-		}
+		this.lastUsedTodayButton.disabled = isLoading;
+		this.customDateTrigger.disabled = isLoading;
+		const dropdownMenu = this.cardEl.querySelector(
+			'.dropdown-menu'
+		) as HTMLElement;
+		dropdownMenu.style.cursor = isLoading ? 'wait' : '';
 	}
 }
