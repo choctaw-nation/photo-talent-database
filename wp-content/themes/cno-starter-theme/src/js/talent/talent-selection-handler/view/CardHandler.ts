@@ -1,3 +1,4 @@
+import dateAsYmd from '../../../utils/dateAsYmd';
 import { insertSpinner, removeSpinner } from '../../../utils/spinner';
 
 export default class CardHandler {
@@ -20,11 +21,26 @@ export default class CardHandler {
 		) as HTMLButtonElement;
 	}
 
-	updateLastUsedString() {
+	updateLastUsedString( date: string ) {
 		const lastUsedContainer = this.cardEl.querySelector(
 			'.last-used-value'
 		) as HTMLSpanElement;
-		lastUsedContainer.textContent = 'Today';
+		if ( date === dateAsYmd() ) {
+			lastUsedContainer.textContent = 'Today';
+		} else {
+			const [ year, month, day ] = date
+				.match( /(\d{4})(\d{2})(\d{2})/ )!
+				.slice( 1 );
+			const dateObj = new Date( year, month - 1, day );
+			lastUsedContainer.textContent = dateObj.toLocaleDateString(
+				'en-US',
+				{
+					year: 'numeric',
+					month: 'long',
+					day: 'numeric',
+				}
+			);
+		}
 	}
 
 	useIsLoading( isLoading: boolean, clickedButton: HTMLButtonElement ) {

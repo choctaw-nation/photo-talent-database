@@ -1,4 +1,3 @@
-import dateAsYmd from '../../../utils/dateAsYmd';
 import { APIResponse, PostData } from '../../../utils/types';
 
 export default class WPHandler {
@@ -41,21 +40,25 @@ export default class WPHandler {
 		}
 	}
 
-	async setLastUsed( id: number ) {
-		const today = dateAsYmd();
+	/**
+	 * Set the last used date for a talent post.
+	 * @param id Post id
+	 * @param date [Optional] last used date as Ymd
+	 * @returns
+	 */
+	async setLastUsed( id: number, date: string ): Promise< APIResponse > {
 		try {
 			const nonce = this.getNonce();
 			const response = await fetch(
-				`${ this.REST_ROUTE }/talent/${ id }
-				`,
+				`${ this.REST_ROUTE }/talent/${ id }`,
 				{
-					method: 'PATCH',
+					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
 						'X-WP-Nonce': nonce,
 					},
 					body: JSON.stringify( {
-						lastUsed: today,
+						lastUsed: date,
 					} ),
 				}
 			);

@@ -9,7 +9,7 @@ if ( ! is_home() || ! have_posts() ) {
 	return;
 }
 ?>
-<div class="offcanvas offcanvas-bottom" tabindex="-1" id="custom-date-offcanvas" aria-labelledby="customDateOffCanvasLabel">
+<div class="offcanvas offcanvas-bottom" tabindex="-1" id="custom-date-offcanvas" aria-labelledby="customDateOffCanvasLabel" style="--bs-offcanvas-height:35vh">
 	<div class="offcanvas-header">
 		<h5 class="offcanvas-title" id="customDateOffCanvasLabel">Custom Date</h5>
 		<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -68,7 +68,7 @@ if ( ! is_home() || ! have_posts() ) {
 			</div>
 			<div class="row row-cols-auto gx-0 gap-2">
 				<button type="button" class="btn btn-secondary flex-grow-1" data-bs-dismiss="offcanvas" aria-label="Cancel and close">Cancel</button>
-				<button type="submit" class="btn btn-primary flex-grow-1" aria-label="Submit custom date">Select Date</button>
+				<button type="submit" class="btn btn-primary flex-grow-1" aria-label="Submit custom date">Set Custom Date</button>
 			</div>
 		</form>
 	</div>

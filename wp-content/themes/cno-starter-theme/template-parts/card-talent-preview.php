@@ -64,7 +64,8 @@ $is_preview     = $args['is_preview'] ?? false;
 		</button>
 		<ul class="dropdown-menu">
 			<li>
-				<button class="dropdown-item btn btn-link" type="button" data-bs-toggle="offcanvas" data-bs-target="#custom-date-offcanvas" aria-controls="custom-date-offcanvas">Custom
+				<button class="dropdown-item btn btn-link btn-last-used-custom" type="button" data-bs-toggle="offcanvas" data-bs-target="#custom-date-offcanvas"
+						aria-controls="custom-date-offcanvas">Custom
 					Date</button>
 			</li>
 			<li>
