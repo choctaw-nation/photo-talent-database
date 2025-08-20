@@ -10,7 +10,7 @@ $last_used_date = cno_get_last_used_string( $talent_id );
 $is_preview     = $args['is_preview'] ?? false;
 ?>
 <div class="card border border-2 rounded-3 border-black h-100" data-post-id="<?php echo $talent_id; ?>" data-talent-name="<?php echo get_the_title( $talent_id ); ?>"
-	 id="talent-<?php echo $talent_id; ?>">
+	id="talent-<?php echo $talent_id; ?>">
 	<?php get_template_part( 'template-parts/talent-preview/card', 'carousel-top', array( 'id' => $talent_id ) ); ?>
 	<div class="card-body d-flex flex-column align-items-stretch">
 		<h3 class="card-title d-flex flex-wrap align-items-center gap-2 mb-3">
@@ -58,7 +58,8 @@ $is_preview     = $args['is_preview'] ?? false;
 				data-talent-name="<?php echo trim( preg_replace( '/\s+/', ' ', get_the_title() ) ); ?>" data-post-id="<?php the_ID(); ?>">
 			View Talent
 		</button>
-		<button type="button" class="btn rounded-top-0 border-bottom-0 border-start-0 border-end-0 btn-outline-primary" data-bs-toggle="dropdown" aria-expanded="false">
+		<button type="button" class="btn rounded-top-0 border-bottom-0 border-start-0 border-end-0 btn-outline-primary" data-bs-toggle="dropdown" data-bs-auto-close="outside"
+				aria-expanded="false">
 			Set As Used
 		</button>
 		<ul class="dropdown-menu">
