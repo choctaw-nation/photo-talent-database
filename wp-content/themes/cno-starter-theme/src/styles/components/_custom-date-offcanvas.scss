@@ -1,0 +1,9 @@
+@use "../abstracts/mixins" as m;
+
+#custom-date-offcanvas {
+	--bs-offcanvas-height: 45vh;
+
+	@include m.media-breakpoint-up(md) {
+		--bs-offcanvas-height: 35vh;
+	}
+}

@@ -1,9 +1,11 @@
+import Offcanvas from 'bootstrap/js/dist/offcanvas';
 import { insertSpinner, removeSpinner } from '../../../utils/spinner';
 
 export default class OffCanvasHandler {
 	offcanvasEl: HTMLDivElement;
 	customDateForm: HTMLFormElement;
 	id: string;
+	private offcanvas: Offcanvas | null = null;
 
 	constructor( id: string ) {
 		this.id = id;
@@ -14,6 +16,8 @@ export default class OffCanvasHandler {
 			throw new Error( "Couldn't find the offcanvas element!" );
 		}
 		this.offcanvasEl = offcanvas;
+		this.offcanvas = new Offcanvas( this.offcanvasEl );
+
 		const form = this.offcanvasEl.querySelector< HTMLFormElement >(
 			'#custom-date-picker'
 		);
@@ -21,6 +25,10 @@ export default class OffCanvasHandler {
 			throw new Error( "Couldn't find the custom date picker form!" );
 		}
 		this.customDateForm = form;
+	}
+
+	toggleOffcanvas() {
+		this.offcanvas?.toggle();
 	}
 
 	handleFormSubmission( callback: ( date: string ) => Promise< void > ) {
@@ -44,6 +52,7 @@ export default class OffCanvasHandler {
 				removeSpinner(
 					submitButton.querySelector( '.spinner-border' )
 				);
+				this.toggleOffcanvas();
 			} );
 		} );
 	}

@@ -218,6 +218,7 @@ export default class Controller {
 					this.setLastUsed( postId, ev.target, dateAsYmd() );
 				} else if ( 'last-used-custom' === actionType ) {
 					const offCanvasHandler = new OffCanvasHandler( postId );
+					offCanvasHandler.toggleOffcanvas();
 					offCanvasHandler.handleFormSubmission( ( date: string ) =>
 						this.setLastUsed(
 							postId,
