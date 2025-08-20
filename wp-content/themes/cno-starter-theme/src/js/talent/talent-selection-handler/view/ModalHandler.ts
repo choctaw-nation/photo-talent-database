@@ -2,6 +2,7 @@ import Modal from 'bootstrap/js/dist/modal';
 import Tab from 'bootstrap/js/dist/tab';
 import { SaveListFormData } from '../../../utils/types';
 import dateAsYmd from '../../../utils/dateAsYmd';
+import { insertSpinner, removeSpinner } from '../../../utils/spinner';
 
 export default class ModalHandler {
 	modal: Modal;
@@ -194,14 +195,12 @@ export default class ModalHandler {
 			return;
 		}
 		buttonElement.disabled = isLoading;
-		const modalFooter = this.modalEl.querySelector( '.modal-footer' )!;
+		const modalFooter =
+			this.modalEl.querySelector< HTMLElement >( '.modal-footer' )!;
 		if ( isLoading ) {
-			modalFooter.insertAdjacentHTML(
-				'afterbegin',
-				`<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>`
-			);
+			insertSpinner( modalFooter );
 		} else {
-			modalFooter.querySelector( '.spinner-border' )?.remove();
+			removeSpinner( modalFooter.querySelector( '.spinner-border' ) );
 		}
 	}
 

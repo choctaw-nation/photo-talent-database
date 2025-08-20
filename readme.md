@@ -4,6 +4,11 @@ A WordPress site to allow the photo team to find models for different photoshoot
 
 ## Changelog
 
+### v1.4.1 - [August 20, 2025]
+
+-   Fixed: Modal now has spinner when loading data
+-   Fixed: Refactored spinner to global util functions
+
 ### v1.4.0 - [August 19, 2025]
 
 -   Added: New Modal to preview Talent Details on Talent archive page
