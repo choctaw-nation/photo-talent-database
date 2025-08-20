@@ -90,6 +90,9 @@ export default class Controller {
 		}
 	}
 
+	/**
+	 * Callback function to handle modal show event
+	 */
 	private onShowCallback() {
 		if ( this.ListHandler.clearSelectionButton ) {
 			this.ListHandler.clearSelectionButton.removeEventListener(
