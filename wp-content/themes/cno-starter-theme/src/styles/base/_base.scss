@@ -19,6 +19,6 @@ main {
 	flex: 1 0 auto;
 }
 
-button[data-bs-target="#create-pdf-modal"] {
+button#create-pdf-modal-trigger {
 	--bs-btn-bg: white;
 }

@@ -37,18 +37,25 @@ export default class ModalHandler {
 		)!.textContent = title;
 	}
 
-	constructor() {
+	constructor( onShow: () => void ) {
 		this.modalEl = document.getElementById(
 			'create-pdf-modal'
 		) as HTMLDivElement;
 		this.modalTrigger = document.getElementById(
 			'create-pdf-modal-trigger'
 		) as HTMLButtonElement;
-		this.initModal();
+		this.modal = Modal.getOrCreateInstance( this.modalEl );
+		this.init( onShow );
 	}
 
-	initModal() {
-		this.modal = Modal.getOrCreateInstance( this.modalEl );
+	private init( onShow: () => void ) {
+		this.modalTrigger.addEventListener( 'click', () => {
+			this.modal.show();
+		} );
+		this.modalEl.addEventListener( 'show.bs.modal', () => {
+			this.initTabs();
+			onShow();
+		} );
 	}
 
 	/**
@@ -67,13 +74,6 @@ export default class ModalHandler {
 		if ( this.modalTrigger ) {
 			this.modalTrigger.classList.remove( 'd-none' );
 		}
-	}
-
-	onShow( callback: Function ) {
-		this.modalEl.addEventListener( 'show.bs.modal', () => {
-			this.initTabs();
-			callback();
-		} );
 	}
 
 	hide() {
