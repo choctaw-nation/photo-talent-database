@@ -3,15 +3,20 @@
  * @param target Container element to insert the spinner into
  * @returns The spinner element
  */
-export function insertSpinner( target: HTMLElement ) {
+export function insertSpinner(
+	target: HTMLElement,
+	location: InsertPosition = 'afterbegin',
+	classes: string[] = []
+) {
 	const spinner = document.createElement( 'div' );
-	spinner.className = 'spinner-border text-primary';
+	const spinnerClasses = [ 'spinner-border', 'text-primary', ...classes ];
+	spinner.className = spinnerClasses.join( ' ' );
 	spinner.setAttribute( 'role', 'status' );
 	const srOnly = document.createElement( 'span' );
 	srOnly.className = 'visually-hidden';
 	srOnly.textContent = 'Loading...';
 	spinner.appendChild( srOnly );
-	target.insertAdjacentElement( 'afterbegin', spinner );
+	target.insertAdjacentElement( location, spinner );
 	return spinner;
 }
 

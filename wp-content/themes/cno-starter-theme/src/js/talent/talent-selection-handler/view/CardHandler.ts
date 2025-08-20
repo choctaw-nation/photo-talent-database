@@ -27,12 +27,18 @@ export default class CardHandler {
 		lastUsedContainer.textContent = 'Today';
 	}
 
-	useIsLoading( isLoading: boolean ) {
-		this.lastUsedTodayButton.disabled = isLoading;
-		this.customDateTrigger.disabled = isLoading;
-		const dropdownMenu = this.cardEl.querySelector(
-			'.dropdown-menu'
-		) as HTMLElement;
-		dropdownMenu.style.cursor = isLoading ? 'wait' : '';
+	useIsLoading( isLoading: boolean, clickedButton: HTMLButtonElement ) {
+		const buttons = [ this.lastUsedTodayButton, this.customDateTrigger ];
+		buttons.forEach( ( button ) => {
+			button.disabled = isLoading;
+		} );
+		if ( isLoading ) {
+			insertSpinner( clickedButton, 'beforeend', [
+				'spinner-border-sm',
+				'ms-3',
+			] );
+		} else {
+			removeSpinner( clickedButton.querySelector( '.spinner-border' ) );
+		}
 	}
 }

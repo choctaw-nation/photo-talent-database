@@ -204,7 +204,7 @@ export default class Controller {
 					return;
 				const cardHandler = new CardHandler( postId );
 				try {
-					cardHandler.useIsLoading( true );
+					cardHandler.useIsLoading( true, ev.target );
 					const data = await db.setLastUsed( Number( postId ) );
 					if ( data ) {
 						cardHandler.updateLastUsedString();
@@ -213,7 +213,7 @@ export default class Controller {
 				} catch ( error ) {
 					this.toast.showToast( error.message, error.type );
 				} finally {
-					cardHandler.useIsLoading( false );
+					cardHandler.useIsLoading( false, ev.target );
 				}
 			}
 		} );
