@@ -14,7 +14,7 @@ $menu_links      = array(
 );
 $link_conditions = array( $lists_count > 0, ( (int) $pending_talent->pending + (int) $pending_talent->draft ) > 0 );
 ?>
-<div class="offcanvas-header"><button class="btn-close" aria-label="Close"></button></div>
+<div class="offcanvas-header"><button class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button></div>
 <div class="offcanvas-body">
 	<ul class="col col-auto d-flex flex-column flex-md-row flex-wrap justify-content-md-end align-items-md-center gap-3 mb-0 ps-0 list-unstyled">
 		<?php
