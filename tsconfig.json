@@ -1,0 +1,25 @@
+{
+	"compilerOptions": {
+		"target": "es6",
+		"lib": [ "dom", "dom.iterable", "esnext" ],
+		"allowJs": true,
+		"checkJs": true,
+		"skipLibCheck": true,
+		"strict": true,
+		"forceConsistentCasingInFileNames": true,
+		"noEmit": true,
+		"esModuleInterop": true,
+		"module": "esnext",
+		"moduleResolution": "node",
+		"noImplicitAny": false,
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"jsx": "preserve",
+		"typeRoots": [
+			"./node_modules/@types",
+			"./wp-content/themes/**/src/js/**/types"
+		]
+	},
+	"include": [ "./wp-content/themes/**/src/js/**/*" ],
+	"exclude": [ "node_modules", "./wp-content/themes/twenty*/**/*" ]
+}

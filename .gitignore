@@ -30,7 +30,6 @@ local-xdebuginfo.php
 auth.json
 /vendor
 /bundle-analyzer
-/.vscode/*
 
 # WP Engine
 /_wpeprivate
