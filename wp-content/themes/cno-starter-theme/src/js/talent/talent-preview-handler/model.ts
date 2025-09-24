@@ -1,8 +1,10 @@
+// eslint-disable-next-line camelcase
 interface API_Data {
 	success: boolean;
 	message: string;
 }
 
+// eslint-disable-next-line camelcase
 export interface SuccessfulApiResponse extends API_Data {
 	success: true;
 	data: {
@@ -10,6 +12,7 @@ export interface SuccessfulApiResponse extends API_Data {
 	};
 }
 
+// eslint-disable-next-line camelcase
 export interface ErrorApiResponse extends API_Data {
 	success: false;
 }

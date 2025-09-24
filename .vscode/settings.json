@@ -1,0 +1,69 @@
+{
+    "[php]": {
+        "editor.autoIndent": "advanced",
+        "editor.defaultFormatter": "wongjn.php-sniffer",
+        "editor.detectIndentation": true,
+        "editor.formatOnSave": true,
+        "editor.indentSize": "tabSize",
+        "editor.insertSpaces": false,
+        "editor.useTabStops": true,
+        "prettier.tabWidth": 4,
+        "prettier.useTabs": true
+    },
+    "[yaml]": {
+        "editor.autoIndent": "advanced",
+        "editor.detectIndentation": true,
+        "editor.indentSize": "tabSize",
+        "editor.quickSuggestions": {
+            "comments": false,
+            "other": true,
+            "strings": true
+        },
+        "editor.tabSize": 2,
+        "editor.useTabStops": true,
+        "prettier.useTabs": false
+    },
+    "bootstrapAutocomplete.version": "5.3.2",
+    "cSpell.words": [
+		"bloburl",
+		"cnophotodb",
+		"jspdf",
+		"photoshoots",
+		"postid",
+		"prefixer",
+		"unslash",
+        "Appender",
+        "Customizer",
+        "mediapress",
+        "xxxxl"
+    ],
+    "css.format.spaceAroundSelectorSeparator": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "always",
+        "source.fixAll.stylelint": "always"
+    },
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": false,
+    "eslint.enable": true,
+    "eslint.useESLintClass": true,
+    "eslint.validate": [
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact",
+        "html",
+        "css",
+        "scss"
+    ],
+    "html.format.templating": true,
+    "phpSniffer.standard": "phpcs.xml.dist",
+    "scss.format.spaceAroundSelectorSeparator": true,
+    "stylelint.snippet": [
+        "css",
+        "scss"
+    ],
+    "stylelint.validate": [
+        "css",
+        "scss"
+    ]
+}

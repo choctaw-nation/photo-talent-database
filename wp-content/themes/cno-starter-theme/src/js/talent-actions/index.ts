@@ -5,6 +5,7 @@ window.addEventListener( 'DOMContentLoaded', () => {
 		const actionsHandler = new TalentActionsHandler();
 		actionsHandler.init();
 	} catch ( err ) {
+		// eslint-disable-next-line no-console
 		console.error( err );
 	}
 } );

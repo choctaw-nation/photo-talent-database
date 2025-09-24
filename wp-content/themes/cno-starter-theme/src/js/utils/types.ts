@@ -21,6 +21,7 @@ export interface TalentListPost {
 	id: number;
 	title: string;
 	link: string;
+	// eslint-disable-next-line camelcase
 	talent_ids: number[];
 	description?: string;
 }
@@ -61,6 +62,7 @@ export type Image = {
 	back: ImageDetails;
 	left: ImageDetails;
 	right: ImageDetails;
+	// eslint-disable-next-line camelcase
 	three_quarters: ImageDetails;
 };
 

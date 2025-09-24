@@ -236,7 +236,6 @@ class Theme_Init {
 	public function cno_theme_support() {
 		add_theme_support( 'post-thumbnails' );
 		add_theme_support( 'title-tag' );
-
 		register_nav_menus(
 			array(
 				'primary_menu' => __( 'Primary Menu', 'cno' ),
@@ -254,6 +253,8 @@ class Theme_Init {
 		foreach ( $post_types as $post_type ) {
 			$this->disable_post_type_support( $post_type );
 		}
+		remove_post_type_support( 'post', 'editor' );
+		remove_post_type_support( 'post', 'excerpt' );
 	}
 
 	/**

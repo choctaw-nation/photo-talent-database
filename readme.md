@@ -4,6 +4,13 @@ A WordPress site to allow the photo team to find models for different photoshoot
 
 ## Changelog
 
+### v1.6.0 - [September 24, 2025]
+
+- Added: Site supports extra photos!
+- Tweaked: Removed gutenberg support where unnecessary
+- Chore: Added configs
+- Chore: Updated packages
+
 ### v1.5.0 - [August 20, 2025]
 
 -   Added: Users can now set custom "last-used" date!

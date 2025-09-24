@@ -22,6 +22,7 @@ export default class WPHandler {
 				}
 			);
 			if ( ! response.ok ) {
+				// eslint-disable-next-line no-console
 				console.error(
 					'Failed to fetch selected data:',
 					response.statusText
@@ -30,11 +31,13 @@ export default class WPHandler {
 			}
 			const data: APIResponse = await response.json();
 			if ( ! data.success ) {
+				// eslint-disable-next-line no-console
 				console.error( 'API response was not successful:', data );
 				return [];
 			}
 			return data.posts;
 		} catch ( err ) {
+			// eslint-disable-next-line no-console
 			console.error( 'Error fetching posts:', err );
 			return [];
 		}
@@ -42,9 +45,9 @@ export default class WPHandler {
 
 	/**
 	 * Set the last used date for a talent post.
-	 * @param id Post id
+	 * @param id   Post id
 	 * @param date [Optional] last used date as Ymd
-	 * @returns
+	 * @return
 	 */
 	async setLastUsed( id: number, date: string ): Promise< APIResponse > {
 		try {
@@ -105,6 +108,7 @@ export default class WPHandler {
 			} = await response.json();
 			return { success, message, link: post.link };
 		} catch ( error ) {
+			// eslint-disable-next-line no-console
 			console.error( 'Error creating talent list:', error );
 			throw error;
 		}
@@ -133,6 +137,7 @@ export default class WPHandler {
 			const data = await response.json();
 			return { success: data.success, message: data.message };
 		} catch ( error ) {
+			// eslint-disable-next-line no-console
 			console.error( 'Error deleting talent list:', error );
 			throw error;
 		}
@@ -158,10 +163,10 @@ export default class WPHandler {
 			const { success, message, data } = await response.json();
 			if ( success ) {
 				return success;
-			} else {
-				throw new Error( message );
 			}
+			throw new Error( message );
 		} catch ( err ) {
+			// eslint-disable-next-line no-console
 			console.error( 'Error removing talent from list:', err );
 			throw err;
 		}

@@ -10,10 +10,6 @@ export default class PdfGenerator extends PdfUtilities {
 		height: 3,
 	};
 
-	constructor() {
-		super();
-	}
-
 	async buildPdf( talentData: PostData[] ): Promise< jsPDF > {
 		for ( const [ index, talent ] of talentData.entries() ) {
 			try {
@@ -178,8 +174,7 @@ export default class PdfGenerator extends PdfUtilities {
 			return 'jpeg';
 		} else if ( url.endsWith( '.png' ) ) {
 			return 'png';
-		} else {
-			throw new Error( 'Unsupported image format' );
 		}
+		throw new Error( 'Unsupported image format' );
 	}
 }

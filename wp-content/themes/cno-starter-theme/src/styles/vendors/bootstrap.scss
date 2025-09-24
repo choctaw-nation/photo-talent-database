@@ -1,7 +1,9 @@
+// stylelint-disable no-import-at-invalid-position
 @use "sass:map";
 @use "sass:list";
 @use "../abstracts/variables" as v;
 @use "bootstrap/scss/vendor/rfs" as rfs;
+
 // Required
 @import "bootstrap/scss/functions";
 
@@ -13,7 +15,6 @@
 
 $primary: v.$color-purple;
 $secondary: #6c757d;
-
 $custom-colors: (
 	"black": black,
 	"white": white,
@@ -27,7 +28,7 @@ $custom-colors: (
 $font-size-base: 1rem;
 $font-family-sans-serif: v.$font-body;
 $font-family-monospace:
-	Monaspace Neon,
+	monaspace neon,
 	"Courier New",
 	monospace;
 
@@ -74,15 +75,16 @@ $display-font-sizes: (
 $btn-transition: all v.$transition-standard;
 $btn-font-weight: 700;
 $btn-border-width: 2px;
-
 $btn-padding-x: 0.75rem;
 $btn-padding-y: 0.375rem;
 $btn-font-size: $h6-font-size;
+
 // $btn-border-radius: 50rem;
 
 $btn-font-size-lg: $h5-font-size;
 $btn-padding-x-lg: 1.5rem;
 $btn-padding-y-lg: 0.75rem;
+
 // $btn-border-radius-lg: 50rem;
 
 // $btn-border-radius-sm: 50rem;
@@ -124,6 +126,7 @@ $card-border-radius: 0.5rem;
 
 $breadcrumb-font-size: $h6-font-size;
 $breadcrumb-margin-bottom: 0;
+
 // $breadcrumb-active-color: $primary;
 
 // ================================================
@@ -155,7 +158,6 @@ $offcanvas-bg-color: white;
 $accordion-bg: transparent;
 $accordion-border-color: transparent;
 $accordion-border-width: 2px;
-
 $accordion-button-bg: transparent;
 $accordion-button-active-bg: transparent;
 
@@ -166,7 +168,6 @@ $accordion-button-active-bg: transparent;
 */
 
 $carousel-control-opacity: 0.8;
-
 $carousel-indicator-size: 8px;
 $carousel-indicator-width: $carousel-indicator-size;
 $carousel-indicator-height: $carousel-indicator-size;
@@ -185,6 +186,7 @@ $enable-dark-mode: false;
 // ================================================
 
 @import "bootstrap/scss/variables";
+
 // @import "bootstrap/scss/variables-dark";
 
 // Map Overrides Here (Optional)
@@ -193,6 +195,7 @@ $aspect-ratios: (
 	"16x9": calc(9 / 16 * 100%),
 	"2x3": calc(3 / 2 * 100%),
 );
+
 // Custom Colors to extend the theme with
 
 $theme-colors: map.merge($theme-colors, $custom-colors);
@@ -240,6 +243,7 @@ $theme-colors: map.merge($theme-colors, $custom-colors);
 @import "bootstrap/scss/offcanvas";
 @import "bootstrap/scss/dropdown";
 @import "bootstrap/scss/type";
+
 // @import "bootstrap/scss/images";
 // @import "bootstrap/scss/tables";
 @import "bootstrap/scss/forms";
@@ -251,6 +255,7 @@ $theme-colors: map.merge($theme-colors, $custom-colors);
 @import "bootstrap/scss/accordion";
 @import "bootstrap/scss/pagination";
 @import "bootstrap/scss/badge";
+
 // @import "bootstrap/scss/alert";
 // @import "bootstrap/scss/progress";
 @import "bootstrap/scss/list-group";

@@ -15,10 +15,14 @@ export default class LocalStorage extends WPHandler {
 	// Helper to get unique post IDs from localStorage
 	getIds(): Set< number > {
 		const raw = localStorage.getItem( this.STORAGE_KEY );
-		if ( ! raw ) return new Set();
+		if ( ! raw ) {
+			return new Set();
+		}
 		try {
 			const parsed = JSON.parse( raw );
-			if ( ! Array.isArray( parsed ) ) return new Set();
+			if ( ! Array.isArray( parsed ) ) {
+				return new Set();
+			}
 			// Ensure all IDs are numbers
 			return new Set(
 				parsed
@@ -36,7 +40,7 @@ export default class LocalStorage extends WPHandler {
 	 * @param id The ID to save.
 	 * @throws Will throw an error if the ID is not a number or is less than or equal to zero.
 	 * @throws Will throw an error if the ID already exists in localStorage.
-	 * @returns boolean
+	 * @return boolean
 	 */
 	saveId( id: number | string ): boolean {
 		if ( typeof id === 'string' ) {
@@ -113,6 +117,7 @@ export default class LocalStorage extends WPHandler {
 		try {
 			return await this.createTalentList( data );
 		} catch ( error ) {
+			// eslint-disable-next-line no-console
 			console.error( 'Error creating talent list:', error );
 			throw error;
 		}
@@ -121,6 +126,7 @@ export default class LocalStorage extends WPHandler {
 	async getSelectedData(): Promise< PostData[] | [] > {
 		const ids = this.getIds();
 		if ( ids.size === 0 ) {
+			// eslint-disable-next-line no-console
 			console.warn( 'No IDs found in localStorage' );
 			return [];
 		}

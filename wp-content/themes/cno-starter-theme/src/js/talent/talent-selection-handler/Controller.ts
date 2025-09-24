@@ -63,6 +63,7 @@ export default class Controller {
 					'There was an error saving your list. Please try again.',
 					'error'
 				);
+				// eslint-disable-next-line no-console
 				console.error( 'Error handling save list:', error );
 			} finally {
 				this.Modal.useLoadingSpinner( false, 'list' );
@@ -141,7 +142,9 @@ export default class Controller {
 	 * Add click listeners to all "Select Talent" buttons
 	 */
 	private addSelectTalentListener( db: LocalStorage ) {
-		if ( ! this.talentContainer ) return;
+		if ( ! this.talentContainer ) {
+			return;
+		}
 		this.talentContainer.addEventListener( 'click', ( ev ) => {
 			if ( ev.target instanceof HTMLButtonElement ) {
 				const { postId, talentName, actionType } =
@@ -150,8 +153,9 @@ export default class Controller {
 					! postId ||
 					! talentName ||
 					'select-talent' !== actionType
-				)
+				) {
 					return;
+				}
 				try {
 					const idDidSave = db.saveId( postId );
 					if ( idDidSave ) {
@@ -171,7 +175,7 @@ export default class Controller {
 	/**
 	 * Get the attributes from a button element
 	 * @param button The button element
-	 * @returns An object containing the post ID, talent name, and action type
+	 * @return An object containing the post ID, talent name, and action type
 	 */
 	private getTalentAttributes( button: HTMLButtonElement ): {
 		postId: string | null;
@@ -208,12 +212,16 @@ export default class Controller {
 	 * @param db The local storage instance
 	 */
 	private addLastUsedListener() {
-		if ( ! this.talentContainer ) return;
+		if ( ! this.talentContainer ) {
+			return;
+		}
 		this.talentContainer.addEventListener( 'click', ( ev ) => {
 			if ( ev.target instanceof HTMLButtonElement ) {
 				const { postId, talentName, actionType } =
 					this.getTalentAttributes( ev.target );
-				if ( ! postId || ! talentName ) return;
+				if ( ! postId || ! talentName ) {
+					return;
+				}
 				if ( 'last-used' === actionType ) {
 					this.setLastUsed( postId, ev.target, dateAsYmd() );
 				} else if ( 'last-used-custom' === actionType ) {

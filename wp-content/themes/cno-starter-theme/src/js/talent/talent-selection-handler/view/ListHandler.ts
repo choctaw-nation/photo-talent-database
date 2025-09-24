@@ -55,7 +55,7 @@ export default class ListHandler {
 		const ids = db.getIds();
 		if ( this.list ) {
 			if ( ids.size === this.list.children.length ) {
-				return;
+
 			} else {
 				const existingPosts =
 					this.list.querySelectorAll< HTMLLIElement >( 'li' );
@@ -207,15 +207,15 @@ export default class ListHandler {
 				<div class="col d-flex flex-column align-items-start gap-2">
 					<h3 class="mb-0 fs-5">${ title }</h3>
 					${
-						isChoctaw
-							? `<span class="badge text-bg-primary fw-normal w-auto">Choctaw</span>`
-							: ''
-					}
+	isChoctaw
+		? `<span class="badge text-bg-primary fw-normal w-auto">Choctaw</span>`
+		: ''
+}
 					${
-						lastUsed
-							? `<span class="badge bg-secondary fw-normal fs-root w-auto">Last Used: ${ lastUsed }</span>`
-							: ''
-					}
+	lastUsed
+		? `<span class="badge bg-secondary fw-normal fs-root w-auto">Last Used: ${ lastUsed }</span>`
+		: ''
+}
 				</div>
 			</div>
 			<button class="btn-close" data-post-id="${ id }"><span class="visually-hidden">Close</span></button>
@@ -234,7 +234,9 @@ export default class ListHandler {
 	 */
 	protected formatDate( date: string ): string {
 		// Parse PHP Ymd string
-		if ( ! date || date.length !== 8 ) return '';
+		if ( ! date || date.length !== 8 ) {
+			return '';
+		}
 		const year = parseInt( date.slice( 0, 4 ), 10 );
 		const month = parseInt( date.slice( 4, 6 ), 10 ) - 1; // JS months are 0-based
 		const day = parseInt( date.slice( 6, 8 ), 10 );
@@ -245,9 +247,15 @@ export default class ListHandler {
 		now.setHours( 0, 0, 0, 0 );
 		const diffMs = now.getTime() - inputDate.getTime();
 		const diffDays = Math.floor( diffMs / ( 1000 * 60 * 60 * 24 ) );
-		if ( diffDays === 0 ) return 'today';
-		if ( diffDays === 1 ) return 'yesterday';
-		if ( diffDays < 7 ) return `${ diffDays } days ago`;
+		if ( diffDays === 0 ) {
+			return 'today';
+		}
+		if ( diffDays === 1 ) {
+			return 'yesterday';
+		}
+		if ( diffDays < 7 ) {
+			return `${ diffDays } days ago`;
+		}
 		if ( diffDays < 30 ) {
 			const weeks = Math.floor( diffDays / 7 );
 			return weeks === 1 ? '1 week ago' : `${ weeks } weeks ago`;
@@ -260,10 +268,10 @@ export default class ListHandler {
 		return years === 1
 			? '1 year ago'
 			: inputDate.toLocaleDateString( 'en-US', {
-					year: 'numeric',
-					month: 'long',
-					day: 'numeric',
-			  } );
+				year: 'numeric',
+				month: 'long',
+				day: 'numeric',
+			} );
 	}
 
 	/**

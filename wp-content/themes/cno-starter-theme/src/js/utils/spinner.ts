@@ -1,7 +1,7 @@
 /**
  * Creates a Bootstrap spinner
  * @param target Container element to insert the spinner into
- * @returns The spinner element
+ * @return The spinner element
  */
 export function insertSpinner(
 	target: HTMLElement,
