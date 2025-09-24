@@ -43,6 +43,7 @@ export default class TalentActionsHandler {
 						actionCallback[ action ]
 					);
 				} catch ( error ) {
+					// eslint-disable-next-line no-console
 					console.error( 'Error updating post:', error );
 					this.toaster.showToast(
 						'An error occurred while processing your request.',
@@ -104,6 +105,7 @@ export default class TalentActionsHandler {
 			const data = await response.json();
 			return data;
 		} catch ( error ) {
+			// eslint-disable-next-line no-console
 			console.error( 'Error in updatePost:', error );
 			throw error;
 		}

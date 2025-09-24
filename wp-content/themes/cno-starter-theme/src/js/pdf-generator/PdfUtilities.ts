@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/named
 import jsPDF, { jsPDFOptions } from 'jspdf';
 
 type FontSizes = {

@@ -36,6 +36,7 @@ window.addEventListener( 'DOMContentLoaded', () => {
 						}
 					} catch ( err ) {
 						toaster.showToast( err.message, 'error' );
+						// eslint-disable-next-line no-console
 						console.error( err );
 					}
 				}
@@ -71,6 +72,7 @@ window.addEventListener( 'DOMContentLoaded', () => {
 						}
 					} catch ( err ) {
 						toaster.showToast( err.message, 'error' );
+						// eslint-disable-next-line no-console
 						console.error( err );
 					} finally {
 						target.disabled = false;

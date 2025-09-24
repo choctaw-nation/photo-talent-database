@@ -185,8 +185,8 @@ export default class ModalHandler {
 	/**
 	 * Renders a Bootstrap loading spinner next to a button
 	 * @param isLoading Represents whether the button is in a loading state
-	 * @param button The button to apply the loading state to
-	 * @returns
+	 * @param button    The button to apply the loading state to
+	 * @return
 	 */
 	useLoadingSpinner( isLoading: boolean, button: 'list' | 'pdf' ) {
 		const buttonElement =

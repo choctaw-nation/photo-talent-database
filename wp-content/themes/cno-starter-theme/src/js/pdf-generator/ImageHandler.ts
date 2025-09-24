@@ -41,7 +41,9 @@ class ImageHandler {
 		canvas.width = this.targetWidth;
 		canvas.height = this.targetHeight;
 		const ctx = canvas.getContext( '2d' );
-		if ( ! ctx ) throw new Error( 'Canvas context not available' );
+		if ( ! ctx ) {
+			throw new Error( 'Canvas context not available' );
+		}
 		const { sx, sy, sw, sh } = this.getCoverCrop( img.width, img.height );
 
 		ctx.drawImage(
@@ -65,7 +67,7 @@ class ImageHandler {
 	/**
 	 * Loads an image from a URL.
 	 * @param url The URL of the image to load.
-	 * @returns A promise that resolves to the loaded HTMLImageElement.
+	 * @return A promise that resolves to the loaded HTMLImageElement.
 	 */
 	private static loadImage( url: string ): Promise< HTMLImageElement > {
 		return new Promise( ( resolve, reject ) => {

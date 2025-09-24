@@ -14,7 +14,9 @@ export function handleGeneratePdfButtonClick() {
 	}
 
 	generatePdfButton.addEventListener( 'click', async () => {
-		if ( generatePdfButton.disabled ) return;
+		if ( generatePdfButton.disabled ) {
+			return;
+		}
 		const toaster = new ToastHandler();
 		const talentItems = document.querySelectorAll< HTMLButtonElement >(
 			'#selected-talent-list .btn-close'
@@ -38,6 +40,7 @@ export function handleGeneratePdfButtonClick() {
 			}
 		} catch ( error ) {
 			toaster.showToast( 'Error building the PDF.', 'error' );
+			// eslint-disable-next-line no-console
 			console.error( 'Error generating PDF:', error );
 			return;
 		} finally {
@@ -74,7 +77,9 @@ export async function fetchTalentData( ids: number[] ): Promise< PostData[] > {
 			},
 		}
 	);
-	if ( ! response.ok ) throw new Error( 'Failed to fetch talent data' );
+	if ( ! response.ok ) {
+		throw new Error( 'Failed to fetch talent data' );
+	}
 	const result: GetTalentResponse = await response.json();
 	return result.posts || [];
 }
