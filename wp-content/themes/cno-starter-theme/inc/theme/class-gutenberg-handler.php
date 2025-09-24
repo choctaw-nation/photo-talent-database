@@ -22,6 +22,7 @@ class Gutenberg_Handler {
 		add_action( 'after_setup_theme', array( $this, 'cno_block_theme_support' ), 50 );
 		add_filter( 'block_editor_settings_all', array( $this, 'restrict_gutenberg_ui' ), 10, 1 );
 		add_filter( 'allowed_block_types_all', array( $this, 'restrict_block_types' ), 10, 2 );
+		add_filter( 'use_block_editor_for_post_type', array( $this, 'handle_page_templates' ) );
 	}
 
 	/**
@@ -123,5 +124,33 @@ class Gutenberg_Handler {
 			return $allowed_block_types;
 		}
 		return $allowed_block_types;
+	}
+
+	/**
+	 * Disallows the Block Editor (and editor altogether) for certain post types
+	 *
+	 * @return bool
+	 */
+	public function handle_page_templates(): bool {
+		if ( ! is_admin() ) {
+			return true;
+		}
+		global $post;
+		if ( ! $post ) {
+			return true;
+		}
+		if ( 'post' === $post->post_type ) {
+			return false;
+		}
+		$current_template     = get_page_template_slug( $post );
+		$homepage_id          = (int) get_option( 'page_on_front' );
+		$is_homepage          = ( $homepage_id && $homepage_id === $post->ID );
+		$disallowed_templates = array( 'page-templates/pending-talent.php' );
+		if ( in_array( $current_template, $disallowed_templates, true ) || $is_homepage ) {
+			// side effect to hide editor metabox.
+			remove_post_type_support( 'page', 'editor' );
+			return false;
+		}
+		return true;
 	}
 }

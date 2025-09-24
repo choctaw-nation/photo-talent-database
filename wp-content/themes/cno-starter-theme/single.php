@@ -31,8 +31,9 @@ get_header();
 		?>
 	</header>
 	<?php get_template_part( 'template-parts/content', 'talent-details' ); ?>
-	<section>
-		<h2>Photos</h2>
+	<section class="d-flex flex-column row-gap-4 align-items-stretch">
+		<div>
+			<h2 class="mb-0">Photos</h2>
 		<div class="row row-cols-1 row-cols-lg-3 row-gap-4">
 			<?php
 			$images    = array( 'front', 'back', 'left', 'right', 'three_quarters' );
@@ -74,6 +75,30 @@ get_header();
 			</div>
 			<?php endforeach; ?>
 		</div>
+		</div>
+		<?php $additional_images = get_field( 'additional_images' ); ?>
+		<?php if ( $additional_images ) : ?>
+			<div>
+				<h3 class="mb-0">Additional Images</h3>
+				<div class="row row-cols-auto row-cols-lg-3 row-gap-4">
+			<?php foreach ( $additional_images as $image ) : ?>
+				<div class="col flex-grow-1">
+					<?php
+					echo wp_get_attachment_image(
+						$image,
+						'full',
+						false,
+						array(
+							'class'   => 'w-100 h-100 object-fit-contain',
+							'loading' => 'lazy',
+						)
+					);
+					?>
+				</div>
+			<?php endforeach; ?>
+			</div>
+			</div>
+		<?php endif; ?>
 	</section>
 	<?php get_template_part( 'template-parts/content', 'post-actions' ); ?>
 </main>

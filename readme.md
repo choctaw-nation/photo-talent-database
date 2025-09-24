@@ -7,6 +7,7 @@ A WordPress site to allow the photo team to find models for different photoshoot
 ### v1.6.0 - [September 24, 2025]
 
 - Added: Site supports extra photos!
+- Tweaked: Removed gutenberg support where unnecessary
 - Chore: Added configs
 - Chore: Updated packages
 
