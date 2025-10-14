@@ -4,6 +4,13 @@ A WordPress site to allow the photo team to find models for different photoshoot
 
 ## Changelog
 
+### v1.6.1 - [October 14, 2025]
+
+- Tweaked: Enforced required taxonomies on posts' edit page with ACF
+- Fixed: Login/Logout button url in the header now points to the correct spot
+- Chore: Updated Packages
+- Chore: Updated "tested up to"
+
 ### v1.6.0 - [September 24, 2025]
 
 - Added: Site supports extra photos!

@@ -23,7 +23,6 @@
         "editor.useTabStops": true,
         "prettier.useTabs": false
     },
-    "bootstrapAutocomplete.version": "5.3.2",
     "cSpell.words": [
 		"bloburl",
 		"cnophotodb",
@@ -43,7 +42,6 @@
         "source.fixAll.stylelint": "always"
     },
     "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": false,
     "eslint.enable": true,
     "eslint.useESLintClass": true,
     "eslint.validate": [
