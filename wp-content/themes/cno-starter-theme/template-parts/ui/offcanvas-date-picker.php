@@ -53,16 +53,11 @@ if ( ! is_home() || ! have_posts() ) {
 					</div>
 				</div>
 				<div class="col flex-grow-1 flex-shrink-1">
-					<?php
-					$year_min = $now->format( 'Y' ) - 1;
-					$year_max = $now->format( 'Y' ) + 1;
-					?>
 					<div class="form-floating">
-						<input type="number" class="form-control" id="date-year" name="date-year" min="<?php echo $year_min; ?>" max="<?php echo $year_max; ?>"
-								value="<?php echo $now->format( 'Y' ); ?>" required aria-required="true" aria-label="Year" inputmode="numeric" pattern="[0-9]*" placeholder="Year">
+						<input type="number" class="form-control" id="date-year" name="date-year" value="<?php echo $now->format( 'Y' ); ?>" required aria-required="true" aria-label="Year"
+								inputmode="numeric" pattern="[0-9]*" placeholder="Year">
 						<label for="date-year">Year</label>
 					</div>
-					<div class="form-text">Must be between <?php echo $year_min; ?> and <?php echo $year_max; ?></div>
 				</div>
 			</div>
 			<div class="row row-cols-auto gx-0 gap-2">

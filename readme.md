@@ -4,19 +4,29 @@ A WordPress site to allow the photo team to find models for different photoshoot
 
 ## Changelog
 
+### v1.7.0 - [October 21, 2025]
+
+-   Added: Images now support captions & descriptions in `single` template
+-   Tweak: Update `single` to handle empty fields
+-   Tweak: "Custom last used" can now handle back-dating talent
+-   Refactor: Primary `single` images live in template part
+-   Refactor: `single` template's `content-post-actions` has been renamed `buttons-post-actions`
+-   Refactor: `single` template parts have been moved to `template-parts/single/`
+-   Fixed: Card Previews on `/talent` now hide empty fields
+
 ### v1.6.1 - [October 14, 2025]
 
-- Tweaked: Enforced required taxonomies on posts' edit page with ACF
-- Fixed: Login/Logout button url in the header now points to the correct spot
-- Chore: Updated Packages
-- Chore: Updated "tested up to"
+-   Tweaked: Enforced required taxonomies on posts' edit page with ACF
+-   Fixed: Login/Logout button url in the header now points to the correct spot
+-   Chore: Updated Packages
+-   Chore: Updated "tested up to"
 
 ### v1.6.0 - [September 24, 2025]
 
-- Added: Site supports extra photos!
-- Tweaked: Removed gutenberg support where unnecessary
-- Chore: Added configs
-- Chore: Updated packages
+-   Added: Site supports extra photos!
+-   Tweaked: Removed gutenberg support where unnecessary
+-   Chore: Added configs
+-   Chore: Updated packages
 
 ### v1.5.0 - [August 20, 2025]
 
