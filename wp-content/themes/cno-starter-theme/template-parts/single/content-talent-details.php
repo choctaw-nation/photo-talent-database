@@ -24,7 +24,7 @@ $have_contact_fields = array_reduce(
 		<h2>About</h2>
 		<div class="d-flex flex-column row-gap-2">
 			<?php
-			foreach ( $fields as $label => $key ) {
+			foreach ( $contact_fields as $label => $key ) {
 				echo "<p class='mb-0'><span class='fw-bold'>{$label}:</span> " . get_field( $key, $talent_id, escape_html: true ) . '</p>';
 			}
 			?>
