@@ -27,80 +27,32 @@ get_header();
 		if ( 'Choctaw' === cno_get_is_choctaw() ) {
 			echo '<p class="badge text-bg-primary fs-6 mb-0">Choctaw</p>';
 		}
-		get_template_part( 'template-parts/content', 'post-actions' );
+		get_template_part( 'template-parts/single/buttons', 'post-actions' );
 		?>
 	</header>
-	<?php get_template_part( 'template-parts/content', 'talent-details' ); ?>
+	<?php get_template_part( 'template-parts/single/content', 'talent-details' ); ?>
 	<section class="d-flex flex-column row-gap-4 align-items-stretch">
 		<div>
 			<h2 class="mb-0">Photos</h2>
-		<div class="row row-cols-1 row-cols-lg-3 row-gap-4">
-			<?php
-			$images    = array( 'front', 'back', 'left', 'right', 'three_quarters' );
-			$image_ids = array_map(
-				function ( $image ) {
-					$image_arr = get_field( 'image_' . $image );
-					return is_array( $image_arr ) ? $image_arr['ID'] : (int) $image_arr;
-				},
-				$images
-			);
-			?>
-			<?php foreach ( $image_ids as $index => $image_id ) : ?>
-				<?php
-				if ( ! $image_id ) {
-					continue;
-				}
-				?>
-			<div class="col flex-grow-1">
-				<figure class="position-relative mb-0 d-flex flex-column justify-content-end" style="aspect-ratio: 2 / 3">
-					<div style="background-image:linear-gradient(to bottom,transparent 80%,rgba(0,0,0,.5))" class="position-absolute inset-0 z-1 w-100 h-100">
-					</div>
-					<?php
-						echo wp_get_attachment_image(
-							$image_id,
-							'full',
-							false,
-							array(
-								'class'   => 'position-absolute z-n1 inset-0 w-100 h-100 object-fit-cover',
-								'loading' => 'lazy',
-							)
-						);
-					?>
-					<figcaption class="z-2 text-white text-center fs-5 mb-2">
-						<p class="mb-0">
-							<?php echo 'three_quarters' === $images[ $index ] ? 'Three Quarters' : ucfirst( $images[ $index ] ); ?>
-						</p>
-					</figcaption>
-				</figure>
+			<div class="row row-cols-1 row-cols-lg-3 row-gap-4">
+				<?php get_template_part( 'template-parts/single/content', 'talent-images' ); ?>
 			</div>
-			<?php endforeach; ?>
-		</div>
 		</div>
 		<?php $additional_images = get_field( 'additional_images' ); ?>
-		<?php if ( $additional_images ) : ?>
-			<div>
-				<h3 class="mb-0">Additional Images</h3>
-				<div class="row row-cols-auto row-cols-lg-3 row-gap-4">
-			<?php foreach ( $additional_images as $image ) : ?>
-				<div class="col flex-grow-1">
-					<?php
-					echo wp_get_attachment_image(
-						$image,
-						'full',
-						false,
-						array(
-							'class'   => 'w-100 h-100 object-fit-contain',
-							'loading' => 'lazy',
-						)
-					);
-					?>
-				</div>
-			<?php endforeach; ?>
-			</div>
-			</div>
-		<?php endif; ?>
 	</section>
-	<?php get_template_part( 'template-parts/content', 'post-actions' ); ?>
+	<?php if ( $additional_images ) : ?>
+	<section>
+		<h2 class="mb-0">Additional Images</h2>
+		<div class="row row-cols-auto row-cols-lg-3 row-gap-4">
+			<?php foreach ( $additional_images as $image ) : ?>
+			<div class="col flex-grow-1 flex-lg-grow-0">
+				<?php get_template_part( 'template-parts/single/card', 'additional-image', array( 'image' => $image ) ); ?>
+			</div>
+			<?php endforeach; ?>
+		</div>
+	</section>
+	<?php endif; ?>
+	<?php get_template_part( 'template-parts/single/buttons', 'post-actions' ); ?>
 </main>
 <?php
 get_footer();

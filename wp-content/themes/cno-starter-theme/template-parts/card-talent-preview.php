@@ -37,6 +37,14 @@ $is_preview     = $args['is_preview'] ?? false;
 			)
 			?>
 			<?php foreach ( $props as $label => $value ) : ?>
+				<?php
+				if ( empty( $value ) ) {
+					continue;
+				}
+				if ( 'Height' === $label && "' \"" === $value ) {
+					continue;
+				}
+				?>
 			<p class="mb-0">
 				<span class="fw-bold"><?php echo esc_html( $label ); ?>:</span>
 				<?php
