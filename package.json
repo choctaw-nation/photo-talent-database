@@ -1,7 +1,7 @@
 {
-	"name": "cno-block-theme",
-	"version": "1.1.1",
-	"description": "Custom WP theme for CNO sites",
+	"name": "cno-talent-database-theme",
+	"version": "2.0.0",
+	"description": "Custom WP theme for CNO talent database",
 	"prettier": "@wordpress/prettier-config",
 	"browserslist": [
 		"extends @wordpress/browserslist-config"
@@ -20,21 +20,21 @@
 	"license": "GPL-3.0-or-later",
 	"dependencies": {
 		"bootstrap": "^5.3.8",
-		"jspdf": "^3.0.3"
+		"jspdf": "^4.2.0"
 	},
 	"devDependencies": {
-		"@eslint/compat": "^1.4.0",
-		"@eslint/eslintrc": "^3.3.1",
+		"@eslint/compat": "^2.0.3",
+		"@eslint/eslintrc": "^3.3.5",
 		"@types/bootstrap": "^5.2.10",
-		"@wordpress/scripts": "^30.25.0",
-		"eslint": "^9.37.0",
+		"@wordpress/scripts": "^31.6.0",
+		"eslint": "^9",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-import-resolver-typescript": "^4.4.4",
-		"eslint-plugin-react-hooks": "^7.0.0",
-		"globals": "^16.4.0",
-		"stylelint": "^16.25.0",
-		"stylelint-config-standard-scss": "^16.0.0",
-		"stylelint-scss": "^6.12.1",
+		"eslint-plugin-react-hooks": "^7.0.1",
+		"globals": "^17.4.0",
+		"stylelint": "^17.4.0",
+		"stylelint-config-standard-scss": "^17.0.0",
+		"stylelint-scss": "^7.0.0",
 		"webpack-remove-empty-scripts": "^1.1.1"
 	}
 }

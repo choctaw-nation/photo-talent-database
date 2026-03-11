@@ -7,7 +7,7 @@
  * @package ChoctawNation
  */
 
-namespace ChoctawNation;
+namespace ChoctawNation\Plugins;
 
 /**
  * ACF_Handler Class
@@ -35,7 +35,7 @@ class ACF_Handler {
 			return;
 		}
 
-		$this->base_path   = get_stylesheet_directory() . '/inc/acf/acf-fields/';
+		$this->base_path   = get_stylesheet_directory() . '/inc/plugins/acf/acf-fields/';
 		$this->paths_array = array(
 			'field-group'     => 'fields',
 			'post-type'       => 'post-types',

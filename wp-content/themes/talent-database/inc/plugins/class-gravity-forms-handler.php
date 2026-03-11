@@ -6,7 +6,7 @@
  * @subpackage Gravity Forms
  */
 
-namespace ChoctawNation;
+namespace ChoctawNation\Plugins;
 
 /**
  * Gravity Forms Handler

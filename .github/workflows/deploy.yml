@@ -10,7 +10,7 @@ jobs:
         uses: choctaw-nation/shared-github-actions/.github/workflows/deploy.yml@main
         with:
             WPE_ENV: cnophotodb
-            theme_name: cno-starter-theme
+            theme_name: talent-database
         secrets: inherit
 
     deploy-stg:
@@ -19,7 +19,7 @@ jobs:
         uses: choctaw-nation/shared-github-actions/.github/workflows/deploy.yml@main
         with:
             WPE_ENV: # WP Engine environment name
-            theme_name: cno-starter-theme
+            theme_name: talent-database
         secrets: inherit
 
     deploy-dev:
@@ -27,8 +27,8 @@ jobs:
         if: github.ref == 'refs/heads/dev'
         uses: choctaw-nation/shared-github-actions/.github/workflows/deploy.yml@main
         with:
-            WPE_ENV: # WP Engine environment name
-            theme_name: cno-starter-theme
+            WPE_ENV: phototalentdev # WP Engine environment name
+            theme_name: talent-database
         secrets: inherit
 
     # Run Playwright tests on Dev
