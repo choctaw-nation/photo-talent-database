@@ -98,7 +98,7 @@ class Theme_Init {
 			'gutenberg-handler'    => 'Gutenberg_Handler',
 			'bootstrap-pagination' => null,
 			'post-override'        => 'Post_Override',
-			'rest-router'          => 'REST_Router',
+			'rest-router'          => null,
 			'cron-events'          => 'Cron_Events',
 		);
 		foreach ( $utility_files as $utility_file => $class_name ) {
@@ -109,6 +109,8 @@ class Theme_Init {
 			$class = __NAMESPACE__ . '\\' . $class_name;
 			new $class();
 		}
+		$rest_router = new REST_Router();
+		add_action( 'rest_api_init', array( $rest_router, 'register_routes' ) );
 
 		$plugin_files = array(
 			'gravity-forms-handler' => null,
