@@ -239,7 +239,7 @@ class Rest_Router extends WP_REST_Controller {
 				$fields    = $request->get_param( 'fields' );
 				if ( ! empty( $fields ) && is_array( $fields ) ) {
 					if ( in_array( 'isChoctaw', $fields, true ) ) {
-						$post_data['isChoctaw'] = cno_get_is_choctaw( $post->ID ) === 'Choctaw';
+						$post_data['isChoctaw'] = cno_get_is_choctaw( $post->ID ) === 'Choctaw Tribal Member';
 					}
 					if ( in_array( 'lastUsed', $fields, true ) ) {
 						$post_data['lastUsed'] = get_field( 'last_used', $post->ID );

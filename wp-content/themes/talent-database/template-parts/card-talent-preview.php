@@ -9,13 +9,13 @@ $talent_id      = $args['id'] ?? get_the_ID();
 $last_used_date = cno_get_last_used_string( $talent_id );
 $is_preview     = $args['is_preview'] ?? false;
 ?>
-<div class="card border border-2 rounded-3 border-black h-100" data-post-id="<?php echo $talent_id; ?>" data-talent-name="<?php echo get_the_title( $talent_id ); ?>"
+<div class="card border border-2 rounded-3 border-black h-100" data-post-id="<?php echo $talent_id; ?>" data-talent-name="<?php echo esc_textarea( get_the_title( $talent_id ) ); ?>"
 	id="talent-<?php echo $talent_id; ?>">
 	<?php get_template_part( 'template-parts/talent-preview/card', 'carousel-top', array( 'id' => $talent_id ) ); ?>
 	<div class="card-body d-flex flex-column align-items-stretch row-gap-3">
 		<div class="d-flex flex-wrap align-items-center gap-2">
 			<h3 class="card-title mb-0 fs-6">
-				<?php echo get_the_title( $talent_id ); ?>
+				<?php echo esc_textarea( get_the_title( $talent_id ) ); ?>
 			</h3>
 			<?php
 			$tribal_status    = cno_get_is_choctaw( $talent_id );
@@ -49,7 +49,7 @@ $is_preview     = $args['is_preview'] ?? false;
 			)
 			?>
 			<?php foreach ( $props as $label => $value ) : ?>
-				<?php
+			<?php
 				if ( empty( $value ) ) {
 					continue;
 				}
@@ -75,7 +75,7 @@ $is_preview     = $args['is_preview'] ?? false;
 		<a href="<?php the_permalink(); ?>" class="btn btn-black mt-auto align-self-end">View Talent</a>
 		<?php else : ?>
 		<button type="button" class="btn rounded-top-0 border-bottom-0 border-start-0 border-end-0 btn-outline-primary" data-bs-toggle="modal" data-bs-target="#talent-details-modal"
-			data-talent-name="<?php echo trim( preg_replace( '/\s+/', ' ', get_the_title() ) ); ?>" data-post-id="<?php the_ID(); ?>">
+			data-talent-name="<?php echo esc_attr( trim( preg_replace( '/\s+/', ' ', get_the_title() ) ) ); ?>" data-post-id="<?php the_ID(); ?>">
 			View Talent
 		</button>
 		<button type="button" class="btn rounded-top-0 border-bottom-0 border-start-0 border-end-0 btn-outline-primary" data-bs-toggle="dropdown" data-bs-auto-close="outside"

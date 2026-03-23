@@ -109,7 +109,7 @@ class Theme_Init {
 			$class = __NAMESPACE__ . '\\' . $class_name;
 			new $class();
 		}
-		$rest_router = new REST_Router();
+		$rest_router = new Rest_Router();
 		add_action( 'rest_api_init', array( $rest_router, 'register_routes' ) );
 
 		$plugin_files = array(
