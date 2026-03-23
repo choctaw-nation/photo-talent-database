@@ -9,6 +9,7 @@ namespace ChoctawNation;
 
 use DateTime;
 use WP_HTML_Tag_Processor;
+use WP_REST_Controller;
 use WP_REST_Request;
 use WP_REST_Response;
 use WP_REST_Server;
@@ -18,35 +19,15 @@ use WP_REST_Server;
  *
  * This class registers REST API routes for the Choctaw Nation theme.
  */
-class Rest_Router {
-	/**
-	 * The version of the REST API.
-	 *
-	 * @var int $version
-	 */
-	private int $version;
+class Rest_Router extends WP_REST_Controller {
 
-	/**
-	 * The namespace for the REST API routes.
-	 *
-	 * @var string $namespace
-	 */
-	private string $namespace;
 
-	/**
-	 * Constructor to initialize the REST API routes.
-	 */
-	public function __construct() {
-		$this->namespace = 'cno';
-		$this->version   = 1;
-		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
-	}
 
 	/**
 	 * Register REST API routes.
 	 */
 	public function register_routes() {
-		$namespace = "{$this->namespace}/v{$this->version}";
+		$namespace = 'cno/v1';
 		register_rest_route(
 			$namespace,
 			'/talent',
@@ -602,7 +583,7 @@ class Rest_Router {
 			);
 		}
 		$html = ob_start();
-		get_template_part( 'template-parts/content', 'talent-details', array( 'id' => $id ) );
+		get_template_part( 'template-parts/single/content', 'talent-details', array( 'id' => $id ) );
 		$html .= ob_get_contents();
 		$html  = ob_get_clean();
 		return new WP_REST_Response(

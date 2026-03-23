@@ -1,4 +1,10 @@
 {
+	"[javascript]": {
+		"editor.formatOnSave": false
+	},
+	"[javascriptreact]": {
+		"editor.formatOnSave": false
+	},
 	"[php]": {
 		"editor.autoIndent": "advanced",
 		"editor.defaultFormatter": "wongjn.php-sniffer",
@@ -9,6 +15,12 @@
 		"editor.useTabStops": true,
 		"prettier.tabWidth": 4,
 		"prettier.useTabs": true
+	},
+	"[typescript]": {
+		"editor.formatOnSave": false
+	},
+	"[typescriptreact]": {
+		"editor.formatOnSave": false
 	},
 	"[yaml]": {
 		"editor.autoIndent": "advanced",
@@ -25,18 +37,22 @@
 	},
 	"cSpell.words": [
 		"Appender",
+		"atts",
 		"autoptimize",
 		"autoupdater",
-		"bloburl",
 		"choctawnation",
-		"cnophotodb",
+		"choctawnationofoklahoma",
 		"Customizer",
-		"jspdf",
+		"loginout",
 		"mediapress",
-		"photoshoots",
-		"postid",
-		"prefixer",
-		"unslash",
+		"megamenu",
+		"metadesc",
+		"nextpage",
+		"NONBLOCKING",
+		"pagenum",
+		"prio",
+		"Squiz",
+		"trackbacks",
 		"wordfence",
 		"xxxxl"
 	],
@@ -60,6 +76,6 @@
 	"html.format.templating": true,
 	"phpSniffer.standard": "phpcs.xml.dist",
 	"scss.format.spaceAroundSelectorSeparator": true,
-	"stylelint.snippet": [ "css", "scss" ],
-	"stylelint.validate": [ "css", "scss" ]
+	"stylelint.snippet": ["css", "scss"],
+	"stylelint.validate": ["css", "scss"]
 }
