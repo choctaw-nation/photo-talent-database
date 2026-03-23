@@ -21,7 +21,7 @@ get_header();
 	<?php if ( have_posts() ) : ?>
 	<section class="row row-cols-auto row-cols-lg-3 row-gap-4 align-items-stretch">
 		<?php while ( have_posts() ) : ?>
-		<?php the_post(); ?>
+			<?php the_post(); ?>
 		<div class="col">
 			<div class="card border-black">
 				<div class="card-body p-3 d-flex flex-column align-items-stretch gap-3">
@@ -66,7 +66,7 @@ get_header();
 		</div>
 		<?php endwhile; ?>
 	</section>
-	<?php cno_the_pagination(); ?>
+		<?php cno_the_pagination(); ?>
 	</div>
 	<?php else : ?>
 	<p>No talent lists found.</p>

@@ -121,10 +121,12 @@ $default-type-scale: map.get($scales, minor-third);
 			$step-value: $step-key;
 		}
 
+		/* stylelint-disable scss/operator-no-newline-after */
 		$min: $default-type-base-min *
 			math.pow($type-scale, $i - $type-base-index);
 		$max: $default-type-base-max *
 			math.pow($type-scale, $i - $type-base-index);
+		/* stylelint-enable scss/operator-no-newline-after */
 
 		--#{$prefix}-#{$step-value}: #{clamped($min, $max)};
 	}
