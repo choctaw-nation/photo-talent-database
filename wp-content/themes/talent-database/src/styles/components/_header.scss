@@ -4,6 +4,14 @@
 	a {
 		--bs-link-color-rgb: 255, 255, 255;
 		--bs-link-hover-color-rgb: var(--bs-secondary-rgb);
+
+		&:visited {
+			color: white;
+
+			@include m.interaction {
+				color: var(--wp--preset--color--secondary);
+			}
+		}
 	}
 
 	.btn-close {

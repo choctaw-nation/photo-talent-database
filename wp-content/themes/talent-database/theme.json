@@ -116,12 +116,6 @@
 					}
 				},
 				{
-					"slug": "base",
-					"size": "1.35rem",
-					"name": "Body",
-					"fluid": false
-				},
-				{
 					"slug": "sm",
 					"size": "1.2rem",
 					"name": "Small (H6)",
@@ -208,19 +202,19 @@
 			"core/list": {
 				"typography": {
 					"fontFamily": "var:preset|font-family|gill-sans-nova",
-					"fontSize": "var:preset|font-size|base"
+					"fontSize": "var:preset|font-size|root"
 				}
 			},
 			"core/list-item": {
 				"typography": {
 					"fontFamily": "var:preset|font-family|gill-sans-nova",
-					"fontSize": "var:preset|font-size|base"
+					"fontSize": "var:preset|font-size|root"
 				}
 			},
 			"core/paragraph": {
 				"typography": {
 					"fontFamily": "var:preset|font-family|gill-sans-nova",
-					"fontSize": "var:preset|font-size|base"
+					"fontSize": "var:preset|font-size|root"
 				}
 			}
 		},

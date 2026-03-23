@@ -1,7 +1,16 @@
 @use "../abstracts/variables" as v;
 @use "../abstracts/mixins" as m;
+@use "../abstracts/fluid-type-utils" as fluid-type;
 
 :root {
+	@include fluid-type.generate-type-scale;
+	@include fluid-type.generate-type-scale(
+		perfect-fourth,
+		"fs-display",
+		fluid-type.$display-steps,
+		0
+	);
+
 	--font-body: #{v.$font-body};
 	--transition-standard: #{v.$transition-standard};
 	// stylelint-disable-next-line selector-class-pattern

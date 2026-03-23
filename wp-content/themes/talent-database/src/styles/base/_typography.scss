@@ -1,4 +1,42 @@
+@use "../abstracts/fluid-type-utils" as fluid-type;
+
+// HEADINGS
+
+$headings: (
+	1: "xxxl",
+	2: "xxl",
+	3: "xl",
+	4: "lg",
+	5: "md",
+	6: "sm",
+);
+
+/**
+* Reset Headings and utils to use WP sizes instead of bootstrap's
+*/
+@each $heading, $slug in $headings {
+	h#{$heading},
+	.h#{$heading} {
+		text-wrap: pretty;
+		font-size: var(--wp--preset--font-size--#{$slug});
+	}
+	.fs-#{$heading} {
+		font-size: var(--wp--preset--font-size--#{$slug}) !important;
+	}
+}
+
+/**
+* Reset Display Font Sizes to use clamp instead of Bootstrap's RFS
+*/
+@each $step in fluid-type.$display-steps {
+	.display-#{$step} {
+		font-size: var(--fs-display-#{$step}) !important;
+	}
+}
+
 body {
+	--bs-body-font-size: var(--wp--preset--font-size--root);
+
 	text-wrap: pretty;
 	word-break: normal;
 }
@@ -12,5 +50,5 @@ a {
 }
 
 :where(h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6) {
-	text-wrap: balance;
+	text-wrap: pretty;
 }

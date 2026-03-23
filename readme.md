@@ -4,6 +4,13 @@ A WordPress site to allow the photo team to find models for different photoshoot
 
 ## Changelog
 
+### v1.8.0 - [March 23, 2026]
+
+- Updated: Update grid size to 8 across
+- Updated: Type is responsive and resized to be more appropriate across the site (responsive type made things quite large)
+- Fixed: Visited links stay white
+- Fixed: Primary buttons use `rounded-pill`
+
 ### v1.7.1 - [March 18, 2026]
 
 - Fixed: `View Talent` works

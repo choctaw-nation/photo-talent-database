@@ -1,0 +1,131 @@
+@use "sass:math";
+@use "sass:list";
+@use "sass:map";
+@use "sass:meta";
+
+///////////////
+// VARIABLES
+////////////
+
+/**
+ * Type Scales
+ */
+$scales: (
+	minor-second: 1.067,
+	major-second: 1.125,
+	minor-third: 1.2,
+	major-third: 1.25,
+	perfect-fourth: 1.333,
+	augmented-fourth: 1.414,
+	perfect-fifth: 1.5,
+	golden-ratio: 1.618,
+);
+
+/**
+ * Defaults
+ */
+// Breakpoints
+$default-min-bp: 390px;
+$default-max-bp: 1320px;
+
+// Type Scale bases (<p>)
+$default-type-base-min: 16px;
+$default-type-base-max: 20px;
+
+// Type Scale steps
+$default-type-steps: (
+	small: "sm",
+	p: "base",
+	h6: "md",
+	h5: "lg",
+	h4: "xl",
+	h3: "xxl",
+	h2: "xxxl",
+	h1: "xxxxl",
+);
+$display-steps: (6, 5, 4, 3, 2, 1);
+
+// Default Type Scale
+$default-type-scale: map.get($scales, minor-third);
+
+//////////////
+// FUNCTIONS
+////////////
+
+@function _rnd($number, $places: 3) {
+	$n: 1;
+
+	@if $places > 0 {
+		@for $i from 1 through $places {
+			$n: $n * 10;
+		}
+	}
+
+	@return math.div(math.round($number * $n), $n);
+}
+
+@function _to-rems($px) {
+	$rems: math.div($px, 16px) * 1rem;
+
+	@return $rems;
+}
+
+/**
+ * Conditionally writes a clamped fluid type value based on a minimum and maximum pixel size.
+*/
+@function clamped(
+	$min-px,
+	$max-px,
+	$min-bp: $default-min-bp,
+	$max-bp: $default-max-bp
+) {
+	$slope: math.div($max-px - $min-px, $max-bp - $min-bp);
+	$slope-vw: _rnd($slope * 100);
+	$intercept-rems: _rnd(_to-rems($min-px - $slope * $min-bp));
+	$min-rems: _rnd(_to-rems($min-px));
+	$max-rems: _rnd(_to-rems($max-px));
+	$preferred: "calc(#{$slope-vw}vw + #{$intercept-rems})";
+
+	@return clamp(#{$min-rems}, #{$preferred}, #{$max-rems});
+}
+
+///////////
+// MIXINS
+///////////
+
+@mixin generate-type-scale(
+	$type-scale: $default-type-scale,
+	$prefix: "font-size",
+	$type-steps: $default-type-steps,
+	$type-base-index: list.index(map.keys($default-type-steps), "p")
+) {
+	@if meta.type-of($type-scale) == "string" {
+		$type-scale: map.get($scales, $type-scale);
+	}
+
+	$steps-keys: ();
+
+	@if meta.type-of($type-steps) == "map" {
+		$steps-keys: map.keys($type-steps);
+	} @else {
+		$steps-keys: $type-steps;
+	}
+
+	@for $i from 1 through list.length($steps-keys) {
+		$step-key: list.nth($steps-keys, $i);
+		$step-value: 0;
+
+		@if meta.type-of($type-steps) == "map" {
+			$step-value: map.get($type-steps, $step-key);
+		} @else {
+			$step-value: $step-key;
+		}
+
+		$min: $default-type-base-min *
+			math.pow($type-scale, $i - $type-base-index);
+		$max: $default-type-base-max *
+			math.pow($type-scale, $i - $type-base-index);
+
+		--#{$prefix}-#{$step-value}: #{clamped($min, $max)};
+	}
+}

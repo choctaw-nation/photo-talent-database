@@ -22,14 +22,14 @@ $fields = array(
 <div class="accordion">
 	<div class="accordion-item border-primary overflow-hidden">
 		<h2 class="accordion-header">
-			<button class="accordion-button fs-5 fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-filters" aria-expanded="true" aria-controls="sidebar-filters">
+			<button class="accordion-button fs-6 fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-filters" aria-expanded="true" aria-controls="sidebar-filters">
 				Show Filters
 			</button>
 		</h2>
 		<div class="accordion-collapse collapse show" id="sidebar-filters">
 			<div class="d-flex flex-column gap-3 mt-3">
 				<div class="d-flex flex-wrap justify-content-between align-items-center mx-3">
-					<h2 class="fs-5 mb-0">Filters</h2>
+					<h2 class="fs-6 mb-0">Filters</h2>
 					<?php echo do_shortcode( "[searchandfilter field='Reset']" ); ?>
 				</div>
 				<div class="list-group list-group-flush">

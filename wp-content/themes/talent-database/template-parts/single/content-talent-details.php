@@ -21,7 +21,7 @@ $have_contact_fields = array_reduce(
 <section class="row row-cols-1 row-cols-lg-2 row-gap-4">
 	<?php if ( $have_contact_fields ) : ?>
 	<div class="col">
-		<h2>About</h2>
+		<h2 class="fs-5">About</h2>
 		<div class="d-flex flex-column row-gap-2">
 			<?php
 			foreach ( $contact_fields as $label => $key ) {
@@ -30,7 +30,7 @@ $have_contact_fields = array_reduce(
 			?>
 			<?php if ( get_field( 'features' ) ) : ?>
 			<div class="features w-auto align-self-start flex-grow-0 mt-3">
-				<h3 class="fs-5 mb-0">Distinguishing Features:</h3>
+				<h3 class="fs-6 mb-0">Distinguishing Features:</h3>
 				<p><?php the_field( 'features', $talent_id ); ?></p>
 			</div>
 			<?php endif; ?>
@@ -73,7 +73,7 @@ $have_contact_fields = array_reduce(
 	?>
 	<?php if ( ( $have_details || $have_attributes ) ) : ?>
 	<div class="col">
-		<h2>Attributes</h2>
+		<h2 class="fs-5">Attributes</h2>
 		<div class="d-flex flex-column">
 			<?php
 			if ( $have_details ) {
