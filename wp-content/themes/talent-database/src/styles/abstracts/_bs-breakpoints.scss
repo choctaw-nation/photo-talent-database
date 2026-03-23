@@ -33,14 +33,27 @@ $grid-breakpoints: (
 * Makes the @content apply to the given breakpoint and narrower.
 */
 @mixin media-breakpoint-down($name, $breakpoints: $grid-breakpoints) {
-	$max: map.get($breakpoints, $name);
+	$keys: map.keys($breakpoints);
+	$index: list.index($keys, $name);
 
-	@if $max {
-		@media screen and (width <= $max) {
-			@content;
-		}
-	} @else {
+	// If the breakpoint name is not found, just output the content without a query.
+	@if $index == null {
 		@content;
+	} @else {
+		$next-index: $index + 1;
+
+		// No max constraint for the largest breakpoint (no "next" breakpoint).
+		@if $next-index > list.length($keys) {
+			@content;
+		} @else {
+			$next-name: list.nth($keys, $next-index);
+			$next-min: map.get($breakpoints, $next-name);
+			$max: $next-min - 0.02px;
+
+			@media screen and (width <= $max) {
+				@content;
+			}
+		}
 	}
 }
 

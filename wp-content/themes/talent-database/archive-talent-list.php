@@ -25,7 +25,7 @@ get_header();
 		<div class="col">
 			<div class="card border-black">
 				<div class="card-body p-3 d-flex flex-column align-items-stretch gap-3">
-					<h2 class="card-title mb-0"><?php echo substr( get_the_title(), 12 ); ?></h2>
+					<h2 class="card-title mb-0"><?php echo esc_html( substr( get_the_title(), 12 ) ); ?></h2>
 					<div class="meta d-flex flex-wrap gap-2">
 						<p class="badge text-bg-secondary mb-0">Created on:
 							<?php
