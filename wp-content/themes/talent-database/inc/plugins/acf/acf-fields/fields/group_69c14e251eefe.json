@@ -1,0 +1,95 @@
+{
+    "key": "group_69c14e251eefe",
+    "title": "Meta Fields",
+    "fields": [
+        {
+            "key": "field_69c14e25fdbea",
+            "label": "Shirt Size",
+            "name": "shirt_size",
+            "aria-label": "",
+            "type": "radio",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "xs": "Extra Small",
+                "sm": "Small",
+                "md": "Medium",
+                "lg": "Large",
+                "xl": "Extra Large",
+                "xxl": "2XL",
+                "xxxl": "3XL"
+            },
+            "default_value": "",
+            "return_format": "value",
+            "allow_null": 0,
+            "other_choice": 1,
+            "save_other_choice": 0,
+            "allow_in_bindings": 0,
+            "layout": "horizontal"
+        },
+        {
+            "key": "field_69c14e9ffdbeb",
+            "label": "Shoe Size",
+            "name": "shoe_size",
+            "aria-label": "",
+            "type": "radio",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "6": "6",
+                "6.5": "6.5",
+                "7": "7",
+                "7.5": "7.5",
+                "8": "8",
+                "8.5": "8.5",
+                "9": "9",
+                "9.5": "9.5",
+                "10": "10",
+                "10.5": "10.5",
+                "11": "11",
+                "11.5": "11.5",
+                "12": "12",
+                "12.5": "12.5"
+            },
+            "default_value": "",
+            "return_format": "value",
+            "allow_null": 0,
+            "other_choice": 1,
+            "save_other_choice": 0,
+            "allow_in_bindings": 0,
+            "layout": "horizontal"
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "post"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": false,
+    "description": "Used for cloning fields into Talent posts.",
+    "show_in_rest": 0,
+    "display_title": "",
+    "modified": 1774282900
+}

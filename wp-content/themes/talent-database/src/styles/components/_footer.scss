@@ -1,4 +1,14 @@
+@use "../abstracts/mixins" as m;
+
 .footer {
 	--bs-link-color-rgb: 255, 255, 255;
 	--bs-link-hover-color-rgb: var(--bs-secondary-rgb);
+
+	a:visited {
+		color: white;
+
+		@include m.interaction {
+			color: var(--wp--preset--color--secondary);
+		}
+	}
 }

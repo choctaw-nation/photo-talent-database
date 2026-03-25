@@ -14,7 +14,7 @@ get_header();
 ?>
 <main <?php post_class( 'container my-5 d-flex flex-column align-items-stretch row-gap-5' ); ?>>
 	<header class="text-center">
-		<h1 class="display-1 mb-0">
+		<h1 class="display-3 mb-0">
 			Talent Lists
 		</h1>
 	</header>
@@ -24,8 +24,8 @@ get_header();
 			<?php the_post(); ?>
 		<div class="col">
 			<div class="card border-black">
-				<div class="card-body">
-					<h2 class="card-title"><?php echo substr( get_the_title(), 12 ); ?></h2>
+				<div class="card-body p-3 d-flex flex-column align-items-stretch gap-3">
+					<h2 class="card-title mb-0"><?php echo esc_html( substr( get_the_title(), 12 ) ); ?></h2>
 					<div class="meta d-flex flex-wrap gap-2">
 						<p class="badge text-bg-secondary mb-0">Created on:
 							<?php
@@ -38,7 +38,6 @@ get_header();
 							}
 							echo $creation_date_string;
 							?>
-							</span>
 						</p>
 						<p class="badge text-bg-danger mb-0">Expires On:
 							<?php
@@ -56,9 +55,11 @@ get_header();
 					<?php if ( has_excerpt() ) : ?>
 					<p class="card-text"><?php the_excerpt(); ?></p>
 					<?php endif; ?>
+				</div>
+				<div class="card-footer">
 					<div class="actions-container d-flex flex-wrap justify-content-end align-items-start gap-2 mt-auto">
 						<?php get_template_part( 'template-parts/button', 'delete-list' ); ?>
-						<a href="<?php the_permalink(); ?>" class="btn btn-black">View List</a>
+						<a href="<?php the_permalink(); ?>" class="btn btn-black rounded-pill">View List</a>
 					</div>
 				</div>
 			</div>

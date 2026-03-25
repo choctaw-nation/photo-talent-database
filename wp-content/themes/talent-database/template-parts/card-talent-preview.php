@@ -9,20 +9,32 @@ $talent_id      = $args['id'] ?? get_the_ID();
 $last_used_date = cno_get_last_used_string( $talent_id );
 $is_preview     = $args['is_preview'] ?? false;
 ?>
-<div class="card border border-2 rounded-3 border-black h-100" data-post-id="<?php echo $talent_id; ?>" data-talent-name="<?php echo get_the_title( $talent_id ); ?>"
+<div class="card border border-2 rounded-3 border-black h-100" data-post-id="<?php echo $talent_id; ?>" data-talent-name="<?php echo esc_textarea( get_the_title( $talent_id ) ); ?>"
 	id="talent-<?php echo $talent_id; ?>">
 	<?php get_template_part( 'template-parts/talent-preview/card', 'carousel-top', array( 'id' => $talent_id ) ); ?>
-	<div class="card-body d-flex flex-column align-items-stretch">
-		<h3 class="card-title d-flex flex-wrap align-items-center gap-2 mb-3">
+	<div class="card-body d-flex flex-column align-items-stretch row-gap-3">
+		<div class="d-flex flex-wrap align-items-center gap-2">
+			<h3 class="card-title mb-0 fs-6">
+				<?php echo esc_textarea( get_the_title( $talent_id ) ); ?>
+			</h3>
 			<?php
-			echo get_the_title( $talent_id );
-			$is_choctaw = cno_get_is_choctaw( $talent_id );
-			if ( 'Choctaw' === $is_choctaw ) {
-				echo '<span class="badge text-bg-primary fs-6">Choctaw</span>';
+			$tribal_status    = cno_get_is_choctaw( $talent_id );
+			$is_choctaw       = 'Choctaw Tribal Member' === $tribal_status;
+			$is_tribal_member = 'Tribal Member' === $tribal_status;
+			$badge_classes    = array( 'badge', 'fs-root' );
+			if ( $is_choctaw ) {
+				$badge_classes[] = 'text-bg-primary';
+			} elseif ( $is_tribal_member ) {
+				$badge_classes[] = 'text-bg-secondary';
+			}
+			if ( $is_choctaw ) {
+				echo '<span class="' . esc_attr( implode( ' ', $badge_classes ) ) . '">Choctaw</span>';
+			} elseif ( $is_tribal_member ) {
+				echo '<span class="' . esc_attr( implode( ' ', $badge_classes ) ) . '">Tribal Member</span>';
 			}
 			?>
-		</h3>
-		<div class="d-flex flex-column mb-3">
+		</div>
+		<div class="d-flex flex-column">
 			<?php
 			$props = $is_preview ? array() : array(
 				'Last Used' => $last_used_date,
@@ -37,7 +49,7 @@ $is_preview     = $args['is_preview'] ?? false;
 			)
 			?>
 			<?php foreach ( $props as $label => $value ) : ?>
-				<?php
+			<?php
 				if ( empty( $value ) ) {
 					continue;
 				}
@@ -45,7 +57,7 @@ $is_preview     = $args['is_preview'] ?? false;
 					continue;
 				}
 				?>
-			<p class="mb-0">
+			<p class="mb-0 d-flex flex-wrap gap-2 align-items-center">
 				<span class="fw-bold"><?php echo esc_html( $label ); ?>:</span>
 				<?php
 				if ( 'Last Used' === $label ) {
@@ -58,16 +70,16 @@ $is_preview     = $args['is_preview'] ?? false;
 			<?php endforeach; ?>
 		</div>
 	</div>
-	<div class="btn-group btn-group-sm" role="group" aria-label="Talent Card Actions">
+	<div class="btn-group btn-group-sm flex-wrap" role="group" aria-label="Talent Card Actions">
 		<?php if ( $is_preview ) : ?>
 		<a href="<?php the_permalink(); ?>" class="btn btn-black mt-auto align-self-end">View Talent</a>
 		<?php else : ?>
 		<button type="button" class="btn rounded-top-0 border-bottom-0 border-start-0 border-end-0 btn-outline-primary" data-bs-toggle="modal" data-bs-target="#talent-details-modal"
-				data-talent-name="<?php echo trim( preg_replace( '/\s+/', ' ', get_the_title() ) ); ?>" data-post-id="<?php the_ID(); ?>">
+			data-talent-name="<?php echo esc_attr( trim( preg_replace( '/\s+/', ' ', get_the_title() ) ) ); ?>" data-post-id="<?php the_ID(); ?>">
 			View Talent
 		</button>
 		<button type="button" class="btn rounded-top-0 border-bottom-0 border-start-0 border-end-0 btn-outline-primary" data-bs-toggle="dropdown" data-bs-auto-close="outside"
-				aria-expanded="false">
+			aria-expanded="false">
 			Set As Used
 		</button>
 		<ul class="dropdown-menu">
