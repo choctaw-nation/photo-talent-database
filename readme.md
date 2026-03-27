@@ -4,6 +4,10 @@ A WordPress site to allow the photo team to find models for different photoshoot
 
 ## Changelog
 
+### v1.8.1 - [March 23, 2026]
+
+- Fixed: CSS is properly scoped for homepage grid sizing.
+
 ### v1.8.0 - [March 23, 2026]
 
 - Updated: Update grid size to 8 across

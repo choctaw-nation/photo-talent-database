@@ -14,7 +14,7 @@ cno_lock_down_route();
 new Asset_Loader( 'talent', Enqueue_Type::both, 'pages' );
 get_header();
 ?>
-<main <?php post_class( 'd-flex flex-column align-items-stretch row-gap-5 my-5 container-fluid' ); ?>>
+<main class='d-flex flex-column align-items-stretch row-gap-5 my-5 container-fluid'>
 	<header class="text-center">
 		<h1 class="display-3 mb-0">All Talent</h1>
 	</header>
