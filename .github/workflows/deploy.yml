@@ -31,6 +31,7 @@ jobs:
             WPE_ENV: phototalentdev # WP Engine environment name
             theme_name: talent-database
             with_autoload: true
+            flags: "-azvr --delete"
         secrets: inherit
 
     # Run Playwright tests on Dev
