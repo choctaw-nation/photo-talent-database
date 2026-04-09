@@ -19,8 +19,8 @@
 		]
 	},
 	"scripts": {
-		"phpcs": "phpcs --extensions=php --ignore=./dist/",
-		"phpcbf": "phpcbf  --extensions=php --ignore=./dist/"
+		"phpcs": "phpcs . inc/ --extensions=php --ignore=./dist/,./vendor/",
+		"phpcbf": "phpcbf . inc/ --extensions=php --ignore=./dist/,./vendor/"
 	},
 	"config": {
 		"allow-plugins": {

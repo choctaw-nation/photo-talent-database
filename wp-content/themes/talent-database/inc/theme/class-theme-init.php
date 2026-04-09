@@ -127,7 +127,7 @@ class Theme_Init {
 	 */
 	private function handle_plugins() {
 		// ACF
-		if (  defined( 'ACF_PRO' ) && defined( 'ACF_VERSION' ) ) {
+		if ( defined( 'ACF_PRO' ) && defined( 'ACF_VERSION' ) ) {
 			$acf_handler = new Plugins\ACF_Handler();
 			$acf_handler->init_save_filters();
 			add_filter( 'acf/settings/load_json', array( $acf_handler, 'load_json_paths' ) );
