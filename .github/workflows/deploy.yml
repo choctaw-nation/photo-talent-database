@@ -7,7 +7,7 @@ jobs:
     deploy-prod:
         name: Deploy to Production
         if: github.ref == 'refs/heads/main'
-        uses: choctaw-nation/shared-github-actions/.github/workflows/deploy.yml@main
+        uses: choctaw-nation/shared-github-actions/.github/workflows/deploy.yml@1.7.2
         with:
             WPE_ENV: cnophotodb
             theme_name: talent-database
