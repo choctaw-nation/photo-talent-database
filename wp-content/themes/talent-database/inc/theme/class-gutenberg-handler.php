@@ -15,15 +15,6 @@ use WP_Block_Editor_Context;
  */
 class Gutenberg_Handler {
 	/**
-	 * Constructor
-	 */
-	public function __construct() {
-		add_filter( 'block_editor_settings_all', array( $this, 'restrict_gutenberg_ui' ), 10, 1 );
-		add_filter( 'allowed_block_types_all', array( $this, 'restrict_block_types' ), 10, 2 );
-		add_filter( 'use_block_editor_for_post_type', array( $this, 'handle_page_templates' ) );
-	}
-
-	/**
 	 * Check if the current user is an administrator.
 	 *
 	 * @return bool

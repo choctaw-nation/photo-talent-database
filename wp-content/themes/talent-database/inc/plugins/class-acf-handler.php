@@ -31,10 +31,6 @@ class ACF_Handler {
 	 * Constructor function that initializes the ACF Handler.
 	 */
 	public function __construct() {
-		if ( ! defined( 'ACF_PRO' ) || ! defined( 'ACF_VERSION' ) ) {
-			return;
-		}
-
 		$this->base_path   = get_stylesheet_directory() . '/inc/plugins/acf/acf-fields/';
 		$this->paths_array = array(
 			'field-group'     => 'fields',

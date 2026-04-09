@@ -9,12 +9,6 @@ namespace ChoctawNation;
 
 /** Allows WordPress to use SVG */
 class Allow_SVG {
-	/** On construction, wires up callback functions */
-	public function __construct() {
-		add_filter( 'upload_mimes', array( $this, 'cc_mime_types' ) );
-		add_action( 'admin_head', array( $this, 'fix_svg' ) );
-	}
-
 	/**
 	 * Adds SVG to allowed Mime Types
 	 *

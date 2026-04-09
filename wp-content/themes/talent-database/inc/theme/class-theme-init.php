@@ -35,7 +35,7 @@ class Theme_Init {
 		$this->handle_gutenberg();
 		$this->edit_roles();
 		$this->load_cron_events();
-		require get_template_directory() . '/inc/theme/theme-functions.php';
+		require_once get_template_directory() . '/inc/theme/theme-functions.php';
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_frontend_assets' ) );
 		add_action( 'enqueue_block_assets', array( $this, 'enqueue_global_assets' ) );
 		add_action( 'init', array( $this, 'alter_post_types' ) );
@@ -127,9 +127,11 @@ class Theme_Init {
 	 */
 	private function handle_plugins() {
 		// ACF
-		$acf_handler = new Plugins\ACF_Handler();
-		$acf_handler->init_save_filters();
-		add_filter( 'acf/settings/load_json', array( $acf_handler, 'load_json_paths' ) );
+		if (  defined( 'ACF_PRO' ) && defined( 'ACF_VERSION' ) ) {
+			$acf_handler = new Plugins\ACF_Handler();
+			$acf_handler->init_save_filters();
+			add_filter( 'acf/settings/load_json', array( $acf_handler, 'load_json_paths' ) );
+		}
 
 		// Yoast
 		add_filter( 'wpseo_metabox_prio', fn() => 'low' );
