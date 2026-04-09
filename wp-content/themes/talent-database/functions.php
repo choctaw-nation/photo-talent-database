@@ -9,6 +9,14 @@
 
 use ChoctawNation\Theme_Init;
 
+$autoloader = get_stylesheet_directory() . '/vendor/autoload.php';
+
+if ( file_exists( $autoloader ) ) {
+	require_once $autoloader;
+} else {
+	wp_die( 'Autoloader not found. Please run composer install.' );
+}
+
 /** Get the theme init class */
-require_once get_template_directory() . '/inc/theme/class-theme-init.php';
-new Theme_Init( 'nation' );
+$theme = new Theme_Init( 'nation' );
+add_action( 'after_setup_theme', array( $theme, 'setup_theme' ) );

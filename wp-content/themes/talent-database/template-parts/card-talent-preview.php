@@ -49,7 +49,7 @@ $is_preview     = $args['is_preview'] ?? false;
 			)
 			?>
 			<?php foreach ( $props as $label => $value ) : ?>
-			<?php
+				<?php
 				if ( empty( $value ) ) {
 					continue;
 				}

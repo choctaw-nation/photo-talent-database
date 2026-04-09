@@ -4,6 +4,11 @@ A WordPress site to allow the photo team to find models for different photoshoot
 
 ## Changelog
 
+### v1.9.0 - [April 9, 2026]
+
+- Updated: Theme uses autoloading for improved PHP performance
+- Chore: Update packages
+
 ### v1.8.1 - [March 23, 2026]
 
 - Fixed: CSS is properly scoped for homepage grid sizing.

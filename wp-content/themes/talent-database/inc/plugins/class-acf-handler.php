@@ -31,10 +31,6 @@ class ACF_Handler {
 	 * Constructor function that initializes the ACF Handler.
 	 */
 	public function __construct() {
-		if ( ! defined( 'ACF_PRO' ) || ! defined( 'ACF_VERSION' ) ) {
-			return;
-		}
-
 		$this->base_path   = get_stylesheet_directory() . '/inc/plugins/acf/acf-fields/';
 		$this->paths_array = array(
 			'field-group'     => 'fields',
@@ -42,14 +38,12 @@ class ACF_Handler {
 			'taxonomy'        => 'taxonomies',
 			'ui-options-page' => 'options',
 		);
-		$this->init_save_filters();
-		add_filter( 'acf/settings/load_json', array( $this, 'load_json_paths' ) );
 	}
 
 	/**
 	 * Loops through the paths array and adds filters to save ACF JSON files
 	 */
-	private function init_save_filters() {
+	public function init_save_filters() {
 		foreach ( $this->paths_array as $slug => $dir ) {
 			add_filter(
 				'acf/settings/save_json/type=acf-' . $slug,

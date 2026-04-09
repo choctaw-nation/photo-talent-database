@@ -19,24 +19,29 @@ class Theme_Init {
 	 *
 	 * @param 'nation'|'commerce' $type the type of site to load favicons for.
 	 */
-	public function __construct( string $type = 'nation' ) {
+	public function __construct( string $type ) {
 		$this->theme_type = $type;
-		$this->load_required_files();
+	}
+
+	/**
+	 * Sets up the theme (callback for after_setup_theme action hook)
+	 */
+	public function setup_theme(): void {
 		$this->disable_discussion();
-		$this->load_favicons( 'nation' );
+		$this->load_favicons();
+		$this->cno_theme_support();
+		$this->allow_svg();
+		$this->handle_plugins();
+		$this->handle_gutenberg();
+		$this->edit_roles();
+		$this->load_cron_events();
+		$this->disable_plugins_per_environment();
+		require_once get_template_directory() . '/inc/theme/theme-functions.php';
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_frontend_assets' ) );
 		add_action( 'enqueue_block_assets', array( $this, 'enqueue_global_assets' ) );
-		add_action( 'after_setup_theme', array( $this, 'cno_theme_support' ) );
 		add_action( 'init', array( $this, 'alter_post_types' ) );
-		/**
-		 * Filter the priority of the Yoast SEO metabox
-		 */
-		add_filter(
-			'wpseo_metabox_prio',
-			function (): string {
-				return 'low';
-			}
-		);
+		$rest_router = new Rest_Router();
+		add_action( 'rest_api_init', array( $rest_router, 'register_routes' ) );
 		add_filter( 'wp_speculation_rules_configuration', array( $this, 'handle_speculative_loading' ) );
 		add_filter( 'allowed_redirect_hosts', array( $this, 'add_allowed_redirect_hosts' ) );
 		add_filter( 'auto_update_plugin', array( $this, 'handle_auto_update_plugin' ) );
@@ -69,61 +74,6 @@ class Theme_Init {
 				<link rel='mask-icon' href='{$href}/safari-pinned-tab.svg' color='#000000'>";
 			}
 		);
-	}
-
-	/** Load required files. */
-	private function load_required_files() {
-		$base_path = get_template_directory() . '/inc';
-
-		/** Loads the Theme Functions File (to keep the actual functions.php file clean) */
-		require_once $base_path . '/theme/theme-functions.php';
-
-		$asset_loaders = array(
-			'enum-enqueue-type',
-			'class-asset-loader',
-		);
-		foreach ( $asset_loaders as $asset_loader ) {
-			require_once $base_path . "/theme/asset-loader/{$asset_loader}.php";
-		}
-
-		$navwalkers = array(
-			'navwalker',
-		);
-		foreach ( $navwalkers as $navwalker ) {
-			require_once $base_path . "/theme/navwalkers/class-{$navwalker}.php";
-		}
-		$utility_files = array(
-			'allow-svg'            => 'Allow_SVG',
-			'role-editor'          => 'Role_Editor',
-			'gutenberg-handler'    => 'Gutenberg_Handler',
-			'bootstrap-pagination' => null,
-			'post-override'        => 'Post_Override',
-			'rest-router'          => null,
-			'cron-events'          => 'Cron_Events',
-		);
-		foreach ( $utility_files as $utility_file => $class_name ) {
-			require_once $base_path . "/theme/class-{$utility_file}.php";
-			if ( is_null( $class_name ) ) {
-				continue;
-			}
-			$class = __NAMESPACE__ . '\\' . $class_name;
-			new $class();
-		}
-		$rest_router = new Rest_Router();
-		add_action( 'rest_api_init', array( $rest_router, 'register_routes' ) );
-
-		$plugin_files = array(
-			'gravity-forms-handler' => null,
-			'acf-handler'           => 'ACF_Handler',
-		);
-		foreach ( $plugin_files as $plugin_file => $class_name ) {
-			require_once $base_path . "/plugins/class-{$plugin_file}.php";
-			if ( is_null( $class_name ) ) {
-				continue;
-			}
-			$class = __NAMESPACE__ . '\\Plugins\\' . $class_name;
-			new $class();
-		}
 	}
 
 	/** Remove comments, pings and trackbacks support from posts types. */
@@ -162,6 +112,71 @@ class Theme_Init {
 				}
 			}
 		);
+	}
+
+	/**
+	 * Allows SVG uploads and fixes display in the admin.
+	 */
+	private function allow_svg() {
+		$svg_handler = new Allow_SVG();
+		add_filter( 'upload_mimes', array( $svg_handler, 'cc_mime_types' ) );
+		add_action( 'admin_head', array( $svg_handler, 'fix_svg' ) );
+	}
+
+	/**
+	 * Handles Plugins related theme supports and assets.
+	 */
+	private function handle_plugins() {
+		// ACF
+		if ( defined( 'ACF_PRO' ) && defined( 'ACF_VERSION' ) ) {
+			$acf_handler = new Plugins\ACF_Handler();
+			$acf_handler->init_save_filters();
+			add_filter( 'acf/settings/load_json', array( $acf_handler, 'load_json_paths' ) );
+		}
+
+		// Yoast
+		add_filter( 'wpseo_metabox_prio', fn() => 'low' );
+	}
+
+	/**
+	 * Handles Gutenberg related theme supports and assets.
+	 */
+	private function handle_gutenberg() {
+		$gutenberg_handler = new Gutenberg_Handler();
+		$gutenberg_handler->cno_block_theme_support();
+		$hooks = array(
+			'filters' => array(
+				'block_editor_settings_all'      => 'restrict_gutenberg_ui',
+				'allowed_block_types_all'        => array( 'restrict_block_types', array( 10, 2 ) ),
+				'use_block_editor_for_post_type' => 'handle_page_templates',
+			),
+		);
+		foreach ( $hooks as $hook_list ) {
+			foreach ( $hook_list as $hook => $method ) {
+				if ( is_array( $method ) ) {
+					add_action( $hook, array( $gutenberg_handler, $method[0] ), ...$method[1] );
+				} else {
+					add_action( $hook, array( $gutenberg_handler, $method ) );
+				}
+			}
+		}
+	}
+
+	/**
+	 * Creates custom roles and adds capabilities
+	 */
+	private function edit_roles() {
+		$role_editor = new Role_Editor();
+		add_action( 'init', array( $role_editor, 'create_custom_roles' ) );
+	}
+
+	/**
+	 * Loads and wires up cron events for the theme
+	 */
+	private function load_cron_events() {
+		$cron_events = new Cron_Events();
+		$cron_events->schedule_events();
+		$cron_events->wire_actions();
 	}
 
 	/**
@@ -256,8 +271,8 @@ class Theme_Init {
 		foreach ( $post_types as $post_type ) {
 			$this->disable_post_type_support( $post_type );
 		}
-		remove_post_type_support( 'post', 'editor' );
-		remove_post_type_support( 'post', 'excerpt' );
+		$post_override = new Post_Override();
+		$post_override->alter_post_types();
 	}
 
 	/**
@@ -320,6 +335,7 @@ class Theme_Init {
 		}
 
 		$plugins_to_disable = array(
+			'gravityformsadvancedpostcreation/advancedpostcreation.php' => array( 'local' ),
 			'wordfence/wordfence.php'                 => array( 'local', 'development', 'staging' ),
 			'wp-mail-smtp-pro/wp_mail_smtp.php'       => array( 'local', 'development', 'staging' ),
 			'google-site-kit/google-site-kit.php'     => array( 'local', 'development', 'staging' ),

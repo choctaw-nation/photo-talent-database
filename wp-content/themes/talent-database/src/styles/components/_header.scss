@@ -26,3 +26,8 @@
 .offcanvas.offcanvas-end {
 	top: var(--wp-admin--admin-bar--height, 0);
 }
+
+:where(#offcanvas-navbar) a,
+:where(#offcanvas-navbar) a:visited {
+	color: white;
+}

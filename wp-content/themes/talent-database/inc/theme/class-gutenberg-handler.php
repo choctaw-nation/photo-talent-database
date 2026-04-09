@@ -15,17 +15,6 @@ use WP_Block_Editor_Context;
  */
 class Gutenberg_Handler {
 	/**
-	 * Constructor
-	 */
-	public function __construct() {
-		// add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_assets' ) ); phpcs:ignore Squiz.PHP.CommentedOutCode.Found
-		add_action( 'after_setup_theme', array( $this, 'cno_block_theme_support' ), 50 );
-		add_filter( 'block_editor_settings_all', array( $this, 'restrict_gutenberg_ui' ), 10, 1 );
-		add_filter( 'allowed_block_types_all', array( $this, 'restrict_block_types' ), 10, 2 );
-		add_filter( 'use_block_editor_for_post_type', array( $this, 'handle_page_templates' ) );
-	}
-
-	/**
 	 * Check if the current user is an administrator.
 	 *
 	 * @return bool
