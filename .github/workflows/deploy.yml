@@ -26,7 +26,7 @@ jobs:
     deploy-dev:
         name: Deploy to Development
         if: github.ref == 'refs/heads/dev'
-        uses: choctaw-nation/shared-github-actions/.github/workflows/deploy.yml@main
+        uses: choctaw-nation/shared-github-actions/.github/workflows/deploy.yml@1.7.2
         with:
             WPE_ENV: phototalentdev # WP Engine environment name
             theme_name: talent-database

@@ -78,7 +78,7 @@
 		"scss"
 	],
 	"html.format.templating": true,
-	"phpSniffer.standard": "phpcs.xml.dist",
+	"phpSniffer.standard": "wp-content/themes/talent-database/phpcs.xml.dist",
 	"scss.format.spaceAroundSelectorSeparator": true,
 	"stylelint.snippet": ["css", "scss"],
 	"stylelint.validate": ["css", "scss"]

@@ -28,7 +28,7 @@ local-xdebuginfo.php
 .env
 .env*
 auth.json
-/vendor
+vendor/
 /bundle-analyzer
 
 # WP Engine
@@ -40,7 +40,7 @@ auth.json
 # WP-Content
 /wp-content/cache/
 /wp-content/mu-plugins/
-/wp-content/plugins
+/wp-content/plugins/
 /wp-content/upgrade/
 /wp-content/upgrade-temp-backup/
 /wp-content/uploads/

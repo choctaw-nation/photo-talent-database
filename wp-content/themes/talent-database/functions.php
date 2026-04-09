@@ -9,7 +9,7 @@
 
 use ChoctawNation\Theme_Init;
 
-require ABSPATH . 'vendor/autoload.php';
+require get_stylesheet_directory() . '/vendor/autoload.php';
 
 /** Get the theme init class */
 $theme = new Theme_Init( 'nation' );

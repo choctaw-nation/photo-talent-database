@@ -2,7 +2,7 @@
 	"name": "choctaw-nation/talent-database-theme",
 	"description": "a template theme to fork",
 	"type": "project",
-	"version": "2.1.0",
+	"version": "3.0.0",
 	"repositories": [
 		{
 			"type": "composer",
@@ -15,12 +15,12 @@
 	],
 	"autoload": {
 		"classmap": [
-			"wp-content/themes/talent-database/inc/"
+			"inc/"
 		]
 	},
 	"scripts": {
-		"phpcs": "phpcs wp-content/themes/talent-database/ --extensions=php --ignore=wp-content/themes/talent-database/dist/",
-		"phpcbf": "phpcbf wp-content/themes/talent-database/ --extensions=php --ignore=wp-content/themes/talent-database/dist/"
+		"phpcs": "phpcs --extensions=php --ignore=./dist/",
+		"phpcbf": "phpcbf  --extensions=php --ignore=./dist/"
 	},
 	"config": {
 		"allow-plugins": {
