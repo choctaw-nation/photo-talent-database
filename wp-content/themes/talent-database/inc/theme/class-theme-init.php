@@ -35,6 +35,7 @@ class Theme_Init {
 		$this->handle_gutenberg();
 		$this->edit_roles();
 		$this->load_cron_events();
+		$this->disable_plugins_per_environment();
 		require_once get_template_directory() . '/inc/theme/theme-functions.php';
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_frontend_assets' ) );
 		add_action( 'enqueue_block_assets', array( $this, 'enqueue_global_assets' ) );
@@ -334,6 +335,7 @@ class Theme_Init {
 		}
 
 		$plugins_to_disable = array(
+			'gravityformsadvancedpostcreation/advancedpostcreation.php' => array( 'local' ),
 			'wordfence/wordfence.php'                 => array( 'local', 'development', 'staging' ),
 			'wp-mail-smtp-pro/wp_mail_smtp.php'       => array( 'local', 'development', 'staging' ),
 			'google-site-kit/google-site-kit.php'     => array( 'local', 'development', 'staging' ),
