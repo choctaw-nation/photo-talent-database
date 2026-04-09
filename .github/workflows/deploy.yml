@@ -7,7 +7,7 @@ jobs:
     deploy-prod:
         name: Deploy to Production
         if: github.ref == 'refs/heads/main'
-        uses: choctaw-nation/shared-github-actions/.github/workflows/deploy.yml@1.7.2
+        uses: choctaw-nation/shared-github-actions/.github/workflows/deploy.yml@main
         with:
             WPE_ENV: cnophotodb
             theme_name: talent-database
@@ -26,7 +26,7 @@ jobs:
     deploy-dev:
         name: Deploy to Development
         if: github.ref == 'refs/heads/dev'
-        uses: choctaw-nation/shared-github-actions/.github/workflows/deploy.yml@1.7.2
+        uses: choctaw-nation/shared-github-actions/.github/workflows/deploy.yml@main
         with:
             WPE_ENV: phototalentdev # WP Engine environment name
             theme_name: talent-database
