@@ -15,17 +15,12 @@ namespace ChoctawNation;
  */
 class Post_Override {
 	/**
-	 * Constructor Function
-	 */
-	public function __construct() {
-		add_action( 'init', array( $this, 'alter_post_types' ) );
-	}
-
-	/**
 	 * Alters the post type
 	 */
 	public function alter_post_types() {
 		$this->update_labels();
+		remove_post_type_support( 'post', 'editor' );
+		remove_post_type_support( 'post', 'excerpt' );
 	}
 
 	/**

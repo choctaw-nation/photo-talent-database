@@ -30,8 +30,6 @@ class Cron_Events {
 			'update_ages'      => 'cno_update_post_ages_daily',
 			'expire_old_lists' => 'cno_expire_old_lists',
 		);
-		$this->schedule_events();
-		$this->wire_actions();
 	}
 
 	/**
@@ -39,7 +37,7 @@ class Cron_Events {
 	 *
 	 * This method checks if the events are already scheduled and schedules them if not.
 	 */
-	private function schedule_events() {
+	public function schedule_events() {
 		$events = array(
 			'update_ages'      => 'daily',
 			'expire_old_lists' => 'daily',
@@ -59,7 +57,7 @@ class Cron_Events {
 	 *
 	 * This method adds the necessary actions to handle the scheduled events.
 	 */
-	private function wire_actions() {
+	public function wire_actions() {
 		$actions = array(
 			'update_ages'      => 'update_age',
 			'expire_old_lists' => 'expire_list', // Assuming this method exists in the class.

@@ -9,6 +9,8 @@
 
 use ChoctawNation\Theme_Init;
 
+require ABSPATH . 'vendor/autoload.php';
+
 /** Get the theme init class */
-require_once get_template_directory() . '/inc/theme/class-theme-init.php';
-new Theme_Init( 'nation' );
+$theme = new Theme_Init( 'nation' );
+add_action( 'after_setup_theme', array( $theme, 'setup_theme' ) );

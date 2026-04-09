@@ -20,9 +20,6 @@ use WP_REST_Server;
  * This class registers REST API routes for the Choctaw Nation theme.
  */
 class Rest_Router extends WP_REST_Controller {
-
-
-
 	/**
 	 * Register REST API routes.
 	 */
