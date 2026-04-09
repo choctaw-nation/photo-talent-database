@@ -1,16 +1,16 @@
 @use "../abstracts/mixins" as m;
+@use "../abstracts/functions" as fn;
 
-:where(#site-header) {
-	a {
-		--bs-link-color-rgb: 255, 255, 255;
-		--bs-link-hover-color-rgb: var(--bs-secondary-rgb);
+#site-header {
+	a,
+	a:visited {
+		color: white;
+		text-decoration-color: transparent;
+		transition: fn.transition(color, text-decoration-color);
 
-		&:visited {
-			color: white;
-
-			@include m.interaction {
-				color: var(--wp--preset--color--secondary);
-			}
+		@include m.interaction {
+			color: var(--wp--preset--color--secondary) !important;
+			text-decoration-color: var(--wp--preset--color--secondary);
 		}
 	}
 
@@ -25,9 +25,4 @@
 
 .offcanvas.offcanvas-end {
 	top: var(--wp-admin--admin-bar--height, 0);
-}
-
-:where(#offcanvas-navbar) a,
-:where(#offcanvas-navbar) a:visited {
-	color: white;
 }

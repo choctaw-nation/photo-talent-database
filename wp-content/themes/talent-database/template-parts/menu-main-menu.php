@@ -25,9 +25,6 @@ $link_conditions = array( $lists_count > 0, ( (int) $pending_talent->pending + (
 			$link_classes = array( 'fs-base', 'link-offset-1' );
 			$menu_link    = $menu_links[ array_keys( $menu_links )[ $index ] ];
 			$label        = array_keys( $menu_links )[ $index ];
-			if ( strpos( $menu_link, $requested_url ) === false ) {
-				$link_classes[] = 'text-decoration-none';
-			}
 			echo "<li><a href='{$menu_link}' class='" . esc_attr( implode( ' ', $link_classes ) ) . "'>{$label}</a></li>";
 		}
 		?>
