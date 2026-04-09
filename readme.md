@@ -4,7 +4,13 @@ A WordPress site to allow the photo team to find models for different photoshoot
 
 ## Changelog
 
-### v1.9.0 - [April 9, 2026]
+### v1.9.1 - [April 9, 2026]
+
+- Fixed: Nav links stay white (no longer overridden by `theme.json`)
+- Fixed: ACF fields are set to properly store values
+- Chore: Update codebase dictionary
+
+### v1.9.0
 
 - Updated: Theme uses autoloading for improved PHP performance
 - Chore: Update packages
