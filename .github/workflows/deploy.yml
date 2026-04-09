@@ -11,6 +11,7 @@ jobs:
         with:
             WPE_ENV: cnophotodb
             theme_name: talent-database
+            with_autoload: true
         secrets: inherit
 
     deploy-stg:
@@ -29,6 +30,7 @@ jobs:
         with:
             WPE_ENV: phototalentdev # WP Engine environment name
             theme_name: talent-database
+            with_autoload: true
         secrets: inherit
 
     # Run Playwright tests on Dev

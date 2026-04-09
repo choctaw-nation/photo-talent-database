@@ -42,14 +42,12 @@ class ACF_Handler {
 			'taxonomy'        => 'taxonomies',
 			'ui-options-page' => 'options',
 		);
-		$this->init_save_filters();
-		add_filter( 'acf/settings/load_json', array( $this, 'load_json_paths' ) );
 	}
 
 	/**
 	 * Loops through the paths array and adds filters to save ACF JSON files
 	 */
-	private function init_save_filters() {
+	public function init_save_filters() {
 		foreach ( $this->paths_array as $slug => $dir ) {
 			add_filter(
 				'acf/settings/save_json/type=acf-' . $slug,
