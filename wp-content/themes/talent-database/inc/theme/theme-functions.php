@@ -87,7 +87,7 @@ function cno_get_age( ?int $post_id = null ): string {
 	if ( ! $post_id ) {
 		$post_id = get_the_ID();
 	}
-	return get_field('current_age', $post_id ) ?: 'Age not available';
+	return get_field( 'current_age', $post_id ) ?: 'Age not available';
 }
 
 /**
