@@ -198,3 +198,10 @@ function cno_the_pagination( ?WP_Query $query = null ): void {
 	$paginator->the_pagination();
 	echo '</div></div>';
 }
+
+/**
+ * Returns the attributes needed for a talent modal trigger, including data attributes for Bootstrap and custom data attributes for the talent name and post ID.
+ */
+function get_the_talent_modal_trigger_attributes():string {
+	return 'data-bs-toggle="modal" data-bs-target="#talent-details-modal" data-talent-name="' . esc_attr( trim( preg_replace( '/\s+/', ' ', get_the_title() ) ) ) . '" data-post-id="' . get_the_ID() . '"';
+}
