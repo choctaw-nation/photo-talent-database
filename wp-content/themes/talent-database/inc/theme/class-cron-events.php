@@ -72,11 +72,13 @@ class Cron_Events {
 
 	/**
 	 * Update the age of posts.
-	 *
-	 * This method retrieves all published posts and updates their 'current_age' field
-	 * with the calculated age using the cno_get_age function.
+	 * This method checks all published posts and updates their age based on the 'current_age' custom field. It only runs on January 1st to ensure that ages are updated annually.
 	 */
 	public function update_age() {
+		$today = new DateTime( 'now', wp_timezone() );
+		if (  $today ->format( 'm-d' ) !== '01-01' ) {
+			return;
+		}
 		$args  = array(
 			'post_type'      => 'post',
 			'post_status'    => 'publish',
@@ -86,8 +88,8 @@ class Cron_Events {
 		$posts = get_posts( $args );
 
 		foreach ( $posts as $post_id ) {
-			$age = cno_get_age( $post_id );
-			update_field( 'current_age', absint( $age ), $post_id );
+			$age = get_field( 'current_age', $post_id );
+			update_field( 'current_age', absint( $age + 1 ), $post_id );
 		}
 	}
 
