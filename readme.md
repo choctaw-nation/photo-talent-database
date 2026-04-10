@@ -4,6 +4,11 @@ A WordPress site to allow the photo team to find models for different photoshoot
 
 ## Changelog
 
+### v1.11.0 - [April 10, 2026]
+
+- Added: Talent photos now load in the modal
+- Added: Talent photos now trigger the modal to load
+
 ### v1.10.0 - [April 10, 2026]
 
 - Added: Clothing sizes are displayed
