@@ -594,38 +594,7 @@
             "selected": 0
         },
         {
-            "key": "field_69c14e25fdbea",
-            "label": "Shirt Size",
-            "name": "shirt_size",
-            "aria-label": "",
-            "type": "radio",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "choices": {
-                "xs": "Extra Small",
-                "sm": "Small",
-                "md": "Medium",
-                "lg": "Large",
-                "xl": "Extra Large",
-                "xxl": "2XL",
-                "xxxl": "3XL"
-            },
-            "default_value": "",
-            "return_format": "value",
-            "allow_null": 0,
-            "other_choice": 1,
-            "save_other_choice": 0,
-            "allow_in_bindings": 0,
-            "layout": "horizontal"
-        },
-        {
-            "key": "field_69c14e9ffdbeb",
+            "key": "field_69c14e9ffdbeb__trashed",
             "label": "Shoe Size",
             "name": "shoe_size",
             "aria-label": "",
@@ -656,6 +625,37 @@
             },
             "default_value": "",
             "return_format": "value",
+            "allow_null": 0,
+            "other_choice": 1,
+            "save_other_choice": 0,
+            "allow_in_bindings": 0,
+            "layout": "horizontal"
+        },
+        {
+            "key": "field_69c14e25fdbea",
+            "label": "Shirt Size",
+            "name": "shirt_size",
+            "aria-label": "",
+            "type": "radio",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "xs": "Extra Small",
+                "sm": "Small",
+                "md": "Medium",
+                "lg": "Large",
+                "xl": "Extra Large",
+                "xxl": "2XL",
+                "xxxl": "3XL"
+            },
+            "default_value": "",
+            "return_format": "label",
             "allow_null": 0,
             "other_choice": 1,
             "save_other_choice": 0,
@@ -702,7 +702,7 @@
             "other_choice": 1,
             "save_other_choice": 0,
             "allow_in_bindings": 0,
-            "layout": "horizontal"
+            "layout": "vertical"
         },
         {
             "key": "field_69c14fd9355b5",
@@ -745,7 +745,7 @@
             "other_choice": 1,
             "save_other_choice": 0,
             "allow_in_bindings": 0,
-            "layout": "horizontal"
+            "layout": "vertical"
         },
         {
             "key": "field_69c1504e355b6",
@@ -755,21 +755,13 @@
             "type": "group",
             "instructions": "",
             "required": 0,
-            "conditional_logic": [
-                [
-                    {
-                        "field": "field_68ee781252c07",
-                        "operator": "==",
-                        "value": "4"
-                    }
-                ]
-            ],
+            "conditional_logic": 0,
             "wrapper": {
                 "width": "",
                 "class": "",
                 "id": ""
             },
-            "layout": "table",
+            "layout": "row",
             "sub_fields": [
                 {
                     "key": "field_69c150b6355b7",
@@ -801,7 +793,7 @@
                     "other_choice": 1,
                     "save_other_choice": 0,
                     "allow_in_bindings": 0,
-                    "layout": "horizontal"
+                    "layout": "vertical"
                 },
                 {
                     "key": "field_69c1512d355b8",
@@ -811,7 +803,15 @@
                     "type": "radio",
                     "instructions": "",
                     "required": 0,
-                    "conditional_logic": 0,
+                    "conditional_logic": [
+                        [
+                            {
+                                "field": "field_68ee781252c07",
+                                "operator": "==",
+                                "value": "4"
+                            }
+                        ]
+                    ],
                     "wrapper": {
                         "width": "",
                         "class": "",
@@ -830,7 +830,7 @@
                     "other_choice": 1,
                     "save_other_choice": 0,
                     "allow_in_bindings": 0,
-                    "layout": "horizontal"
+                    "layout": "vertical"
                 }
             ]
         }
@@ -856,5 +856,5 @@
     "display_title": "Talent Fields",
     "allow_ai_access": false,
     "ai_description": "",
-    "modified": 1775769460
+    "modified": 1775834702
 }

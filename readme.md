@@ -4,6 +4,12 @@ A WordPress site to allow the photo team to find models for different photoshoot
 
 ## Changelog
 
+### v1.10.0 - [April 10, 2026]
+
+- Added: Clothing sizes are displayed
+- Updated: Age now uses "current_age" field
+- Updated: Age is updated annually on Jan 1 with simple increment cron
+
 ### v1.9.1 - [April 9, 2026]
 
 - Fixed: Nav links stay white (no longer overridden by `theme.json`)
