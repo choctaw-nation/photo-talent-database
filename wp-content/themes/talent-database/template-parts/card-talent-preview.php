@@ -49,7 +49,7 @@ $is_preview     = $args['is_preview'] ?? false;
 			)
 			?>
 			<?php foreach ( $props as $label => $value ) : ?>
-			<?php
+				<?php
 				if ( empty( $value ) ) {
 					continue;
 				}
@@ -74,8 +74,7 @@ $is_preview     = $args['is_preview'] ?? false;
 		<?php if ( $is_preview ) : ?>
 		<a href="<?php the_permalink(); ?>" class="btn btn-black mt-auto align-self-end">View Talent</a>
 		<?php else : ?>
-		<button type="button" class="btn rounded-top-0 border-bottom-0 border-start-0 border-end-0 btn-outline-primary" data-bs-toggle="modal" data-bs-target="#talent-details-modal"
-			data-talent-name="<?php echo esc_attr( trim( preg_replace( '/\s+/', ' ', get_the_title() ) ) ); ?>" data-post-id="<?php the_ID(); ?>">
+		<button type="button" class="btn rounded-top-0 border-bottom-0 border-start-0 border-end-0 btn-outline-primary" <?php echo get_the_talent_modal_trigger_attributes(); ?>>
 			View Talent
 		</button>
 		<button type="button" class="btn rounded-top-0 border-bottom-0 border-start-0 border-end-0 btn-outline-primary" data-bs-toggle="dropdown" data-bs-auto-close="outside"

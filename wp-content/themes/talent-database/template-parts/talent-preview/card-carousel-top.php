@@ -32,7 +32,7 @@ foreach ( $image_names as $name ) {
 		<?php $controls = array( 'prev', 'next' ); ?>
 		<?php foreach ( $controls as $control ) : ?>
 		<button class="carousel-control-<?php echo esc_attr( $control ); ?> z-3" type="button" data-bs-target="#<?php echo esc_attr( $slug ); ?>"
-				data-bs-slide="<?php echo esc_attr( $control ); ?>">
+			data-bs-slide="<?php echo esc_attr( $control ); ?>">
 			<span class="carousel-control-<?php echo esc_attr( $control ); ?>-icon" aria-hidden="true"></span>
 			<span class="visually-hidden"><?php echo ucfirst( $control ); ?></span>
 		</button>
@@ -41,11 +41,11 @@ foreach ( $image_names as $name ) {
 			<?php foreach ( $images as $name => $image ) : ?>
 				<?php $active_class = 'front' === $name ? 'active' : ''; ?>
 			<button type="button" data-bs-target="#<?php echo esc_attr( $slug ); ?>" data-bs-slide-to="<?php echo esc_attr( array_search( $name, array_keys( $images ), true ) ); ?>"
-					class="<?php echo esc_attr( $active_class ); ?> rounded-circle" aria-current="<?php echo esc_attr( $active_class ? 'true' : 'false' ); ?>"
-					aria-label="<?php echo esc_attr( ucfirst( $name ) ); ?>"></button>
+				class="<?php echo esc_attr( $active_class ); ?> rounded-circle" aria-current="<?php echo esc_attr( $active_class ? 'true' : 'false' ); ?>"
+				aria-label="<?php echo esc_attr( ucfirst( $name ) ); ?>"></button>
 			<?php endforeach; ?>
 		</div>
-		<div class="carousel-item__overlay position-absolute z-2"></div>
+		<button type="button" <?php echo get_the_talent_modal_trigger_attributes(); ?> class="carousel-item__overlay position-absolute z-2" style="background-color:transparent"></button>
 		<div class="carousel-inner">
 			<?php foreach ( $images as $name => $image ) : ?>
 			<div class="carousel-item <?php echo 'front' === $name ? 'active' : ''; ?>">
