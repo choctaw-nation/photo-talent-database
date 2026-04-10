@@ -23,7 +23,7 @@ get_template_part( 'template-parts/single/content', 'talent-details', array( 'id
 		);
 		?>
 		<?php foreach ( $image_ids as $index => $image_id ) : ?>
-		<?php
+			<?php
 			if ( ! $image_id ) {
 				continue;
 			}
