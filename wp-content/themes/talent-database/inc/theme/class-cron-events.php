@@ -89,7 +89,12 @@ class Cron_Events {
 
 		foreach ( $posts as $post_id ) {
 			$age = get_field( 'current_age', $post_id );
-			update_field( 'current_age', absint( $age + 1 ), $post_id );
+
+			if ( '' === $age || null === $age || ! is_numeric( $age ) ) {
+				continue;
+			}
+
+			update_field( 'current_age', absint( ( (int) $age ) + 1 ), $post_id );
 		}
 	}
 
