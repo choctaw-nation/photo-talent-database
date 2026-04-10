@@ -72,11 +72,21 @@ class Cron_Events {
 
 	/**
 	 * Update the age of posts.
-	 *
-	 * This method retrieves all published posts and updates their 'current_age' field
-	 * with the calculated age using the cno_get_age function.
+	 * This method checks all published posts and updates their age based on the 'current_age' custom field. It only runs on January 1st to ensure that ages are updated annually.
 	 */
 	public function update_age() {
+		$today = new DateTime( 'now', wp_timezone() );
+		if ( $today->format( 'm-d' ) !== '01-01' ) {
+			return;
+		}
+
+		// Transient guard: ensure this runs only once per year on Jan 1.
+		$transient_key  = 'cno_update_ages_last_run_year';
+		$current_year   = (int) $today->format( 'Y' );
+		$last_run_year  = get_transient( $transient_key );
+		if ( $last_run_year && (int) $last_run_year === $current_year ) {
+			return;
+		}
 		$args  = array(
 			'post_type'      => 'post',
 			'post_status'    => 'publish',
@@ -86,9 +96,17 @@ class Cron_Events {
 		$posts = get_posts( $args );
 
 		foreach ( $posts as $post_id ) {
-			$age = cno_get_age( $post_id );
-			update_field( 'current_age', absint( $age ), $post_id );
+			$age = get_field( 'current_age', $post_id );
+
+			if ( '' === $age || null === $age || ! is_numeric( $age ) ) {
+				continue;
+			}
+
+			update_field( 'current_age', absint( ( (int) $age ) + 1 ), $post_id );
 		}
+
+		// Mark as run for this year. Keep transient for one year.
+		set_transient( $transient_key, $current_year, YEAR_IN_SECONDS );
 	}
 
 	/**

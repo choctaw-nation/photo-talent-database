@@ -78,7 +78,7 @@ function cno_get_federated_privacy_policy(): string|WP_Error {
 }
 
 /**
- * Calculates the age of a person based on their date of birth.
+ * Returns the same value as `current_age` field, or an empty string if the field is not set or invalid. Mostly deprecated, but left around for backward compatibility with older templates that may still call it.
  *
  * @param ?int $post_id The post ID where the date of birth is stored. If null, it uses the current post ID.
  * @return string The age in years, or an empty string if the date of birth is not set or invalid.
@@ -87,21 +87,7 @@ function cno_get_age( ?int $post_id = null ): string {
 	if ( ! $post_id ) {
 		$post_id = get_the_ID();
 	}
-	$dob = get_field( 'dob', $post_id );
-	$now = new DateTime( 'now', wp_timezone() );
-	if ( ! $dob ) {
-		return '';
-	}
-	try {
-		$dob_date = new DateTime( $dob, wp_timezone() );
-		if ( false === $dob_date ) {
-			return '';
-		}
-		$age = $now->diff( $dob_date )->y;
-		return $age;
-	} catch ( Exception $e ) {
-		return '';
-	}
+	return get_field('current_age', $post_id ) ?: 'Age not available';
 }
 
 /**

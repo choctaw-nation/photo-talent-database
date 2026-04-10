@@ -25,7 +25,7 @@ $is_preview     = $args['is_preview'] ?? false;
 			if ( $is_choctaw ) {
 				$badge_classes[] = 'text-bg-primary';
 			} elseif ( $is_tribal_member ) {
-				$badge_classes[] = 'text-bg-secondary';
+				$badge_classes[] = 'text-bg-warning';
 			}
 			if ( $is_choctaw ) {
 				echo '<span class="' . esc_attr( implode( ' ', $badge_classes ) ) . '">Choctaw</span>';
@@ -49,7 +49,7 @@ $is_preview     = $args['is_preview'] ?? false;
 			)
 			?>
 			<?php foreach ( $props as $label => $value ) : ?>
-				<?php
+			<?php
 				if ( empty( $value ) ) {
 					continue;
 				}
