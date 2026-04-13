@@ -97,14 +97,14 @@ $have_contact_fields = array_reduce(
 	</div>
 	<?php endif; ?>
 	<?php
-	$clothing_field_keys = ['shirt_size', 'shoe_size'];
-	$gender = cno_get_attribute('gender', $talent_id);
-	if ('Male' === $gender) {
-		$clothing_field_keys = [...$clothing_field_keys, 'pant_size_length','pant_size_width','suit_size'];
-	} elseif ('Female' === $gender) {
-		$clothing_field_keys = [...$clothing_field_keys, 'dress_size','pant_size_width',];
+	$clothing_field_keys = array( 'shirt_size', 'shoe_size' );
+	$gender              = cno_get_attribute( 'gender', $talent_id );
+	if ( 'Male' === $gender ) {
+		$clothing_field_keys = array( ...$clothing_field_keys, 'pant_size_length', 'pant_size_width', 'suit_size' );
+	} elseif ( 'Female' === $gender ) {
+		$clothing_field_keys = array( ...$clothing_field_keys, 'dress_size', 'pant_size_width' );
 	}
-	$clothing_fields = array_combine(
+	$clothing_fields      = array_combine(
 		$clothing_field_keys,
 		array_map(
 			function ( $key ) use ( $talent_id ) {
@@ -126,29 +126,29 @@ $have_contact_fields = array_reduce(
 		<h2 class="fs-5">Clothing Sizes</h2>
 		<div class="d-flex flex-column">
 			<?php
-			$pants = [];
+			$pants            = array();
 			$pants_did_render = false;
 			foreach ( $clothing_fields as $key => $value ) {
 				if ( empty( $value ) ) {
 					continue;
 				}
-				if ('pant_size_length' === $key) {
+				if ( 'pant_size_length' === $key ) {
 					$pants['length'] = $value;
 				}
-				if ('pant_size_width' === $key) {
+				if ( 'pant_size_width' === $key ) {
 					$pants['width'] = $value;
 				}
-				if ( in_array( $key, ['pant_size_length', 'pant_size_width'], true ) && 'Male' === $gender ) {
+				if ( in_array( $key, array( 'pant_size_length', 'pant_size_width' ), true ) && 'Male' === $gender ) {
 					if ( empty( $pants['length'] ) || empty( $pants['width'] ) ) {
 						continue;
 					}
-					if ( false === $pants_did_render  ) {
+					if ( false === $pants_did_render ) {
 						echo "<p class='mb-0'><span class='fw-bold'>Pants:</span> {$pants['width']} x {$pants['length']}</p>";
 						$pants_did_render = true;
 					}
 				} else {
-				$label = ucwords( str_replace( '_', ' ', $key ) );
-				echo "<p class='mb-0'><span class='fw-bold'>{$label}:</span> {$value}</p>";
+					$label = ucwords( str_replace( '_', ' ', $key ) );
+					echo "<p class='mb-0'><span class='fw-bold'>{$label}:</span> {$value}</p>";
 
 				}
 			}

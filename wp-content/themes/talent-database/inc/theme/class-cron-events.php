@@ -81,9 +81,9 @@ class Cron_Events {
 		}
 
 		// Transient guard: ensure this runs only once per year on Jan 1.
-		$transient_key  = 'cno_update_ages_last_run_year';
-		$current_year   = (int) $today->format( 'Y' );
-		$last_run_year  = get_transient( $transient_key );
+		$transient_key = 'cno_update_ages_last_run_year';
+		$current_year  = (int) $today->format( 'Y' );
+		$last_run_year = get_transient( $transient_key );
 		if ( $last_run_year && (int) $last_run_year === $current_year ) {
 			return;
 		}

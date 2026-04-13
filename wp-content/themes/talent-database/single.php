@@ -38,8 +38,8 @@ get_header();
 				<?php get_template_part( 'template-parts/single/content', 'talent-images' ); ?>
 			</div>
 		</div>
-		<?php $additional_images = get_field( 'additional_images' ); ?>
 	</section>
+	<?php $additional_images = get_field( 'additional_images' ); ?>
 	<?php if ( $additional_images ) : ?>
 	<section>
 		<h2 class="mb-0">Additional Images</h2>

@@ -579,10 +579,9 @@ class Rest_Router extends WP_REST_Controller {
 				404
 			);
 		}
-		$html = ob_start();
-		get_template_part( 'template-parts/single/content', 'talent-details', array( 'id' => $id ) );
-		$html .= ob_get_contents();
-		$html  = ob_get_clean();
+		ob_start();
+		get_template_part( 'template-parts/single/content', 'modal-content', array( 'id' => $id ) );
+		$html = ob_get_clean();
 		return new WP_REST_Response(
 			array(
 				'success' => true,

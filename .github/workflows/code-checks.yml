@@ -12,6 +12,8 @@ jobs:
     phpcs:
         if: github.event.pull_request.draft == false
         uses: choctaw-nation/shared-github-actions/.github/workflows/phpcs.yml@main
+        with:
+            working_directory: wp-content/themes/talent-database
 
     lint-style:
         if: github.event.pull_request.draft == false
