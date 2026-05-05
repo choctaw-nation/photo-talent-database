@@ -1,4 +1,4 @@
-import { ImageDetails, PostData } from '../../../utils/types';
+import { ImageDetails, PostData } from '@utils/types';
 import LocalStorage from '../model/LocalStorage';
 
 export default class ListHandler {
@@ -55,7 +55,6 @@ export default class ListHandler {
 		const ids = db.getIds();
 		if ( this.list ) {
 			if ( ids.size === this.list.children.length ) {
-
 			} else {
 				const existingPosts =
 					this.list.querySelectorAll< HTMLLIElement >( 'li' );
@@ -90,6 +89,7 @@ export default class ListHandler {
 
 	/**
 	 * Hides the warning and cancel buttons
+	 * @param shouldDestroy
 	 */
 	hideClearConfirmationButtons( shouldDestroy: boolean = true ) {
 		if ( shouldDestroy ) {
@@ -158,6 +158,8 @@ export default class ListHandler {
 
 	/**
 	 * Creates a placeholder list item for the modal.
+	 * @param ids
+	 * @param ul
 	 */
 	private createPlaceholderListItems( ids: number[], ul?: HTMLUListElement ) {
 		const list = ul || this.list!;
@@ -207,15 +209,15 @@ export default class ListHandler {
 				<div class="col d-flex flex-column align-items-start gap-2">
 					<h3 class="mb-0 fs-5">${ title }</h3>
 					${
-	isChoctaw
-		? `<span class="badge text-bg-primary fw-normal w-auto">Choctaw</span>`
-		: ''
-}
+						isChoctaw
+							? `<span class="badge text-bg-primary fw-normal w-auto">Choctaw</span>`
+							: ''
+					}
 					${
-	lastUsed
-		? `<span class="badge bg-secondary fw-normal fs-root w-auto">Last Used: ${ lastUsed }</span>`
-		: ''
-}
+						lastUsed
+							? `<span class="badge bg-secondary fw-normal fs-root w-auto">Last Used: ${ lastUsed }</span>`
+							: ''
+					}
 				</div>
 			</div>
 			<button class="btn-close" data-post-id="${ id }"><span class="visually-hidden">Close</span></button>
@@ -268,10 +270,10 @@ export default class ListHandler {
 		return years === 1
 			? '1 year ago'
 			: inputDate.toLocaleDateString( 'en-US', {
-				year: 'numeric',
-				month: 'long',
-				day: 'numeric',
-			} );
+					year: 'numeric',
+					month: 'long',
+					day: 'numeric',
+			  } );
 	}
 
 	/**

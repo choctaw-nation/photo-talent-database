@@ -1,5 +1,5 @@
 import Offcanvas from 'bootstrap/js/dist/offcanvas';
-import { insertSpinner, removeSpinner } from '../../../utils/spinner';
+import { insertSpinner, removeSpinner } from '@utils/spinner';
 
 export default class OffCanvasHandler {
 	offcanvasEl: HTMLDivElement;
@@ -35,9 +35,19 @@ export default class OffCanvasHandler {
 		this.customDateForm.addEventListener( 'submit', ( ev ) => {
 			ev.preventDefault();
 			const formData = new FormData( this.customDateForm );
-			const date = `${ formData.get( 'date-year' ) }${ formData.get(
-				'date-month'
-			) }${ formData.get( 'date-day' ) }`;
+			const dateFields = [ 'date-year', 'date-month', 'date-day' ];
+			const dateValues = dateFields.map( ( field ) =>
+				formData.get( field )
+			);
+			const date = dateValues.reduce( ( acc, value, index ) => {
+				if ( typeof value !== 'string' || value.trim() === '' ) {
+					throw new Error(
+						`Invalid date: ${ dateFields[ index ] } is required`
+					);
+				}
+				const paddedValue = value.padStart( index === 0 ? 4 : 2, '0' );
+				return acc + paddedValue;
+			}, '' ) as string;
 			this.setFormElementsDisability( true );
 			const submitButton = this.customDateForm.querySelector(
 				'button[type="submit"]'

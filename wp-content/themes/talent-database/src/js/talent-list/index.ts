@@ -1,4 +1,4 @@
-import ToastHandler from '../utils/ToastHandler';
+import ToastHandler from '@utils/ToastHandler';
 import LocalStorage from '../talent/talent-selection-handler/model/LocalStorage';
 
 window.addEventListener( 'DOMContentLoaded', () => {

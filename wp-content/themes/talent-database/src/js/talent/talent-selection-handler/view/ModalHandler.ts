@@ -1,8 +1,8 @@
 import Modal from 'bootstrap/js/dist/modal';
 import Tab from 'bootstrap/js/dist/tab';
-import { SaveListFormData } from '../../../utils/types';
-import dateAsYmd from '../../../utils/dateAsYmd';
-import { insertSpinner, removeSpinner } from '../../../utils/spinner';
+import { SaveListFormData } from '@utils/types';
+import dateAsYmd from '@utils/dateAsYmd';
+import { insertSpinner, removeSpinner } from '@utils/spinner';
 
 export default class ModalHandler {
 	modal: Modal;
@@ -94,7 +94,7 @@ export default class ModalHandler {
 			if ( 0 === index ) {
 				tab.show();
 			}
-			trigger.addEventListener( 'click', ( ev ) => {
+			trigger.addEventListener( 'click', () => {
 				if ( 'save-list-tab' === trigger.id ) {
 					this.modalTitle = 'Save Selected Talent List';
 					this.showOtherTrigger( trigger, triggers );
