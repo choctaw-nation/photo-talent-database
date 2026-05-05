@@ -15,10 +15,10 @@
 		"resolveJsonModule": true,
 		"isolatedModules": true,
 		"jsx": "preserve",
-		"typeRoots": [
-			"./node_modules/@types",
-			"./wp-content/themes/**/src/js/**/types"
-		]
+		"paths": {
+			"@utils/*": ["./wp-content/themes/talent-database/src/js/utils/*"],
+			"@styles/*": ["./wp-content/themes/talent-database/src/styles/*"]
+		}
 	},
 	"include": ["./wp-content/themes/**/src/js/**/*"],
 	"exclude": ["node_modules", "./wp-content/themes/twenty*/**/*"]
