@@ -1,5 +1,6 @@
 const defaultConfig = require( '@wordpress/scripts/config/webpack.config.js' );
 const RemoveEmptyScriptsPlugin = require( 'webpack-remove-empty-scripts' );
+const path = require( 'path' );
 const THEME_NAME = 'talent-database';
 const THEME_DIR = `/wp-content/themes/${ THEME_NAME }`;
 
@@ -8,6 +9,19 @@ const appNames = [ 'talent', 'talent-list', 'pdf-generator', 'talent-actions' ];
 module.exports = {
 	...defaultConfig,
 	...{
+		resolve: {
+			...defaultConfig.resolve,
+			alias: {
+				'@utils': path.resolve(
+					__dirname,
+					`${ THEME_DIR }/src/js/utils`
+				),
+				'@styles': path.resolve(
+					__dirname,
+					`${ THEME_DIR }/src/styles`
+				),
+			},
+		},
 		entry: () => {
 			return {
 				global: `.${ THEME_DIR }/src/index.ts`,

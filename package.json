@@ -1,6 +1,6 @@
 {
 	"name": "cno-talent-database-theme",
-	"version": "2.0.1",
+	"version": "1.11.1",
 	"description": "Custom WP theme for CNO talent database",
 	"prettier": "@wordpress/prettier-config",
 	"browserslist": [
@@ -27,18 +27,19 @@
 	},
 	"devDependencies": {
 		"@eslint/compat": "^2.0.5",
-		"@eslint/eslintrc": "^3.3.5",
 		"@types/bootstrap": "^5.2.10",
-		"@wordpress/eslint-plugin": "^24.5.0",
-		"@wordpress/scripts": "^31.8.0",
+		"@wordpress/eslint-plugin": "^25.1.0",
+		"@wordpress/scripts": "^32.1.0",
 		"eslint": "^9",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-import-resolver-typescript": "^4.4.4",
 		"eslint-plugin-react-hooks": "^7.0.1",
 		"globals": "^17.4.0",
+		"prettier": "npm:wp-prettier@^3",
 		"stylelint": "^17.6.0",
 		"stylelint-config-standard-scss": "^17.0.0",
 		"stylelint-scss": "^7.0.0",
+		"typescript": "^6.0.3",
 		"webpack-remove-empty-scripts": "^1.1.1"
 	}
 }
