@@ -7,6 +7,7 @@ window.addEventListener( 'DOMContentLoaded', () => {
 		new Controller();
 		handleGeneratePdfButtonClick();
 	} catch ( error ) {
+		// eslint-disable-next-line no-console
 		console.error( 'Error initializing talent selection:', error );
 	}
 } );

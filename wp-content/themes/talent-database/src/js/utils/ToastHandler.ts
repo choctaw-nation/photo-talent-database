@@ -5,10 +5,6 @@ export default class ToastHandler {
 	toastContainer: HTMLDivElement;
 
 	constructor() {
-		this.init();
-	}
-
-	private init() {
 		const toastContainer = document.getElementById(
 			'toast-container'
 		) as HTMLDivElement;

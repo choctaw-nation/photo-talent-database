@@ -1,10 +1,10 @@
 import LocalStorage from './model/LocalStorage';
 import ListHandler from './view/ListHandler';
 import ModalHandler from './view/ModalHandler';
-import ToastHandler from '../../utils/ToastHandler';
 import CardHandler from './view/CardHandler';
-import dateAsYmd from '../../utils/dateAsYmd';
 import OffCanvasHandler from './view/OffCanvasHandler';
+import dateAsYmd from '@utils/dateAsYmd';
+import ToastHandler from '@utils/ToastHandler';
 
 export default class Controller {
 	TARGET_SELECTOR: string;
@@ -84,7 +84,7 @@ export default class Controller {
 		if ( this.talentContainer ) {
 			const observer = new MutationObserver( () => {
 				this.addSelectTalentListener( this.db );
-				this.addLastUsedListener( this.db );
+				this.addLastUsedListener();
 			} );
 			observer.observe( this.talentContainer, {
 				childList: true,
@@ -140,6 +140,7 @@ export default class Controller {
 
 	/**
 	 * Add click listeners to all "Select Talent" buttons
+	 * @param db
 	 */
 	private addSelectTalentListener( db: LocalStorage ) {
 		if ( ! this.talentContainer ) {

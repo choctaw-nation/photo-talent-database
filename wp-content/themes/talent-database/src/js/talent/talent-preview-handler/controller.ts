@@ -1,6 +1,6 @@
 import ModalHandler from './view';
 import Model, { SuccessfulApiResponse } from './model';
-import { insertSpinner } from '../../utils/spinner';
+import { insertSpinner } from '@utils/spinner';
 
 window.addEventListener( 'DOMContentLoaded', () => {
 	try {

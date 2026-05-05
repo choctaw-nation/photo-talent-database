@@ -1,5 +1,5 @@
 import jsPDF from 'jspdf';
-import { ImageDetails, PostData } from '../utils/types';
+import { ImageDetails, PostData } from '@utils/types';
 import convertImage from './ImageHandler';
 import { AllowedImageTypes } from './types';
 import PdfUtilities from './PdfUtilities';

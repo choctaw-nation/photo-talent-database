@@ -1,7 +1,7 @@
-import dateAsYmd from '../utils/dateAsYmd';
-import { insertSpinner, removeSpinner } from '../utils/spinner';
-import ToastHandler from '../utils/ToastHandler';
-import { GetTalentResponse, PostData } from '../utils/types';
+import dateAsYmd from '@utils/dateAsYmd';
+import { insertSpinner, removeSpinner } from '@utils/spinner';
+import ToastHandler from '@utils/ToastHandler';
+import { GetTalentResponse, PostData } from '@utils/types';
 import PdfGenerator from './PdfGenerator';
 
 export function handleGeneratePdfButtonClick() {
