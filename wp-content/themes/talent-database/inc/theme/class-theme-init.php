@@ -335,6 +335,7 @@ class Theme_Init {
 		}
 
 		$plugins_to_disable = array(
+			'gravityformsrecaptcha/recaptcha.php'     => array( 'local' ),
 			'gravityformsadvancedpostcreation/advancedpostcreation.php' => array( 'local' ),
 			'wordfence/wordfence.php'                 => array( 'local', 'development', 'staging' ),
 			'wp-mail-smtp-pro/wp_mail_smtp.php'       => array( 'local', 'development', 'staging' ),

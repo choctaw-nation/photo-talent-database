@@ -201,10 +201,10 @@ function cno_the_pagination( ?WP_Query $query = null ): void {
 
 /**
  * Returns the attributes needed for a talent modal trigger, including data attributes for Bootstrap and custom data attributes for the talent name and post ID.
- * 
+ *
  * @param bool $with_aria_label Whether to include an aria-label attribute for accessibility. Defaults to false.
  */
-function cno_get_the_talent_modal_trigger_attributes(bool $with_aria_label = true): string {
+function cno_get_the_talent_modal_trigger_attributes( bool $with_aria_label = true ): string {
 	$attributes = 'data-bs-toggle="modal" data-bs-target="#talent-details-modal" data-talent-name="' . esc_attr( trim( preg_replace( '/\s+/', ' ', get_the_title() ) ) ) . '" data-post-id="' . get_the_ID() . '"';
 	if ( $with_aria_label ) {
 		$attributes = 'aria-label="View Talent Details" ' . $attributes;
