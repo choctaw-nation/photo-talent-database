@@ -4,6 +4,12 @@ A WordPress site to allow the photo team to find models for different photoshoot
 
 ## Changelog
 
+### v1.11.1 - [May 5, 2026]
+
+- Fixed: "Set as Used" custom date fetch works correctly
+- Chore: Updated packages to use eslint 9 & wp-scripts eslint v25
+- Chore: Update imports to use `@` aliases instead of drilling up with local paths
+
 ### v1.11.0 - [April 10, 2026]
 
 - Added: Talent photos now load in the modal

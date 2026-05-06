@@ -1,5 +1,5 @@
-import { insertSpinner, removeSpinner } from '../utils/spinner';
-import ToastHandler from '../utils/ToastHandler';
+import { insertSpinner, removeSpinner } from '@utils/spinner';
+import ToastHandler from '@utils/ToastHandler';
 
 type ActionType = 'approve' | 'reject';
 

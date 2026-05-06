@@ -16,6 +16,7 @@
 	<!-- Exclude Package Manager directories. -->
 	<exclude-pattern>/vendor/*</exclude-pattern>
 	<exclude-pattern>/node_modules/*</exclude-pattern>
+	<exclude-pattern>/dist/*</exclude-pattern>
 
 	<!-- Exclude minified Javascript files. -->
 	<exclude-pattern>*.min.js</exclude-pattern>
@@ -49,11 +50,11 @@
 
 	<!-- Check for unknown capabilities. -->
 	<rule ref="WordPress.WP.Capabilities">
-	<properties>
-		<property name="custom_capabilities" type="array">
-			<element value="edit_talent-lists"/>
-			<element value="edit_others_talent-lists"/>
-		</property>
-	</properties>
-</rule>
+		<properties>
+			<property name="custom_capabilities" type="array">
+				<element value="edit_talent-lists"/>
+				<element value="edit_others_talent-lists"/>
+			</property>
+		</properties>
+	</rule>
 </ruleset>

@@ -2,7 +2,7 @@
 	"name": "choctaw-nation/talent-database-theme",
 	"description": "a template theme to fork",
 	"type": "project",
-	"version": "3.0.0",
+	"version": "1.11.1",
 	"repositories": [
 		{
 			"type": "composer",
@@ -19,8 +19,8 @@
 		]
 	},
 	"scripts": {
-		"phpcs": "phpcs . inc/ --extensions=php --ignore=./dist/,./vendor/",
-		"phpcbf": "phpcbf . inc/ --extensions=php --ignore=./dist/,./vendor/"
+		"phpcs": "phpcs . inc/ --extensions=php",
+		"phpcbf": "phpcbf . inc/ --extensions=php"
 	},
 	"config": {
 		"allow-plugins": {

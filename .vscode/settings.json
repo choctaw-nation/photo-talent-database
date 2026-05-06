@@ -57,6 +57,7 @@
 		"NONBLOCKING",
 		"pagenum",
 		"photoshoots",
+		"postid",
 		"prio",
 		"Squiz",
 		"trackbacks",
@@ -83,6 +84,7 @@
 	],
 	"html.format.templating": true,
 	"phpSniffer.standard": "wp-content/themes/talent-database/phpcs.xml.dist",
+	"phpSniffer.executablesFolder": "wp-content/themes/talent-database/vendor/bin",
 	"scss.format.spaceAroundSelectorSeparator": true,
 	"stylelint.snippet": ["css", "scss"],
 	"stylelint.validate": ["css", "scss"]

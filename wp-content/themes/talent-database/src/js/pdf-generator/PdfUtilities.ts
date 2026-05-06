@@ -1,4 +1,3 @@
-
 import jsPDF, { jsPDFOptions } from 'jspdf';
 
 type FontSizes = {

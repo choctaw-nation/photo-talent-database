@@ -1,5 +1,5 @@
 import Collapse from 'bootstrap/js/dist/collapse';
-import { BS_BREAKPOINTS } from '../utils/consts';
+import { BS_BREAKPOINTS } from '@utils/consts';
 
 export default function sidebarToggleHandler() {
 	const viewportWidth = window.innerWidth;

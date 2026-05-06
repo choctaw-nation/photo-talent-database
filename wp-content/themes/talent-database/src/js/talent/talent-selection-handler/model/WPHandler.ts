@@ -1,4 +1,4 @@
-import { APIResponse, PostData } from '../../../utils/types';
+import { APIResponse, PostData } from '@utils/types';
 
 export default class WPHandler {
 	REST_ROUTE: string;
@@ -160,7 +160,7 @@ export default class WPHandler {
 					body: JSON.stringify( { talentId } ),
 				}
 			);
-			const { success, message, data } = await response.json();
+			const { success, message } = await response.json();
 			if ( success ) {
 				return success;
 			}
