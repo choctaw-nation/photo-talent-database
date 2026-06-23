@@ -23,15 +23,21 @@ $anchor_url = is_user_logged_in() ? home_url( '/talent' ) : home_url();
 	<header class="text-bg-black container-fluid" id="site-header">
 		<nav class="navbar navbar-expand-md justify-content-md-between">
 			<div class="col-6 col-md-auto">
-				<a class="navbar-brand" href="<?php echo esc_url( $anchor_url ); ?>">
-					<?php echo bloginfo( 'title' ); ?>
+				<a class="d-flex gap-2 align-items-center py-2" href="<?php echo esc_url( $anchor_url ); ?>">
+					<img src="<?php echo esc_url( get_template_directory_uri() . '/img/the-great-seal--white.png' ); ?>" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>" class="me-2"
+						style="width: 6rem;" loading="eager" />
+					<span><?php echo bloginfo( 'title' ); ?></span>
 				</a>
 			</div>
 			<button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-navbar" aria-controls="offcanvas-navbar" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="offcanvas offcanvas-end flex-md-grow-0" tabindex="-1" id="offcanvas-navbar" style="--bs-offcanvas-bg:black">
-				<?php get_template_part( 'template-parts/menu', 'main-menu' ); ?>
+				<?php
+				if ( is_user_logged_in() ) {
+					get_template_part( 'template-parts/menu', 'main-menu' );
+				}
+				?>
 			</div>
 		</nav>
 	</header>
