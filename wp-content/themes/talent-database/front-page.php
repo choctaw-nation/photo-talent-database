@@ -27,14 +27,12 @@ if ( is_user_logged_in() ) {
 		<div class="container d-flex flex-column flex-md-row justify-content-between align-items-center py-3">
 			<a href="<?php echo is_user_logged_in() ? esc_url( home_url( '/talent' ) ) : esc_url( home_url( '/' ) ); ?>" class="d-flex align-items-center mb-3 mb-md-0 text-dark text-decoration-none">
 				<img src="<?php echo esc_url( get_template_directory_uri() . '/img/the-great-seal-min.svg' ); ?>" alt="Choctaw Nation of Oklahoma" width="200" height="50" />
-				<?php echo bloginfo( 'site_title' ); ?>
+				<span><?php echo bloginfo( 'site_title' ); ?></span>
 			</a>
-			<?php if ( is_user_logged_in() ) : ?>
-				<a href="<?php echo esc_url( wp_login_url() ); ?>" class="btn btn-lg btn-black text-uppercase rounded-pill">Apply</a>
-			<?php endif; ?>
 		</div>
-	<main <?php post_class( 'container d-flex flex-column justify-content-center align-items-center' ); ?>>
-		<h1 class="display-1 mb-0 fw-bold text-center">Choctaw Nation of Oklahoma<br/>Talent Database</h1>
+	</header>
+	<main <?php post_class( 'container d-flex flex-column justify-content-center align-items-center flex-grow-1' ); ?>>
+		<h1 class="text-center mb-0"><div class="display-5">Choctaw Nation of Oklahoma</div><div class="display-1 fw-bold">Talent Database</div></h1>
 		<div class="d-flex flex-wrap column-gap-5 row-gap-3 w-100 justify-content-center">
 			<?php
 			$btn_classes = array(
