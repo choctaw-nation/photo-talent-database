@@ -4,6 +4,14 @@ A WordPress site to allow the photo team to find models for different photoshoot
 
 ## Changelog
 
+### v1.11.2 - [June 23, 2026]
+
+Couple of in-person requests from Peyton before the next round of recruiting for the upcoming TWM campaign
+
+- Updated: Homepage includes CNO branding
+- Removed: Homepage no longer has "login" button
+
+
 ### v1.11.1 - [May 5, 2026]
 
 - Fixed: "Set as Used" custom date fetch works correctly

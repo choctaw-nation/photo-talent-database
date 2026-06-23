@@ -2,7 +2,7 @@
 	"name": "choctaw-nation/talent-database-theme",
 	"description": "a template theme to fork",
 	"type": "project",
-	"version": "1.11.1",
+	"version": "1.11.2",
 	"repositories": [
 		{
 			"type": "composer",

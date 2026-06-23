@@ -23,8 +23,18 @@ if ( is_user_logged_in() ) {
 
 <body <?php body_class( 'd-flex flex-column align-items-stretch min-vh-100' ); ?>>
 	<?php wp_body_open(); ?>
+	<header>
+		<div class="container d-flex flex-column flex-md-row justify-content-between align-items-center py-3">
+			<a href="<?php echo is_user_logged_in() ? esc_url( home_url( '/talent' ) ) : esc_url( home_url( '/' ) ); ?>" class="d-flex align-items-center mb-3 mb-md-0 text-dark text-decoration-none">
+				<img src="<?php echo esc_url( get_template_directory_uri() . '/img/the-great-seal-min.svg' ); ?>" alt="Choctaw Nation of Oklahoma" width="200" height="50" />
+				<?php echo bloginfo( 'site_title' ); ?>
+			</a>
+			<?php if ( is_user_logged_in() ) : ?>
+				<a href="<?php echo esc_url( wp_login_url() ); ?>" class="btn btn-lg btn-black text-uppercase rounded-pill">Apply</a>
+			<?php endif; ?>
+		</div>
 	<main <?php post_class( 'container d-flex flex-column justify-content-center align-items-center' ); ?>>
-		<h1 class="display-1 mb-0 fw-bold text-center"><?php echo bloginfo( 'site_title' ); ?></h1>
+		<h1 class="display-1 mb-0 fw-bold text-center">Choctaw Nation of Oklahoma<br/>Talent Database</h1>
 		<div class="d-flex flex-wrap column-gap-5 row-gap-3 w-100 justify-content-center">
 			<?php
 			$btn_classes = array(
@@ -34,15 +44,19 @@ if ( is_user_logged_in() ) {
 				'rounded-pill',
 			);
 			$btn_color   = 'black';
+			if ( is_user_logged_in() ) {
+				printf( '<a href="%s" class="%s btn-outline-%s">View Talent</a>', home_url( '/talent' ), implode( ' ', $btn_classes ), $btn_color );
+			}
 			?>
-			<?php if ( is_user_logged_in() ) : ?>
-			<a href="<?php echo home_url( '/talent' ); ?>" class="<?php echo implode( ' ', $btn_classes ) . " btn-outline-{$btn_color}"; ?>">View Talent</a>
-			<?php else : ?>
-			<a href="<?php echo wp_login_url(); ?>" class="<?php echo implode( ' ', $btn_classes ) . " btn-outline-{$btn_color}"; ?>">Login</a>
-			<?php endif; ?>
 			<a href="/apply" class="<?php echo implode( ' ', $btn_classes ) . "  btn-{$btn_color}"; ?>">Apply</a>
 		</div>
 	</main>
+	<footer>
+		<div class="container d-flex flex-column flex-md-row justify-content-between align-items-center py-3">
+			<p class="mb-0">&copy; <?php echo gmdate( 'Y' ); ?> Choctaw Nation of Oklahoma</p>
+			<a href="<?php echo esc_url( home_url( '/privacy-policy' ) ); ?>" class="text-decoration-none">Privacy Policy</a>
+		</div>
+	</footer>
 	<?php wp_footer(); ?>
 </body>
 
