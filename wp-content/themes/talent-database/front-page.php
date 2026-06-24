@@ -11,27 +11,13 @@ if ( is_user_logged_in() ) {
 }
 get_header();
 ?>
-<main <?php post_class( 'container d-flex flex-column justify-content-center align-items-center flex-grow-1' ); ?>>
-	<h1 class="text-center mb-0">
+<main <?php post_class( 'container col-lg-8 text-center d-flex flex-column justify-content-center align-items-center flex-grow-1' ); ?>>
+	<h1 class="mb-0">
 		<div class="display-6">Choctaw Nation of Oklahoma</div>
 		<div class="display-2 fw-bold">Talent Database</div>
 	</h1>
-	<div class="d-flex flex-column gap-3 w-100 justify-content-center">
-		<?php
-			$btn_classes = array(
-				'btn',
-				'btn-lg',
-				'text-uppercase',
-				'rounded-pill',
-			);
-			$btn_color   = 'black';
-			if ( is_user_logged_in() ) {
-				printf( '<a href="%s" class="%s btn-outline-%s">View Talent</a>', home_url( '/talent' ), implode( ' ', $btn_classes ), $btn_color );
-			}
-			?>
-		<a href="/apply" class="<?php echo implode( ' ', $btn_classes ) . "  btn-{$btn_color}"; ?>">Apply</a>
-		<p>This website is owned, operated, and authorized by the Choctaw Nation of Oklahoma. Information presented on this site is provided on behalf of the Choctaw Nation of Oklahoma.</p>
-	</div>
+	<a href="/apply" class="btn btn-lg btn-black text-uppercase rounded-pill mb-3">Apply</a>
+	<p class="mb-0">This website is owned, operated, and authorized by the Choctaw Nation of Oklahoma. Information presented on this site is provided on behalf of the Choctaw Nation of Oklahoma.</p>
 </main>
 <?php
 get_footer();
