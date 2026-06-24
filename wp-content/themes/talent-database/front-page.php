@@ -16,7 +16,7 @@ get_header();
 		<div class="display-6">Choctaw Nation of Oklahoma</div>
 		<div class="display-2 fw-bold">Talent Database</div>
 	</h1>
-	<div class="d-flex flex-wrap column-gap-5 row-gap-3 w-100 justify-content-center">
+	<div class="d-flex flex-column gap-3 w-100 justify-content-center">
 		<?php
 			$btn_classes = array(
 				'btn',
@@ -30,6 +30,7 @@ get_header();
 			}
 			?>
 		<a href="/apply" class="<?php echo implode( ' ', $btn_classes ) . "  btn-{$btn_color}"; ?>">Apply</a>
+		<p>This website is owned, operated, and authorized by the Choctaw Nation of Oklahoma. Information presented on this site is provided on behalf of the Choctaw Nation of Oklahoma.</p>
 	</div>
 </main>
 <?php
