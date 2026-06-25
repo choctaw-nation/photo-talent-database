@@ -14,31 +14,33 @@ $menu_links      = array(
 );
 $link_conditions = array( $lists_count > 0, ( (int) $pending_talent->pending + (int) $pending_talent->draft ) > 0 );
 ?>
-<div class="offcanvas-header"><button class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button></div>
+<div class="offcanvas-header">
+	<button class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+</div>
 <div class="offcanvas-body">
 	<ul class="col col-auto d-flex flex-column flex-md-row flex-wrap justify-content-md-end align-items-md-center gap-3 mb-0 ps-0 list-unstyled">
 		<?php
-		foreach ( $link_conditions as $index => $condition ) {
-			if ( ! $condition ) {
-				continue;
+		if ( ! is_user_logged_in() ) {
+			printf(
+				'<li><a href="%s" class="btn btn-outline-white rounded-pill">Login</a></li>',
+				esc_url( wp_login_url() )
+			);
+		} else {
+			foreach ( $link_conditions as $index => $condition ) {
+				if ( ! $condition ) {
+					continue;
+				}
+				$link_classes = array( 'fs-base', 'link-offset-1' );
+				$menu_link    = $menu_links[ array_keys( $menu_links )[ $index ] ];
+				$label        = array_keys( $menu_links )[ $index ];
+				echo "<li><a href='{$menu_link}' class='" . esc_attr( implode( ' ', $link_classes ) ) . "'>{$label}</a></li>";
 			}
-			$link_classes = array( 'fs-base', 'link-offset-1' );
-			$menu_link    = $menu_links[ array_keys( $menu_links )[ $index ] ];
-			$label        = array_keys( $menu_links )[ $index ];
-			echo "<li><a href='{$menu_link}' class='" . esc_attr( implode( ' ', $link_classes ) ) . "'>{$label}</a></li>";
+			$login_out_url = wp_logout_url( home_url() );
+			printf(
+				'<li><a href="%s" class="btn btn-outline-white rounded-pill">Logout</a></li>',
+				esc_url( $login_out_url )
+			);
 		}
 		?>
-		<li>
-			<?php
-			$is_logged_in    = is_user_logged_in();
-			$login_out_url   = $is_logged_in ? wp_logout_url( home_url() ) : wp_login_url();
-			$login_out_label = $is_logged_in ? 'Logout' : 'Login';
-			printf(
-				'<a href="%s" class="btn btn-outline-white rounded-pill">%s</a>',
-				esc_url( $login_out_url ),
-				$login_out_label
-			);
-			?>
-		</li>
 	</ul>
 </div>

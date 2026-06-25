@@ -1,6 +1,6 @@
 {
 	"name": "cno-talent-database-theme",
-	"version": "1.11.1",
+	"version": "1.11.2",
 	"description": "Custom WP theme for CNO talent database",
 	"prettier": "@wordpress/prettier-config",
 	"browserslist": [
