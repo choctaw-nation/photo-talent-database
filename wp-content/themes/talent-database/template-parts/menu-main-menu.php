@@ -5,7 +5,6 @@
  * @package ChoctawNation
  */
 
-
 $lists_count     = wp_count_posts( 'talent-list' )->publish;
 $pending_talent  = wp_count_posts();
 $requested_url   = ( isset( $_SERVER['REQUEST_URI'] ) ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
