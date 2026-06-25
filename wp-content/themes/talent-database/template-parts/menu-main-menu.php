@@ -5,9 +5,7 @@
  * @package ChoctawNation
  */
 
-if ( is_user_logged_in() ) {
-	return;
-}
+
 $lists_count     = wp_count_posts( 'talent-list' )->publish;
 $pending_talent  = wp_count_posts();
 $requested_url   = ( isset( $_SERVER['REQUEST_URI'] ) ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
@@ -23,20 +21,27 @@ $link_conditions = array( $lists_count > 0, ( (int) $pending_talent->pending + (
 <div class="offcanvas-body">
 	<ul class="col col-auto d-flex flex-column flex-md-row flex-wrap justify-content-md-end align-items-md-center gap-3 mb-0 ps-0 list-unstyled">
 		<?php
-		foreach ( $link_conditions as $index => $condition ) {
-			if ( ! $condition ) {
-				continue;
+		if ( ! is_user_logged_in() ) {
+			printf(
+				'<li><a href="%s" class="btn btn-outline-white rounded-pill">Login</a></li>',
+				esc_url( wp_login_url() )
+			);
+		} else {
+			foreach ( $link_conditions as $index => $condition ) {
+				if ( ! $condition ) {
+					continue;
+				}
+				$link_classes = array( 'fs-base', 'link-offset-1' );
+				$menu_link    = $menu_links[ array_keys( $menu_links )[ $index ] ];
+				$label        = array_keys( $menu_links )[ $index ];
+				echo "<li><a href='{$menu_link}' class='" . esc_attr( implode( ' ', $link_classes ) ) . "'>{$label}</a></li>";
 			}
-			$link_classes = array( 'fs-base', 'link-offset-1' );
-			$menu_link    = $menu_links[ array_keys( $menu_links )[ $index ] ];
-			$label        = array_keys( $menu_links )[ $index ];
-			echo "<li><a href='{$menu_link}' class='" . esc_attr( implode( ' ', $link_classes ) ) . "'>{$label}</a></li>";
+			$login_out_url = wp_logout_url( home_url() );
+			printf(
+				'<li><a href="%s" class="btn btn-outline-white rounded-pill">Logout</a></li>',
+				esc_url( $login_out_url )
+			);
 		}
-		$login_out_url = wp_logout_url( home_url() );
-		printf(
-			'<li><a href="%s" class="btn btn-outline-white rounded-pill">Logout</a></li>',
-			esc_url( $login_out_url )
-		);
 		?>
 	</ul>
 </div>
