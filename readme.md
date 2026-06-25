@@ -9,7 +9,7 @@ A WordPress site to allow the photo team to find models for different photoshoot
 Couple of in-person requests from Payton before the next round of recruiting for the upcoming TWM campaign
 
 -   Updated: Homepage includes CNO branding & 'official website' language
--   Removed: Homepage no longer has "login" button
+-   Updated: Homepage no longer has "login" button prominently displayed
 
 ### v1.11.1 - [May 5, 2026]
 
