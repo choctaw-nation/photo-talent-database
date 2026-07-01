@@ -7,7 +7,7 @@
 
 get_header();
 ?>
-<div <?php post_class( 'container' ); ?>>
+<div <?php post_class(); ?>>
 	<?php the_content(); ?>
 </div>
 <?php
