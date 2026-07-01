@@ -63,11 +63,6 @@
 			"padding": true,
 			"spacingSizes": [
 				{
-					"name": "None",
-					"size": "0",
-					"slug": "none"
-				},
-				{
 					"name": "Extra Small",
 					"size": ".25rem",
 					"slug": "xs"
@@ -193,30 +188,9 @@
 			},
 			"blockGap": "var:preset|spacing|base"
 		},
-		"blocks": {
-			"core/heading": {
-				"typography": {
-					"fontFamily": "var:preset|font-family|gill-sans-nova"
-				}
-			},
-			"core/list": {
-				"typography": {
-					"fontFamily": "var:preset|font-family|gill-sans-nova",
-					"fontSize": "var:preset|font-size|root"
-				}
-			},
-			"core/list-item": {
-				"typography": {
-					"fontFamily": "var:preset|font-family|gill-sans-nova",
-					"fontSize": "var:preset|font-size|root"
-				}
-			},
-			"core/paragraph": {
-				"typography": {
-					"fontFamily": "var:preset|font-family|gill-sans-nova",
-					"fontSize": "var:preset|font-size|root"
-				}
-			}
+		"typography": {
+			"fontFamily": "var:preset|font-family|gill-sans-nova",
+			"fontSize": "var:preset|font-size|root"
 		},
 		"elements": {
 			"h1": {
@@ -251,7 +225,7 @@
 			},
 			"heading": {
 				"typography": {
-					"fontFamily": "var:preset|font-family|headings"
+					"fontFamily": "var:preset|font-family|gill-sans-nova"
 				},
 				"spacing": {
 					"margin": {
