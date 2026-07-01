@@ -220,6 +220,8 @@ class Rest_Router extends WP_REST_Controller {
 			'post_type'   => 'post',
 			'post__in'    => $ids,
 			'post_status' => 'publish',
+			'numberposts' => -1,
+			'orderby'     => 'post__in',
 		);
 
 		$posts = get_posts( $args );
