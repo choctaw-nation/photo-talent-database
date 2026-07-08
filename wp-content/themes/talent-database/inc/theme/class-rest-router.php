@@ -402,7 +402,11 @@ class Rest_Router extends WP_REST_Controller {
 		foreach ( $ids as $current_image_id ) {
 			$acf_image_array = get_field( "image_{$current_image_id}", $post_id );
 			if ( ! $acf_image_array ) {
-				continue;
+				if ( 'all' === $image_id ) {
+					continue;
+				} else {
+					return array();
+				}
 			}
 			if ( is_array( $acf_image_array ) ) {
 				$image_data[ $current_image_id ]['url']    = $acf_image_array['url'];
