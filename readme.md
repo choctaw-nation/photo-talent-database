@@ -4,6 +4,13 @@ A WordPress site to allow the photo team to find models for different photoshoot
 
 ## Changelog
 
+### v1.12.0 - [July 1, 2026]
+
+-   Added: Terms & Conditions in the Footer and in the form
+-   Fixed: Generate PDF button properly generates all pages instead of capping at 5
+-   Fixed: Updated `theme.json` to set styles without updating block settings
+-   Chore: Update packages
+
 ### v1.11.2 - [June 23, 2026]
 
 Couple of in-person requests from Payton before the next round of recruiting for the upcoming TWM campaign
