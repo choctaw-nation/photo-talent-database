@@ -109,11 +109,57 @@ export default class LocalStorage extends WPHandler {
 		return true;
 	}
 
-	async handleSaveList( jsonData: Record< string, any > ) {
-		const data = {
-			...jsonData,
-			ids: Array.from( this.getIds() ),
-		};
+	async handleSaveList( formData: HTMLFormElement | Record< string, any > ) {
+		let data: Record< string, any > = {};
+
+		// Extract form data if an HTMLFormElement is passed
+		if ( formData instanceof HTMLFormElement ) {
+			const formElements = formData.elements;
+			for ( let i = 0; i < formElements.length; i++ ) {
+				const element = formElements[ i ] as
+					| HTMLInputElement
+					| HTMLTextAreaElement
+					| HTMLSelectElement;
+				if ( element.name && element.name !== 'submit' ) {
+					data[ element.name ] = element.value;
+				}
+			}
+
+			// Calculate listExpiry from listExpirationLength and listExpirationUnit
+			const expirationLength =
+				parseInt( data.listExpirationLength, 10 ) || 2;
+			const expirationUnit = data.listExpirationUnit || 'weeks';
+			const now = new Date();
+
+			switch ( expirationUnit ) {
+				case 'days':
+					now.setDate( now.getDate() + expirationLength );
+					break;
+				case 'weeks':
+					now.setDate( now.getDate() + expirationLength * 7 );
+					break;
+				case 'months':
+					now.setMonth( now.getMonth() + expirationLength );
+					break;
+			}
+
+			// Format date as Ymd (YYYYMMDD)
+			const year = now.getFullYear();
+			const month = String( now.getMonth() + 1 ).padStart( 2, '0' );
+			const day = String( now.getDate() ).padStart( 2, '0' );
+			data.listExpiry = parseInt( `${ year }${ month }${ day }`, 10 );
+
+			// Remove the expiration fields as they're no longer needed
+			delete data.listExpirationLength;
+			delete data.listExpirationUnit;
+		} else {
+			// If already a JSON object, use it as-is
+			data = formData;
+		}
+
+		// Add selected IDs
+		data.ids = Array.from( this.getIds() );
+
 		try {
 			return await this.createTalentList( data );
 		} catch ( error ) {
