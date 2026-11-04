@@ -141,6 +141,10 @@ export default class LocalStorage extends WPHandler {
 				case 'months':
 					now.setMonth( now.getMonth() + expirationLength );
 					break;
+				default:
+					// Default to weeks if an unexpected value is passed
+					now.setDate( now.getDate() + expirationLength * 7 );
+					break;
 			}
 
 			// Format date as Ymd (YYYYMMDD)
